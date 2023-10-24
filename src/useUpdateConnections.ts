@@ -1,6 +1,6 @@
 import { GraphState } from "./graphState/graphState";
 
-export function useUpdate() {
+export function useUpdateConnections() {
     return (graphState: GraphState) => {
         try {
             const unvisited = new Set(graphState.nodes.map((node) => node.id));
@@ -27,7 +27,7 @@ export function useUpdate() {
                         }
                     });
 
-                node.update(graphState);
+                node.updateConnections(graphState);
 
                 unvisited.delete(nodeId);
                 processing.delete(nodeId);

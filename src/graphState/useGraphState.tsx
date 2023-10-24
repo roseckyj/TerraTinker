@@ -1,21 +1,20 @@
 import { useToast } from "@chakra-ui/react";
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer } from "react";
 import {
     Connection,
     EdgeChange,
     NodeChange,
     Edge as ReactFlowEdge,
-    Node as ReactFlowNode,
 } from "reactflow";
 import { varTypes } from "../components/_varTypes";
 import { GraphState } from "../graphState/graphState";
 import { AbstractNode, NodeData } from "../nodes/_AbstractNode";
 import { Data } from "../types/serializationTypes";
-import { useUpdate } from "../useUpdate";
+import { useUpdateConnections } from "../useUpdateConnections";
 
 export function useGraphState(data: Data) {
     const [version, forceUpdate] = useReducer((x) => x + 1, 0);
-    const updateNodes = useUpdate();
+    const updateConnections = useUpdateConnections();
     const toast = useToast();
     const graphState = useMemo<GraphState>(() => {
         const state = new GraphState();
@@ -23,62 +22,48 @@ export function useGraphState(data: Data) {
         return state;
     }, [data]);
 
-    // Cache
-    const [nodes, setNodes] = useState<ReactFlowNode[]>([]);
-    const [edges, setEdges] = useState<ReactFlowEdge[]>([]);
-
     useEffect(() => {
-        updateNodes(graphState);
+        updateConnections(graphState);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [graphState]);
-
-    useEffect(() => {
-        setNodes(
-            graphState.nodes.map((node) => ({
-                id: node.id,
-                type: (node.constructor as any).type,
-                position: node.position,
-                data: {
-                    version,
-                    node,
-                    forceUpdate,
-                } as NodeData,
-            }))
-        );
-
-        setEdges(
-            graphState.nodes
-                .map((node) =>
-                    Object.entries(node.inputState)
-                        .filter(([, value]) => value.nodeId && value.handleId)
-                        .map(
-                            ([key, value]) =>
-                                ({
-                                    id: `${node.id}-${key}`,
-                                    type: "variable",
-                                    source: value.nodeId,
-                                    sourceHandle: value.handleId,
-                                    target: node.id,
-                                    targetHandle: key,
-                                    data: {
-                                        nullable: value.nullable,
-                                        varType: (
-                                            node.constructor as typeof AbstractNode
-                                        ).inputs[key].type,
-                                    },
-                                } as ReactFlowEdge)
-                        )
-                )
-                .flat()
-        );
-    }, [version, graphState]);
 
     return {
         graphState,
         forceUpdate,
         version,
-        nodes,
-        edges,
+        nodes: graphState.nodes.map((node) => ({
+            id: node.id,
+            type: (node.constructor as any).type,
+            position: node.position,
+            data: {
+                version,
+                node,
+                forceUpdate,
+            } as NodeData,
+        })),
+        edges: graphState.nodes
+            .map((node) =>
+                Object.entries(node.inputState)
+                    .filter(([, value]) => value.nodeId && value.handleId)
+                    .map(
+                        ([key, value]) =>
+                            ({
+                                id: `${node.id}-${key}`,
+                                type: "variable",
+                                source: value.nodeId,
+                                sourceHandle: value.handleId,
+                                target: node.id,
+                                targetHandle: key,
+                                data: {
+                                    nullable: value.nullable,
+                                    varType: (
+                                        node.constructor as typeof AbstractNode
+                                    ).inputs[key].type,
+                                },
+                            } as ReactFlowEdge)
+                    )
+            )
+            .flat(),
         onNodesChange: (changes: NodeChange[]) => {
             changes.forEach((change) => {
                 switch (change.type) {
@@ -149,7 +134,7 @@ export function useGraphState(data: Data) {
                 nullable: false,
             };
 
-            const isOkey = updateNodes(graphState);
+            const isOkey = updateConnections(graphState);
             if (!isOkey) {
                 // There is a loop, we do not allow the connection
                 console.warn("Loop detected, not connecting");

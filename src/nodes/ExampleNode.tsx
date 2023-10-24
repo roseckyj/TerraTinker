@@ -51,8 +51,8 @@ export class ExampleNode extends AbstractNode {
         },
     };
 
-    public update(graphState: GraphState): void {
-        super.update(graphState);
+    public updateConnections(graphState: GraphState): void {
+        super.updateConnections(graphState);
 
         // If any input is nullable, all outputs are nullable
         const inputNullable = Object.values(this.inputState).some(

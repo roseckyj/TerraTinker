@@ -35,6 +35,7 @@ export abstract class AbstractNode {
 
     id: string;
     position: { x: number; y: number };
+    version: number = 0;
 
     static inputs: HandlesDefinition = {};
     static outputs: HandlesDefinition = {};
@@ -69,7 +70,7 @@ export abstract class AbstractNode {
         this.position = position;
     }
 
-    public update(graphState: GraphState) {
+    public updateConnections(graphState: GraphState) {
         Object.entries(this.inputState)
             .filter(([, input]) => input.nodeId)
             .forEach(([key, input]) => {
