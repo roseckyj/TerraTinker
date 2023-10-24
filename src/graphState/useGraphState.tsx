@@ -1,10 +1,11 @@
 import { useToast } from "@chakra-ui/react";
-import { useEffect, useMemo, useReducer } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import {
     Connection,
     EdgeChange,
     NodeChange,
     Edge as ReactFlowEdge,
+    Node as ReactFlowNode,
 } from "reactflow";
 import { varTypes } from "../components/_varTypes";
 import { GraphState } from "../graphState/graphState";
@@ -23,47 +24,83 @@ export function useGraphState(data: Data) {
     }, [data]);
 
     useEffect(() => {
+        // On load
+        reloadNodes();
+        reloadEdges();
         updateConnections(graphState);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [graphState]);
+
+    useEffect(() => {
+        // On force update
+        reloadNodes();
+        reloadEdges();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [version]);
+
+    // Cache edges and nodes
+    const [nodes, setNodes] = useState<ReactFlowNode[]>([]);
+
+    const [edges, setEdges] = useState<ReactFlowEdge[]>([]);
+
+    // Rebuild the nodes
+    const reloadNodes = () => {
+        setNodes(
+            graphState.nodes.map((node) => ({
+                id: node.id,
+                type: (node.constructor as any).type,
+                position: node.position,
+                data: {
+                    version,
+                    node,
+                    forceUpdate,
+                } as NodeData,
+            }))
+        );
+    };
+
+    // Rebuild the edges
+    const reloadEdges = () => {
+        setEdges(
+            graphState.nodes
+                .map((node) =>
+                    Object.entries(node.inputState)
+                        .filter(([, value]) => value.nodeId && value.handleId)
+                        .map(
+                            ([key, value]) =>
+                                ({
+                                    id: `${node.id}-${key}`,
+                                    type: "variable",
+                                    source: value.nodeId,
+                                    sourceHandle: value.handleId,
+                                    target: node.id,
+                                    targetHandle: key,
+                                    data: {
+                                        nullable: value.nullable,
+                                        varType: (
+                                            node.constructor as typeof AbstractNode
+                                        ).inputs[key].type,
+                                    },
+                                } as ReactFlowEdge)
+                        )
+                )
+                .flat()
+        );
+    };
+
+    // Soft update, do not rebuild the data
+    const updateNodes = () => {
+        setNodes([...nodes]);
+    };
 
     return {
         graphState,
         forceUpdate,
         version,
-        nodes: graphState.nodes.map((node) => ({
-            id: node.id,
-            type: (node.constructor as any).type,
-            position: node.position,
-            data: {
-                version,
-                node,
-                forceUpdate,
-            } as NodeData,
-        })),
-        edges: graphState.nodes
-            .map((node) =>
-                Object.entries(node.inputState)
-                    .filter(([, value]) => value.nodeId && value.handleId)
-                    .map(
-                        ([key, value]) =>
-                            ({
-                                id: `${node.id}-${key}`,
-                                type: "variable",
-                                source: value.nodeId,
-                                sourceHandle: value.handleId,
-                                target: node.id,
-                                targetHandle: key,
-                                data: {
-                                    nullable: value.nullable,
-                                    varType: (
-                                        node.constructor as typeof AbstractNode
-                                    ).inputs[key].type,
-                                },
-                            } as ReactFlowEdge)
-                    )
-            )
-            .flat(),
+        nodes,
+        edges,
         onNodesChange: (changes: NodeChange[]) => {
             changes.forEach((change) => {
                 switch (change.type) {
@@ -72,24 +109,29 @@ export function useGraphState(data: Data) {
                             graphState.nodes.find(
                                 (node) => node.id === change.id
                             )!.position = change.position;
+
+                            nodes.find(
+                                (node) => node.id === change.id
+                            )!.position = change.position;
                         }
+                        updateNodes();
                         break;
                     case "remove":
                         graphState.nodes = graphState.nodes.filter(
                             (node) => node.id !== change.id
                         );
+                        forceUpdate();
                         break;
                     default:
                     // console.log(change);
                 }
-                forceUpdate();
             });
         },
         onEdgesChange: (changes: EdgeChange[]) => {
             changes.forEach((change) => {
                 switch (change.type) {
                     case "add":
-                        // Probably handled in onConnect?
+                        // Handled in onConnect
                         break;
                     case "remove":
                         const def = graphState.nodes.find(
