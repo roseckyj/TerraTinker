@@ -2,7 +2,6 @@ import { GraphState } from "./graphState/graphState";
 
 export function useUpdate() {
     return (graphState: GraphState) => {
-        console.log("Updating");
         try {
             const unvisited = new Set(graphState.nodes.map((node) => node.id));
             const processing = new Set<string>();

@@ -128,28 +128,25 @@ export abstract class AbstractNode {
             <GenericNode title={ctor.title} category={ctor.category}>
                 {Object.entries(ctor.inputs).map(([id, input]) => (
                     <Variable
+                        key={id}
                         orientation="input"
-                        varType={input.type}
                         param={id}
-                        nullable={node.inputState[id].nullable}
-                        value={node.inputState[id].value}
+                        definition={input}
+                        state={node.inputState[id]}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
                         }}
-                    >
-                        {input.title}
-                    </Variable>
+                    />
                 ))}
                 {Object.entries(ctor.outputs).map(([id, output]) => (
                     <Variable
+                        key={id}
                         orientation="output"
-                        varType={output.type}
                         param={id}
-                        nullable={node.outputState[id].nullable}
-                    >
-                        {output.title}
-                    </Variable>
+                        definition={output}
+                        state={node.outputState[id]}
+                    />
                 ))}
             </GenericNode>
         );

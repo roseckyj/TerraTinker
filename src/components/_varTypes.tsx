@@ -18,10 +18,11 @@ export const varTypes: Record<
         title: "Float",
         color: "#6786ff",
         editor: (value, onChange) => [
-            <Text fontSize="0.9rem" opacity={0.5}>
+            <Text fontSize="0.9rem" opacity={0.5} key="1">
                 #
             </Text>,
             <Input
+                key="2"
                 ml={1}
                 type="number"
                 step="0.1"
@@ -48,10 +49,11 @@ export const varTypes: Record<
         title: "String",
         color: "#636363",
         editor: (value, onChange) => [
-            <Text fontSize="0.9rem" opacity={0.5}>
+            <Text fontSize="0.9rem" opacity={0.5} key="1">
                 "
             </Text>,
             <Input
+                key="2"
                 mx={1}
                 w={36}
                 variant="unstyled"
@@ -60,7 +62,7 @@ export const varTypes: Record<
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             />,
-            <Text fontSize="0.9rem" opacity={0.5}>
+            <Text fontSize="0.9rem" opacity={0.5} key="3">
                 "
             </Text>,
         ],
@@ -71,6 +73,7 @@ export const varTypes: Record<
         color: "#fffa63",
         editor: (value, onChange) => [
             <Image
+                key="1"
                 src={
                     (mcTextures as any)[`minecraft:${value}`]
                         ? (mcTextures as any)[`minecraft:${value}`]?.texture
@@ -83,6 +86,7 @@ export const varTypes: Record<
                 ml={-1}
             />,
             <Select
+                key="2"
                 w={36}
                 variant="unstyled"
                 fontSize="0.9rem"
@@ -91,8 +95,12 @@ export const varTypes: Record<
             >
                 {mcData.blocksArray
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .map((block) => (
-                        <option style={{ color: "#000000" }} value={block.name}>
+                    .map((block, i) => (
+                        <option
+                            key={i}
+                            style={{ color: "#000000" }}
+                            value={block.name}
+                        >
                             {block.displayName}
                         </option>
                     ))}

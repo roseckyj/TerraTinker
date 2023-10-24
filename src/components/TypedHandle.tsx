@@ -13,6 +13,7 @@ export interface ITypedHandleProps extends Omit<HandleProps, "type"> {
 }
 
 export function TypedHandle({
+    varType,
     position,
     connected,
     nullable,
@@ -20,7 +21,7 @@ export function TypedHandle({
     onChange,
     ...rest
 }: ITypedHandleProps) {
-    const typedef = varTypes[rest.varType];
+    const typedef = varTypes[varType];
 
     const handleStyle: React.CSSProperties = {
         border: "3px solid #1D1D1D",

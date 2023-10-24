@@ -1,4 +1,15 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    Menu,
+    MenuGroup,
+    MenuItem,
+    MenuList,
+    Portal,
+    Text,
+} from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import ReactFlow, {
     Background,
@@ -6,9 +17,12 @@ import ReactFlow, {
     Controls,
     EdgeTypes,
     Panel,
+    useReactFlow,
 } from "reactflow";
+import { v4 as uuidv4 } from "uuid";
 import { Edge } from "./components/Edge";
 import { useGraphState } from "./graphState/useGraphState";
+import { AbstractNode } from "./nodes/_AbstractNode";
 import { nodes as nodeDefs } from "./nodes/_nodes";
 import { Data } from "./types/serializationTypes";
 
@@ -18,9 +32,23 @@ export interface INodeGraphProps {
 }
 
 export function NodeGraph({ data, onSave }: INodeGraphProps) {
-    const { edges, nodes, onConnect, onEdgesChange, onNodesChange, version } =
-        useGraphState(data);
+    const {
+        edges,
+        nodes,
+        onConnect,
+        onEdgesChange,
+        onNodesChange,
+        version,
+        graphState,
+        forceUpdate,
+    } = useGraphState(data);
     const [savedVersion, setSavedVersion] = useState(version);
+    const [contextMenuPosition, setContentMenuPosition] = useState<null | {
+        x: number;
+        y: number;
+    }>(null);
+    const [contextMenuOpen, setContextMenuOpen] = useState(false);
+    const flow = useReactFlow();
 
     const edgeTypes = useMemo<EdgeTypes>(
         () => ({
@@ -48,6 +76,89 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
 
     return (
         <Box position="fixed" inset="0" overflow="hidden">
+            <Portal>
+                <Center
+                    position="fixed"
+                    zIndex="overlay"
+                    inset={0}
+                    pointerEvents={contextMenuOpen ? "all" : "none"}
+                    onContextMenu={(e) => {
+                        e.preventDefault();
+                        setContextMenuOpen(false);
+                    }}
+                >
+                    <Menu
+                        isOpen={contextMenuOpen}
+                        onClose={() => setContextMenuOpen(false)}
+                    >
+                        <MenuList
+                            onAnimationEnd={(e) => {
+                                const menu =
+                                    document.querySelector("[role=menu]")!;
+                                (menu as HTMLDivElement).focus();
+                            }}
+                            position="fixed"
+                            top={`${contextMenuPosition?.y}px`}
+                            left={`${contextMenuPosition?.x}px`}
+                            onContextMenu={(e) => {
+                                e.preventDefault();
+                                setContextMenuOpen(false);
+                            }}
+                        >
+                            {Object.entries(
+                                nodeDefs.reduce(
+                                    (prev, value) => {
+                                        const stat =
+                                            value as any as typeof AbstractNode;
+                                        if (!prev[stat.category]) {
+                                            prev[stat.category] = [];
+                                        }
+                                        prev[stat.category].push({
+                                            title: stat.title,
+                                            type: stat.type,
+                                        });
+                                        return prev;
+                                    },
+                                    {} as Record<
+                                        string,
+                                        {
+                                            title: string;
+                                            type: string;
+                                        }[]
+                                    >
+                                )
+                            ).map(([group, nodes]) => (
+                                <MenuGroup key={group} title={group}>
+                                    {nodes.map((node, i) => (
+                                        <MenuItem
+                                            key={i}
+                                            onClick={() => {
+                                                const newNode =
+                                                    new (nodeDefs.find(
+                                                        (value) =>
+                                                            (value as any)
+                                                                .type ===
+                                                            node.type
+                                                    ) as any)(
+                                                        uuidv4(),
+                                                        flow.project(
+                                                            contextMenuPosition!
+                                                        )
+                                                    );
+                                                graphState.nodes.push(newNode);
+                                                forceUpdate();
+                                                setContextMenuOpen(false);
+                                            }}
+                                        >
+                                            {node.title}
+                                        </MenuItem>
+                                    ))}
+                                </MenuGroup>
+                            ))}
+                        </MenuList>
+                    </Menu>
+                </Center>
+            </Portal>
             <Box
                 as={ReactFlow}
                 nodes={nodes}
@@ -59,6 +170,14 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                 color="#ffffff"
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    setContentMenuPosition({
+                        x: e.clientX,
+                        y: e.clientY,
+                    });
+                    setContextMenuOpen(true);
+                }}
                 fitView
             >
                 <Panel position="top-right">

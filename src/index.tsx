@@ -4,7 +4,6 @@ import {
     ThemeConfig,
     extendTheme,
 } from "@chakra-ui/react";
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
@@ -22,15 +21,13 @@ const config: ThemeConfig = {
 };
 
 root.render(
-    <React.StrictMode>
-        <ReactFlowProvider>
-            <ChakraProvider
-                theme={extendTheme({
-                    config,
-                } as Theme)}
-            >
-                <NodeGraph data={sampleData} />
-            </ChakraProvider>
-        </ReactFlowProvider>
-    </React.StrictMode>
+    <ReactFlowProvider>
+        <ChakraProvider
+            theme={extendTheme({
+                config,
+            } as Theme)}
+        >
+            <NodeGraph data={sampleData} />
+        </ChakraProvider>
+    </ReactFlowProvider>
 );
