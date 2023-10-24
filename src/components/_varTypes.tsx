@@ -1,6 +1,6 @@
 import { Checkbox, Input, Select, Text } from "@chakra-ui/react";
 import minecraftData from "minecraft-data";
-import { VarType } from "../types/graphTypes";
+import { VarType } from "../types/serializationTypes";
 
 export const mcData = minecraftData("1.18");
 

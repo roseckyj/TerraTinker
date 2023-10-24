@@ -1,5 +1,5 @@
 import { BaseEdge, EdgeProps, getBezierPath } from "reactflow";
-import { VarType } from "../types/graphTypes";
+import { VarType } from "../types/serializationTypes";
 import { varTypes } from "./_varTypes";
 
 export function Edge({
@@ -29,6 +29,7 @@ export function Edge({
                 style={{
                     stroke: varTypes[data.varType as VarType].color,
                     strokeWidth: 2,
+                    strokeDasharray: data.nullable ? "5,5" : undefined,
                 }}
             />
         </>

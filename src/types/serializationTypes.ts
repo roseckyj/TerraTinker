@@ -43,4 +43,9 @@ export type Input =
           kind: "value";
           type: "boolean";
           value: boolean;
+      }
+    | {
+          kind: "value";
+          type: "geometry";
+          value: null;
       };

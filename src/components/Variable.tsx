@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
     Position,
     ReactFlowState,
@@ -7,9 +7,8 @@ import {
     useNodeId,
     useStore,
 } from "reactflow";
-import { VarType } from "../types/graphTypes";
+import { VarType } from "../types/serializationTypes";
 import { TypedHandle } from "./TypedHandle";
-import { varTypes } from "./_varTypes";
 
 export const separator = "___";
 
@@ -20,19 +19,11 @@ export interface IVariableProps {
     children: string;
     nullable?: boolean;
     value?: any;
+    onChange?: (value: any) => void;
 }
 
 export function Variable(props: IVariableProps) {
-    const type = varTypes[props.varType];
     const nodeId = useNodeId();
-    const [value, setvalue] = useState<any>(
-        props.value === undefined ? type.default : props.value
-    );
-
-    useEffect(() => {
-        setvalue(props.value === undefined ? type.default : props.value);
-    }, [props.value, type.default]);
-
     const connectionId = `${props.param}`;
 
     const connections = useStore(
@@ -44,8 +35,12 @@ export function Variable(props: IVariableProps) {
                 return connectedEdges
                     .filter(
                         (edge) =>
-                            edge.sourceHandle === connectionId ||
-                            edge.targetHandle === connectionId
+                            (props.orientation === "output" &&
+                                edge.source === nodeId &&
+                                edge.sourceHandle === connectionId) ||
+                            (props.orientation === "input" &&
+                                edge.target === nodeId &&
+                                edge.targetHandle === connectionId)
                     )
                     .map((edge) => ({
                         edge,
@@ -56,6 +51,7 @@ export function Variable(props: IVariableProps) {
                         )!,
                     }));
             },
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             [nodeId, connectionId]
         )
     );
@@ -74,15 +70,17 @@ export function Variable(props: IVariableProps) {
                     varType={props.varType}
                     connected={connected}
                     nullable={props.nullable}
-                    value={value}
-                    onChange={(value) => setvalue(value)}
+                    value={props.value}
+                    onChange={(value) =>
+                        props.onChange && props.onChange(value)
+                    }
                 />
             </Box>
         );
     } else {
         // Left
         return (
-            <Box px={4} py={1} position="relative">
+            <Box px={4} py={1} position="relative" minW={40}>
                 {props.children}
                 <TypedHandle
                     id={connectionId}
@@ -90,12 +88,11 @@ export function Variable(props: IVariableProps) {
                     isConnectable={true}
                     varType={props.varType}
                     connected={connected}
-                    nullable={
-                        props.nullable ||
-                        connections.some((connection) => connection.node.type) // TODO
+                    nullable={props.nullable}
+                    value={props.value}
+                    onChange={(value) =>
+                        props.onChange && props.onChange(value)
                     }
-                    value={value}
-                    onChange={(value) => setvalue(value)}
                 />
             </Box>
         );

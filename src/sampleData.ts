@@ -1,6 +1,111 @@
-import { Data } from "./types/graphTypes";
+import { Data } from "./types/serializationTypes";
 
 export const sampleData: Data = {
+    config: {
+        join: "cartesian",
+        /* ... */
+    },
+    nodes: {
+        hkjsdfhksdf: {
+            type: "example",
+            location: [0, 0],
+            inputs: {
+                float: {
+                    kind: "value",
+                    value: 0,
+                    type: "float",
+                },
+                string: {
+                    kind: "value",
+                    value: "Test",
+                    type: "string",
+                },
+                boolean: {
+                    kind: "value",
+                    value: true,
+                    type: "boolean",
+                },
+                material: {
+                    kind: "value",
+                    value: "",
+                    type: "material",
+                },
+                geometry: {
+                    kind: "value",
+                    value: null,
+                    type: "geometry",
+                },
+            },
+            nodeData: {},
+        },
+        "14143242421": {
+            type: "example",
+            location: [400, 0],
+            inputs: {
+                float: {
+                    kind: "value",
+                    value: 0,
+                    type: "float",
+                },
+                string: {
+                    kind: "value",
+                    value: "Test",
+                    type: "string",
+                },
+                boolean: {
+                    kind: "value",
+                    value: true,
+                    type: "boolean",
+                },
+                material: {
+                    kind: "value",
+                    value: "",
+                    type: "material",
+                },
+                geometry: {
+                    kind: "value",
+                    value: null,
+                    type: "geometry",
+                },
+            },
+            nodeData: {},
+        },
+        sdfsdfsdfsdfsd: {
+            type: "example",
+            location: [800, 0],
+            inputs: {
+                float: {
+                    kind: "value",
+                    value: 0,
+                    type: "float",
+                },
+                string: {
+                    kind: "value",
+                    value: "Test",
+                    type: "string",
+                },
+                boolean: {
+                    kind: "value",
+                    value: true,
+                    type: "boolean",
+                },
+                material: {
+                    kind: "value",
+                    value: "",
+                    type: "material",
+                },
+                geometry: {
+                    kind: "value",
+                    value: null,
+                    type: "geometry",
+                },
+            },
+            nodeData: {},
+        },
+    },
+};
+
+export const sampleData2: Data = {
     config: {
         join: "cartesian",
         /* ... */

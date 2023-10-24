@@ -1,6 +1,6 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
 import { Handle, HandleProps, Position } from "reactflow";
-import { VarType } from "../types/graphTypes";
+import { VarType } from "../types/serializationTypes";
 import { varTypes } from "./_varTypes";
 
 export interface ITypedHandleProps extends Omit<HandleProps, "type"> {
