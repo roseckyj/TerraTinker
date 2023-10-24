@@ -7,7 +7,6 @@ import {
     Edge as ReactFlowEdge,
     Node as ReactFlowNode,
 } from "reactflow";
-import { varTypes } from "../components/_varTypes";
 import { GraphState } from "../graphState/graphState";
 import { AbstractNode, NodeData } from "../nodes/_AbstractNode";
 import { Data } from "../types/serializationTypes";
@@ -190,7 +189,7 @@ export function useGraphState(data: Data) {
                 return;
             }
             targetNode.inputState[connection.targetHandle!] = {
-                value: null,
+                value: targetNode.inputState[connection.targetHandle!].value,
                 nodeId: connection.source,
                 handleId: connection.sourceHandle!,
                 nullable: false,
@@ -209,7 +208,8 @@ export function useGraphState(data: Data) {
                     isClosable: true,
                 });
                 targetNode.inputState[connection.targetHandle!] = {
-                    value: varTypes[targetInput.type].default,
+                    value: targetNode.inputState[connection.targetHandle!]
+                        .value,
                     nodeId: null,
                     handleId: null,
                     nullable: false,
