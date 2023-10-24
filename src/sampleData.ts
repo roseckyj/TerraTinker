@@ -27,7 +27,7 @@ export const sampleData: Data = {
                 },
                 material: {
                     kind: "value",
-                    value: "",
+                    value: "cobblestone",
                     type: "material",
                 },
                 geometry: {
@@ -59,7 +59,7 @@ export const sampleData: Data = {
                 },
                 material: {
                     kind: "value",
-                    value: "",
+                    value: "stone_stairs",
                     type: "material",
                 },
                 geometry: {
@@ -91,7 +91,7 @@ export const sampleData: Data = {
                 },
                 material: {
                     kind: "value",
-                    value: "",
+                    value: "air",
                     type: "material",
                 },
                 geometry: {

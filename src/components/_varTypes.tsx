@@ -1,8 +1,6 @@
-import { Checkbox, Input, Select, Text } from "@chakra-ui/react";
-import minecraftData from "minecraft-data";
+import { Checkbox, Image, Input, Select, Text } from "@chakra-ui/react";
+import { mcData, mcTextures } from "../minecraft/mcData";
 import { VarType } from "../types/serializationTypes";
-
-export const mcData = minecraftData("1.18");
 
 export const varTypes: Record<
     VarType,
@@ -71,7 +69,19 @@ export const varTypes: Record<
     material: {
         title: "Material",
         color: "#fffa63",
-        editor: (value, onChange) => (
+        editor: (value, onChange) => [
+            <Image
+                src={
+                    (mcTextures as any)[`minecraft:${value}`]
+                        ? (mcTextures as any)[`minecraft:${value}`]?.texture
+                        : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" /* Transparent pixel */
+                }
+                w={5}
+                h={5}
+                my="auto"
+                mr={1}
+                ml={-1}
+            />,
             <Select
                 w={36}
                 variant="unstyled"
@@ -86,8 +96,8 @@ export const varTypes: Record<
                             {block.displayName}
                         </option>
                     ))}
-            </Select>
-        ),
+            </Select>,
+        ],
         default: "air",
     },
     boolean: {
@@ -96,7 +106,7 @@ export const varTypes: Record<
         editor: (value, onChange) => (
             <Checkbox
                 isChecked={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(event) => onChange(event.target.checked)}
             />
         ),
         default: false,
