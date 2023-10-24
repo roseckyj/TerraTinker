@@ -27,7 +27,7 @@ root.render(
                 config,
             } as Theme)}
         >
-            <NodeGraph data={sampleData} />
+            <NodeGraph data={sampleData} onSave={(data) => console.log(data)} />
         </ChakraProvider>
     </ReactFlowProvider>
 );

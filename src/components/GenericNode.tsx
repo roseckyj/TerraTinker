@@ -4,16 +4,22 @@ export interface IGenericNodeProps {
     title: string;
     category: string;
     children: React.ReactNode;
+    selected?: boolean;
 }
 
-export function GenericNode({ title, category, children }: IGenericNodeProps) {
+export function GenericNode({
+    title,
+    category,
+    children,
+    selected,
+}: IGenericNodeProps) {
     return (
         <Flex
             bg="#303030"
             borderRadius="md"
             direction="column"
             alignItems="stretch"
-            shadow="dark-lg"
+            shadow={selected ? "outline" : "dark-lg"}
         >
             <Box
                 px={3}

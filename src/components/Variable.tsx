@@ -31,8 +31,6 @@ export function Variable({
     orientation,
     state,
 }: IVariableProps) {
-    const connected = false; //connections.length > 0;
-
     if (orientation === "output") {
         // Right
         return (
@@ -43,7 +41,6 @@ export function Variable({
                     position={Position.Right}
                     isConnectable={true}
                     varType={definition.type}
-                    connected={connected}
                     nullable={state.nullable}
                     value={null}
                     onChange={(value) => onChange && onChange(value)}
@@ -60,7 +57,7 @@ export function Variable({
                     position={Position.Left}
                     isConnectable={true}
                     varType={definition.type}
-                    connected={connected}
+                    connected={!!state.nodeId}
                     nullable={state.nullable}
                     value={state.value}
                     onChange={(value) => onChange && onChange(value)}

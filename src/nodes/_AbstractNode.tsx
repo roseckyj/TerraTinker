@@ -123,10 +123,15 @@ export abstract class AbstractNode {
 
     public static Component({
         data: { node, forceUpdate },
+        selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
         return (
-            <GenericNode title={ctor.title} category={ctor.category}>
+            <GenericNode
+                title={ctor.title}
+                category={ctor.category}
+                selected={selected}
+            >
                 {Object.entries(ctor.inputs).map(([id, input]) => (
                     <Variable
                         key={id}

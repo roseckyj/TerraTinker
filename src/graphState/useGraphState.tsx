@@ -15,6 +15,10 @@ import { useUpdateConnections } from "../useUpdateConnections";
 
 export function useGraphState(data: Data) {
     const [version, forceUpdate] = useReducer((x) => x + 1, 0);
+    const [lastChange, setDirty] = useReducer(
+        () => new Date().getTime(),
+        new Date().getTime()
+    );
     const updateConnections = useUpdateConnections();
     const toast = useToast();
     const graphState = useMemo<GraphState>(() => {
@@ -34,6 +38,7 @@ export function useGraphState(data: Data) {
 
     useEffect(() => {
         // On force update
+        setDirty();
         reloadNodes();
         reloadEdges();
 
@@ -42,7 +47,6 @@ export function useGraphState(data: Data) {
 
     // Cache edges and nodes
     const [nodes, setNodes] = useState<ReactFlowNode[]>([]);
-
     const [edges, setEdges] = useState<ReactFlowEdge[]>([]);
 
     // Rebuild the nodes
@@ -94,8 +98,12 @@ export function useGraphState(data: Data) {
     const updateNodes = () => {
         setNodes([...nodes]);
     };
+    const updateEdges = () => {
+        setEdges([...edges]);
+    };
 
     return {
+        lastChange,
         graphState,
         forceUpdate,
         version,
@@ -114,13 +122,20 @@ export function useGraphState(data: Data) {
                                 (node) => node.id === change.id
                             )!.position = change.position;
                         }
-                        updateNodes();
+                        updateNodes(); // Only soft update needed
+                        setDirty(); // Soft update does not trigger a save
                         break;
                     case "remove":
                         graphState.nodes = graphState.nodes.filter(
                             (node) => node.id !== change.id
                         );
                         forceUpdate();
+                        break;
+
+                    case "select":
+                        nodes.find((node) => node.id === change.id)!.selected =
+                            change.selected;
+                        updateNodes();
                         break;
                     default:
                     // console.log(change);
@@ -140,11 +155,16 @@ export function useGraphState(data: Data) {
                         def.handleId = null;
                         def.nodeId = null;
                         def.nullable = false;
+                        forceUpdate();
+                        break;
+                    case "select":
+                        edges.find((edge) => edge.id === change.id)!.selected =
+                            change.selected;
+                        updateEdges();
                         break;
                     default:
                     // console.log(change);
                 }
-                forceUpdate();
             });
         },
         onConnect: (connection: Connection) => {

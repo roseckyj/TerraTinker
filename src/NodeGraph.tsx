@@ -38,11 +38,11 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
         onConnect,
         onEdgesChange,
         onNodesChange,
-        version,
         graphState,
         forceUpdate,
+        lastChange,
     } = useGraphState(data);
-    const [savedVersion, setSavedVersion] = useState(version);
+    const [savedAt, setSavedAt] = useState(lastChange);
     const [contextMenuPosition, setContentMenuPosition] = useState<null | {
         x: number;
         y: number;
@@ -183,16 +183,16 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                 <Panel position="top-right">
                     <Flex direction="row" alignItems="center">
                         <Text mr="4">
-                            {version === savedVersion
+                            {lastChange === savedAt
                                 ? "Saved"
                                 : "Unsaved changes"}
                         </Text>
                         <Button
                             colorScheme="blue"
-                            isDisabled={version === savedVersion}
+                            isDisabled={lastChange === savedAt}
                             onClick={() => {
                                 onSave?.(data);
-                                setSavedVersion(version);
+                                setSavedAt(lastChange);
                             }}
                         >
                             Save

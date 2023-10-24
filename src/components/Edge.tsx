@@ -11,6 +11,7 @@ export function Edge({
     targetPosition,
     markerEnd,
     data,
+    selected,
 }: EdgeProps) {
     const [edgePath] = getBezierPath({
         sourceX,
@@ -28,7 +29,7 @@ export function Edge({
                 markerEnd={markerEnd}
                 style={{
                     stroke: varTypes[data.varType as VarType].color,
-                    strokeWidth: 2,
+                    strokeWidth: selected ? 5 : 2,
                     strokeDasharray: data.nullable ? "5,5" : undefined,
                 }}
             />
