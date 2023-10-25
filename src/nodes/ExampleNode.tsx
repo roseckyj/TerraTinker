@@ -1,55 +1,63 @@
+import {
+    AbstractNode,
+    NodeConstructorParams,
+} from "../components/AbstractNode";
 import { GraphState } from "../graphState/graphState";
-import { AbstractNode, HandlesDefinition } from "./_AbstractNode";
 
 export class ExampleNode extends AbstractNode {
     static title = "Example Node";
     static category = "Example";
     static type = "example";
 
-    static inputs: HandlesDefinition = {
-        float: {
-            type: "float",
-            title: "Float",
-        },
-        string: {
-            type: "string",
-            title: "String",
-        },
-        boolean: {
-            type: "boolean",
-            title: "Boolean",
-        },
-        material: {
-            type: "material",
-            title: "Material",
-        },
-        geometry: {
-            type: "geometry",
-            title: "Geometry",
-        },
-    };
-    static outputs: HandlesDefinition = {
-        float: {
-            type: "float",
-            title: "Float",
-        },
-        string: {
-            type: "string",
-            title: "String",
-        },
-        boolean: {
-            type: "boolean",
-            title: "Boolean",
-        },
-        material: {
-            type: "material",
-            title: "Material",
-        },
-        geometry: {
-            type: "geometry",
-            title: "Geometry",
-        },
-    };
+    public constructor(params: NodeConstructorParams) {
+        super(
+            {
+                float: {
+                    type: "float",
+                    title: "Float",
+                },
+                string: {
+                    type: "string",
+                    title: "String",
+                },
+                boolean: {
+                    type: "boolean",
+                    title: "Boolean",
+                },
+                material: {
+                    type: "material",
+                    title: "Material",
+                },
+                geometry: {
+                    type: "geometry",
+                    title: "Geometry",
+                },
+            },
+            {
+                float: {
+                    type: "float",
+                    title: "Float",
+                },
+                string: {
+                    type: "string",
+                    title: "String",
+                },
+                boolean: {
+                    type: "boolean",
+                    title: "Boolean",
+                },
+                material: {
+                    type: "material",
+                    title: "Material",
+                },
+                geometry: {
+                    type: "geometry",
+                    title: "Geometry",
+                },
+            },
+            params
+        );
+    }
 
     public updateConnections(graphState: GraphState): void {
         super.updateConnections(graphState);

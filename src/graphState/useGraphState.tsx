@@ -7,8 +7,9 @@ import {
     Edge as ReactFlowEdge,
     Node as ReactFlowNode,
 } from "reactflow";
+import { NodeData } from "../components/AbstractNode";
+import { varTypes } from "../components/_varTypes";
 import { GraphState } from "../graphState/graphState";
-import { AbstractNode, NodeData } from "../nodes/_AbstractNode";
 import { Data } from "../types/serializationTypes";
 import { useUpdateConnections } from "../useUpdateConnections";
 
@@ -22,9 +23,9 @@ export function useGraphState(data: Data) {
     const toast = useToast();
     const graphState = useMemo<GraphState>(() => {
         const state = new GraphState();
-        state.deserialize(data);
+        state.deserialize(data, toast);
         return state;
-    }, [data]);
+    }, [data, toast]);
 
     useEffect(() => {
         // On load
@@ -68,12 +69,36 @@ export function useGraphState(data: Data) {
     const reloadEdges = () => {
         setEdges(
             graphState.nodes
-                .map((node) =>
-                    Object.entries(node.inputState)
-                        .filter(([, value]) => value.nodeId && value.handleId)
-                        .map(
-                            ([key, value]) =>
-                                ({
+                .map(
+                    (node) =>
+                        Object.entries(node.inputState)
+                            .filter(
+                                ([, value]) => value.nodeId && value.handleId
+                            )
+                            .map(([key, value]) => {
+                                const source = graphState.nodes.find(
+                                    (node) => node.id === value.nodeId
+                                )!;
+
+                                if (!source) {
+                                    toast({
+                                        title: "Edge source not found",
+                                        description: `No source node found for edge with target ${node.id} (${key}), reseting to default value.`,
+                                        status: "error",
+                                        duration: 6000,
+                                        isClosable: true,
+                                    });
+                                    node.inputState[key] = {
+                                        value: varTypes[node.inputs[key].type]
+                                            .default,
+                                        nodeId: null,
+                                        handleId: null,
+                                        nullable: false,
+                                    };
+                                    return null;
+                                }
+
+                                return {
                                     id: `${node.id}-${key}`,
                                     type: "variable",
                                     source: value.nodeId,
@@ -82,12 +107,11 @@ export function useGraphState(data: Data) {
                                     targetHandle: key,
                                     data: {
                                         nullable: value.nullable,
-                                        varType: (
-                                            node.constructor as typeof AbstractNode
-                                        ).inputs[key].type,
+                                        varType: node.inputs[key].type,
                                     },
-                                } as ReactFlowEdge)
-                        )
+                                } as ReactFlowEdge;
+                            })
+                            .filter((x) => x !== null) as ReactFlowEdge[]
                 )
                 .flat()
         );
@@ -155,6 +179,7 @@ export function useGraphState(data: Data) {
                         def.nodeId = null;
                         def.nullable = false;
                         forceUpdate();
+                        updateConnections(graphState);
                         break;
                     case "select":
                         edges.find((edge) => edge.id === change.id)!.selected =
@@ -173,10 +198,8 @@ export function useGraphState(data: Data) {
             const targetNode = graphState.nodes.find(
                 (node) => node.id === connection.target
             )!;
-            const sourceOutput = (sourceNode.constructor as typeof AbstractNode)
-                .outputs[connection.sourceHandle!];
-            const targetInput = (targetNode.constructor as typeof AbstractNode)
-                .inputs[connection.targetHandle!];
+            const sourceOutput = sourceNode.outputs[connection.sourceHandle!];
+            const targetInput = targetNode.inputs[connection.targetHandle!];
             if (sourceOutput.type !== targetInput.type) {
                 toast({
                     title: "Type mismatch",

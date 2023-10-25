@@ -1,10 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { Position } from "reactflow";
-import {
-    HandleDefinition,
-    InputState,
-    OutputState,
-} from "../nodes/_AbstractNode";
+import { HandleDefinition, InputState, OutputState } from "./AbstractNode";
 import { TypedHandle } from "./TypedHandle";
 
 export const separator = "___";

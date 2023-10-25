@@ -1,4 +1,15 @@
-import { Checkbox, Image, Input, Select, Text } from "@chakra-ui/react";
+import {
+    Checkbox,
+    Image,
+    Input,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    Select,
+    Text,
+} from "@chakra-ui/react";
 import { mcData, mcTextures } from "../minecraft/mcData";
 import { VarType } from "../types/serializationTypes";
 
@@ -21,17 +32,23 @@ export const varTypes: Record<
             <Text fontSize="0.9rem" opacity={0.5} key="1">
                 #
             </Text>,
-            <Input
+            <NumberInput
                 key="2"
                 ml={1}
-                type="number"
-                step="0.1"
-                w={16}
+                step={0.1}
+                precision={2}
+                w={24}
                 variant="unstyled"
                 fontSize="0.9rem"
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-            />,
+                value={value === null ? undefined : value}
+                onChange={(value) => onChange(value)}
+            >
+                <NumberInputField />
+                <NumberInputStepper>
+                    <NumberIncrementStepper border="none" color="white" />
+                    <NumberDecrementStepper border="none" color="white" />
+                </NumberInputStepper>
+            </NumberInput>,
         ],
         default: 0,
     },
@@ -59,7 +76,7 @@ export const varTypes: Record<
                 variant="unstyled"
                 fontSize="0.9rem"
                 type="text"
-                value={value}
+                value={value === null ? undefined : value}
                 onChange={(e) => onChange(e.target.value)}
             />,
             <Text fontSize="0.9rem" opacity={0.5} key="3">
@@ -90,7 +107,7 @@ export const varTypes: Record<
                 w={36}
                 variant="unstyled"
                 fontSize="0.9rem"
-                value={value}
+                value={value === null ? undefined : value}
                 onChange={(e) => onChange(e.target.value)}
             >
                 {mcData.blocksArray
@@ -113,7 +130,7 @@ export const varTypes: Record<
         color: "#ff6d54",
         editor: (value, onChange) => (
             <Checkbox
-                isChecked={value}
+                isChecked={!!value}
                 onChange={(event) => onChange(event.target.checked)}
             />
         ),

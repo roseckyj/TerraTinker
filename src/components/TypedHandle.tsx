@@ -63,6 +63,7 @@ export function TypedHandle({
                             right={8}
                             top={-1}
                             bottom={-1}
+                            cursor="default"
                         >
                             <Box
                                 bg="#1d1d1d"

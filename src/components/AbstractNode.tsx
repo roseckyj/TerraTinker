@@ -1,8 +1,8 @@
 import { NodeProps } from "reactflow";
-import { GenericNode } from "../components/GenericNode";
-import { Variable } from "../components/Variable";
 import { GraphState } from "../graphState/graphState";
 import { Node, VarType } from "../types/serializationTypes";
+import { GenericNode } from "./GenericNode";
+import { Variable } from "./Variable";
 
 export type NodeData = {
     node: AbstractNode;
@@ -28,6 +28,15 @@ export type OutputState = {
 
 export type HandlesDefinition = Record<string, HandleDefinition>;
 
+export type NodeConstructorParams = {
+    id: string;
+    position: { x: number; y: number };
+};
+
+export type NodeConstructor = new (
+    params: NodeConstructorParams
+) => AbstractNode;
+
 export abstract class AbstractNode {
     static title: string;
     static category: string;
@@ -37,15 +46,21 @@ export abstract class AbstractNode {
     position: { x: number; y: number };
     version: number = 0;
 
-    static inputs: HandlesDefinition = {};
-    static outputs: HandlesDefinition = {};
+    inputs: HandlesDefinition = {};
+    outputs: HandlesDefinition = {};
 
     inputState: Record<string, InputState> = {};
     outputState: Record<string, OutputState> = {};
 
-    constructor(id: string, position: { x: number; y: number }) {
-        const ctor = this.constructor as typeof AbstractNode;
-        this.inputState = Object.keys(ctor.inputs).reduce(
+    constructor(
+        inputs: HandlesDefinition,
+        outputs: HandlesDefinition,
+        { id, position }: NodeConstructorParams
+    ) {
+        this.inputs = inputs;
+        this.outputs = outputs;
+
+        this.inputState = Object.keys(this.inputs).reduce(
             (acc, key) => ({
                 ...acc,
                 [key]: {
@@ -57,7 +72,7 @@ export abstract class AbstractNode {
             }),
             {}
         );
-        this.outputState = Object.keys(ctor.outputs).reduce(
+        this.outputState = Object.keys(this.outputs).reduce(
             (acc, key) => ({
                 ...acc,
                 [key]: {
@@ -110,8 +125,7 @@ export abstract class AbstractNode {
                           }
                         : {
                               kind: "value",
-                              type: (this.constructor as typeof AbstractNode)
-                                  .inputs[key].type,
+                              type: this.inputs[key].type,
                               value: value.value,
                           },
                 }),
@@ -126,13 +140,14 @@ export abstract class AbstractNode {
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
+
         return (
             <GenericNode
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
             >
-                {Object.entries(ctor.inputs).map(([id, input]) => (
+                {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable
                         key={id}
                         orientation="input"
@@ -145,7 +160,7 @@ export abstract class AbstractNode {
                         }}
                     />
                 ))}
-                {Object.entries(ctor.outputs).map(([id, output]) => (
+                {Object.entries(node.outputs).map(([id, output]) => (
                     <Variable
                         key={id}
                         orientation="output"
