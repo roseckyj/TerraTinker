@@ -1,8 +1,9 @@
 import { NodeProps } from "reactflow";
 import { GraphState } from "../graphState/graphState";
-import { Node, VarType } from "../types/serializationTypes";
+import { Input, Node, VarType } from "../types/serializationTypes";
 import { GenericNode } from "./GenericNode";
 import { Variable } from "./Variable";
+import { varTypes } from "./_varTypes";
 
 export type NodeData = {
     node: AbstractNode;
@@ -133,6 +134,42 @@ export abstract class AbstractNode {
             ),
             nodeData: this.serializeNodeData(),
         };
+    }
+
+    public static deserialize(id: string, node: Node) {
+        const ctor = this as any as NodeConstructor;
+
+        const def = new ctor({
+            id,
+            position: {
+                x: node.location[0],
+                y: node.location[1],
+            },
+        });
+        def.inputState = Object.keys(def.inputs).reduce((prev, key) => {
+            const inputValue: Input | null = node.inputs[key];
+
+            return {
+                ...prev,
+                [key]:
+                    inputValue && inputValue.kind === "link"
+                        ? {
+                              value: null,
+                              nodeId: (inputValue as any).node,
+                              handleId: (inputValue as any).output,
+                              nullable: false,
+                          }
+                        : {
+                              value: inputValue
+                                  ? (inputValue as any).value
+                                  : varTypes[def.inputs[key].type].default,
+                              nodeId: null,
+                              handleId: null,
+                              nullable: false,
+                          },
+            };
+        }, {});
+        return def;
     }
 
     public static Component({

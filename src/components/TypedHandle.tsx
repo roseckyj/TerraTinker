@@ -31,10 +31,10 @@ export function TypedHandle({
         backgroundColor: typedef.color,
         ...(position === Position.Left
             ? {
-                  left: "-10px",
+                  left: "-18px",
               }
             : {
-                  right: "-10px",
+                  right: "-18px",
               }),
     };
 
@@ -94,7 +94,7 @@ export function TypedHandle({
                     position="absolute"
                     top="calc(50% - 1px)"
                     height="2px"
-                    left="-4"
+                    left="-6"
                     right="0"
                     zIndex={-1}
                     bg={handleStyle.backgroundColor}

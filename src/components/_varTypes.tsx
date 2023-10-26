@@ -136,4 +136,14 @@ export const varTypes: Record<
         ),
         default: false,
     },
+    raster: {
+        title: "Raster",
+        color: "#ff5ebc",
+        editor: () => (
+            <Text fontSize="0.9rem" opacity={0.5}>
+                {"[empty]"}
+            </Text>
+        ),
+        default: null,
+    },
 };

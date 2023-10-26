@@ -99,7 +99,7 @@ export function useGraphState(data: Data) {
                                 }
 
                                 return {
-                                    id: `${node.id}-${key}`,
+                                    id: `${node.id}#${key}`,
                                     type: "variable",
                                     source: value.nodeId,
                                     sourceHandle: value.handleId,
@@ -173,8 +173,8 @@ export function useGraphState(data: Data) {
                         break;
                     case "remove":
                         const def = graphState.nodes.find(
-                            (node) => node.id === change.id.split("-")[0]
-                        )!.inputState[change.id.split("-")[1]];
+                            (node) => node.id === change.id.split("#")[0]
+                        )!.inputState[change.id.split("#")[1]];
                         def.handleId = null;
                         def.nodeId = null;
                         def.nullable = false;

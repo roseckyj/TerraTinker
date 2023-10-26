@@ -8,7 +8,9 @@ export function useUpdateConnections() {
 
             const visitNode = (nodeId: string) => {
                 if (processing.has(nodeId)) {
-                    throw new Error("Circular dependency");
+                    throw new Error(
+                        `Circular dependency detected at node ${nodeId}`
+                    );
                 }
                 processing.add(nodeId);
 
@@ -37,7 +39,8 @@ export function useUpdateConnections() {
                 const nodeId = unvisited.values().next().value;
                 visitNode(nodeId);
             }
-        } catch (_) {
+        } catch (e) {
+            console.warn(e);
             return false;
         }
         return true;

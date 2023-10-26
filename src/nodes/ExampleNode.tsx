@@ -32,6 +32,10 @@ export class ExampleNode extends AbstractNode {
                     type: "geometry",
                     title: "Geometry",
                 },
+                raster: {
+                    type: "raster",
+                    title: "Raster",
+                },
             },
             {
                 float: {
@@ -54,6 +58,10 @@ export class ExampleNode extends AbstractNode {
                     type: "geometry",
                     title: "Geometry",
                 },
+                raster: {
+                    type: "raster",
+                    title: "Raster",
+                },
             },
             params
         );
@@ -72,5 +80,6 @@ export class ExampleNode extends AbstractNode {
         this.outputState.boolean.nullable = inputNullable;
         this.outputState.material.nullable = true;
         this.outputState.geometry.nullable = inputNullable;
+        this.outputState.raster.nullable = inputNullable;
     }
 }

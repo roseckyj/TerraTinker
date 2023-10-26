@@ -30,7 +30,7 @@ export function Variable({
     if (orientation === "output") {
         // Right
         return (
-            <Box px={4} py={1} position="relative" textAlign="right" minW={40}>
+            <Box py={1} px={2} position="relative" textAlign="right" minW={40}>
                 {definition.title}
                 <TypedHandle
                     id={param}
@@ -46,7 +46,7 @@ export function Variable({
     } else {
         // Left
         return (
-            <Box px={4} py={1} position="relative" minW={40}>
+            <Box py={1} px={2} position="relative" minW={40}>
                 {definition.title}
                 <TypedHandle
                     id={param}

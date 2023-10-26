@@ -14,8 +14,8 @@ export interface IContextMenuProps {
     onClose?: () => void;
     children: (ref: RefObject<HTMLElement>) => JSX.Element;
     darken?: boolean;
-    menuProps?: MenuProps;
-    menuListProps?: MenuListProps;
+    menuProps?: Partial<MenuProps>;
+    menuListProps?: Partial<MenuListProps>;
 }
 
 export function ContextMenu(props: IContextMenuProps) {
@@ -80,6 +80,7 @@ export function ContextMenu(props: IContextMenuProps) {
                                 (menu as HTMLDivElement).focus();
                             }}
                             position="fixed"
+                            py={0}
                             top={`${position?.y}px`}
                             left={`${position?.x}px`}
                             onContextMenu={(e) => {

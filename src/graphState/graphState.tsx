@@ -29,7 +29,9 @@ export class GraphState {
 
         this.nodes = Object.entries(data.nodes)
             .map(([key, value]) => {
-                const ctor = nodeTypes[value.type];
+                const ctor = nodeTypes[
+                    value.type
+                ] as any as typeof AbstractNode;
 
                 if (!ctor) {
                     toast({
@@ -42,34 +44,7 @@ export class GraphState {
                     return null;
                 }
 
-                const def = new ctor({
-                    id: key,
-                    position: {
-                        x: value.location[0],
-                        y: value.location[1],
-                    },
-                });
-                def.inputState = Object.entries(value.inputs).reduce(
-                    (prev, [key, value]) => ({
-                        ...prev,
-                        [key]:
-                            value.kind === "link"
-                                ? {
-                                      value: null,
-                                      nodeId: (value as any).node,
-                                      handleId: (value as any).output,
-                                      nullable: false,
-                                  }
-                                : {
-                                      value: (value as any).value,
-                                      nodeId: null,
-                                      handleId: null,
-                                      nullable: false,
-                                  },
-                    }),
-                    {}
-                );
-                return def;
+                return ctor.deserialize(key, value);
             })
             .filter((node) => node !== null) as Array<AbstractNode>;
     }

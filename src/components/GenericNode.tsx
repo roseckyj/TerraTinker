@@ -25,12 +25,12 @@ export function GenericNode({
                 px={3}
                 py={1}
                 fontWeight="bold"
-                bg="red.500"
+                bg="#292929"
                 borderTopRadius="md"
             >
                 {title}
             </Box>
-            <Flex my={2} direction="column" alignItems="stretch">
+            <Flex my={2} direction="column" alignItems="stretch" mx={2}>
                 {children}
             </Flex>
         </Flex>

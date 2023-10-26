@@ -1,7 +1,13 @@
 export type NodeId = string;
 export type OutputId = string;
 export type InputId = string;
-export type VarType = "geometry" | "float" | "string" | "material" | "boolean";
+export type VarType =
+    | "geometry"
+    | "float"
+    | "string"
+    | "material"
+    | "boolean"
+    | "raster";
 
 export type Data = {
     config: {
