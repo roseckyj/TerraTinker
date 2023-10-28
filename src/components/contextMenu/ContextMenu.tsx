@@ -9,7 +9,10 @@ import {
 import { RefObject, useEffect, useRef, useState } from "react";
 
 export interface IContextMenuProps {
-    renderMenu: (position: { x: number; y: number } | null) => JSX.Element;
+    renderMenu: (
+        position: { x: number; y: number } | null,
+        close: () => void
+    ) => JSX.Element;
     onContextMenu?: (e: React.MouseEvent) => void;
     onClose?: () => void;
     children: (ref: RefObject<HTMLElement>) => JSX.Element;
@@ -73,24 +76,26 @@ export function ContextMenu(props: IContextMenuProps) {
                         isLazy
                         {...(props.menuProps || {})}
                     >
-                        <MenuList
-                            onAnimationEnd={(e) => {
-                                const menu =
-                                    document.querySelector("[role=menu]")!;
-                                (menu as HTMLDivElement).focus();
-                            }}
-                            position="fixed"
-                            py={0}
-                            top={`${position?.y}px`}
-                            left={`${position?.x}px`}
-                            onContextMenu={(e) => {
-                                e.preventDefault();
-                                onClose();
-                            }}
-                            {...(props.menuListProps || {})}
-                        >
-                            {props.renderMenu(position)}
-                        </MenuList>
+                        {({ onClose: close }) => (
+                            <MenuList
+                                onAnimationEnd={(e) => {
+                                    const menu =
+                                        document.querySelector("[role=menu]")!;
+                                    (menu as HTMLDivElement).focus();
+                                }}
+                                position="fixed"
+                                py={0}
+                                top={`${position?.y}px`}
+                                left={`${position?.x}px`}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
+                                    onClose();
+                                }}
+                                {...(props.menuListProps || {})}
+                            >
+                                {props.renderMenu(position, close)}
+                            </MenuList>
+                        )}
                     </Menu>
                 </Box>
             </Portal>
