@@ -1,6 +1,5 @@
 import {
     Checkbox,
-    Image,
     Input,
     NumberDecrementStepper,
     NumberIncrementStepper,
@@ -10,8 +9,9 @@ import {
     Select,
     Text,
 } from "@chakra-ui/react";
-import { mcData, mcTextures } from "../minecraft/mcData";
+import { mcData } from "../minecraft/mcData";
 import { VarType } from "../types/serializationTypes";
+import { Texture } from "./Texture";
 
 export const varTypes: Record<
     VarType,
@@ -89,13 +89,9 @@ export const varTypes: Record<
         title: "Material",
         color: "#fffa63",
         editor: (value, onChange) => [
-            <Image
+            <Texture
+                material={value}
                 key="1"
-                src={
-                    (mcTextures as any)[`minecraft:${value}`]
-                        ? (mcTextures as any)[`minecraft:${value}`]?.texture
-                        : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" /* Transparent pixel */
-                }
                 w={5}
                 h={5}
                 my="auto"

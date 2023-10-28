@@ -1,6 +1,6 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, FlexProps } from "@chakra-ui/react";
 
-export interface IGenericNodeProps {
+export interface IGenericNodeProps extends FlexProps {
     title: string;
     category: string;
     children: React.ReactNode;
@@ -12,6 +12,7 @@ export function GenericNode({
     category,
     children,
     selected,
+    ...rest
 }: IGenericNodeProps) {
     return (
         <Flex
@@ -20,6 +21,7 @@ export function GenericNode({
             direction="column"
             alignItems="stretch"
             shadow={selected ? "outline" : "dark-lg"}
+            {...rest}
         >
             <Box
                 px={3}
