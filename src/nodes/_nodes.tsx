@@ -3,6 +3,7 @@ import { ExampleNode } from "./ExampleNode";
 import { BooleanOperatorNode } from "./boolean/BooleanOperatorNode";
 import { ConstantBooleanNode } from "./boolean/ConstantBooleanNode";
 import { NotNode } from "./boolean/NotNode";
+import { ForceNotNullNode } from "./conditional/ForceNotNullNode";
 import { IsNullNode } from "./conditional/IsNullNode";
 import { NullSwitchNode } from "./conditional/NullSwitchNode";
 import { SwitchNode } from "./conditional/SwitchNode";
@@ -10,14 +11,22 @@ import { BoundingBoxNode } from "./geometry/BoundingBoxNode";
 import { CreatePointNode } from "./geometry/CreatePointNode";
 import { CreateRectangleNode } from "./geometry/CreateRectangleNode";
 import { GeometryOverlapNode } from "./geometry/GeometryOverlapNode";
+import { RasterizeNode } from "./geometry/RasterizeNode";
+import { SelectedRegionNode } from "./geometry/SelectedRegionNode";
 import { ConstantMaterialNode } from "./material/ConstantMaterialNode";
 import { MaterialByNameNode } from "./material/MaterialByNameNode";
 import { MaterialScaleNode } from "./material/MaterialScaleNode";
+import { FillNode } from "./minecraft/FillNode";
+import { HighestBlockAtNode } from "./minecraft/HighestBlockAtNode";
+import { ReplaceNode } from "./minecraft/ReplaceNode";
+import { SetBlockNode } from "./minecraft/SetBlockNode";
 import { CommentNode } from "./misc/CommentNode";
 import { ComparisonNode } from "./number/ComparisonNode";
 import { ConstantNumberNode } from "./number/ConstantNumberNode";
 import { MathNode } from "./number/MathNode";
 import { RandomNumberNode } from "./number/RandomNumberNode";
+import { AggregateRasterNode } from "./raster/AggregateRasterNode";
+import { SampleRasterNode } from "./raster/SampleRasterNode";
 import { ConstantStringNode } from "./string/ConstantStringNode";
 import { ToStringNode } from "./string/ToStringNode";
 
@@ -43,4 +52,13 @@ export const nodes: Array<NodeConstructor> = [
     IsNullNode,
     NullSwitchNode,
     RandomNumberNode,
+    SampleRasterNode,
+    AggregateRasterNode,
+    SelectedRegionNode,
+    FillNode,
+    SetBlockNode,
+    ReplaceNode,
+    HighestBlockAtNode,
+    ForceNotNullNode,
+    RasterizeNode,
 ];

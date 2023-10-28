@@ -4,7 +4,7 @@ import {
     EditableTextarea,
     Flex,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { NodeProps } from "reactflow";
 import {
     AbstractNode,
@@ -43,11 +43,6 @@ export class CommentNode extends AbstractNode {
 
     public updateConnections(graphState: GraphState): void {
         super.updateConnections(graphState);
-
-        const inputNullable =
-            this.inputState.from.nullable || this.inputState.to.nullable;
-
-        this.outputState.output.nullable = inputNullable;
     }
 
     public static Component({
@@ -56,8 +51,6 @@ export class CommentNode extends AbstractNode {
     }: NodeProps<NodeData>) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const ref = useRef<HTMLSpanElement>(null);
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [size, setSize] = useState({ width: 0, height: 0 });
         const thisNode = node as CommentNode;
 
         return (
@@ -78,14 +71,6 @@ export class CommentNode extends AbstractNode {
                     onChange={(value) => {
                         thisNode.content = value;
                         forceUpdate();
-                    }}
-                    onEdit={() => {
-                        if (ref.current) {
-                            setSize({
-                                width: ref.current.offsetWidth,
-                                height: ref.current.offsetHeight,
-                            });
-                        }
                     }}
                 >
                     <EditablePreview ref={ref} />
