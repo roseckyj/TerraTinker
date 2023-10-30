@@ -1,5 +1,6 @@
 {
   "name": "react-app",
+  "homepage": "/McVizFrontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -31,10 +32,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +56,8 @@
     ]
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.6"
+    "@types/uuid": "^9.0.6",
+    "gh-pages": "^6.0.0",
+    "react-app-rewired": "^2.2.1"
   }
 }
