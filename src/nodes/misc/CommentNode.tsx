@@ -65,6 +65,7 @@ export class CommentNode extends AbstractNode {
                 textColor="#888888"
                 fontStyle="italic"
                 maxW={96}
+                shadow={selected ? "outline" : "none"}
             >
                 <Editable
                     value={thisNode.content}

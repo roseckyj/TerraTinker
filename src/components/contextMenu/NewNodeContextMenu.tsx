@@ -9,7 +9,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { RefObject, useMemo, useRef, useState } from "react";
-import { BiSearch } from "react-icons/bi";
+import { BiHistory, BiSearch } from "react-icons/bi";
 import { ReactFlowInstance } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
 import { forTime } from "waitasecond";
@@ -70,6 +70,14 @@ export function NewNodeContextMenu({
         graphState.nodes.push(newNode);
         updateConnections(graphState);
         forceUpdate();
+
+        // Save last used nodes to localstorage
+        let lastUsed = JSON.parse(
+            localStorage.getItem("lastUsedNodes") || "[]"
+        );
+        lastUsed.unshift(type);
+        lastUsed = lastUsed.slice(0, 3);
+        localStorage.setItem("lastUsedNodes", JSON.stringify(lastUsed));
         return newNode;
     };
 
@@ -84,6 +92,40 @@ export function NewNodeContextMenu({
                 ref.current?.focus();
             }}
             renderMenu={(position, close) => {
+                // Load last used nodes from localstorage
+                const lastUsed: string[] = (
+                    JSON.parse(
+                        localStorage.getItem("lastUsedNodes") || "[]"
+                    ) as string[]
+                ).reverse();
+
+                const nodes = Object.entries(definitions)
+                    .map(([group, nodes]) =>
+                        nodes
+                            .filter(
+                                (node) =>
+                                    search.length === 0 ||
+                                    node.title
+                                        .toLowerCase()
+                                        .includes(search.toLowerCase()) ||
+                                    group
+                                        .toLowerCase()
+                                        .includes(search.toLowerCase())
+                            )
+                            .map((node) => ({
+                                node,
+                                group,
+                                lastUsed: lastUsed.includes(node.type),
+                            }))
+                    )
+                    .flat()
+                    // Sort last used on the top
+                    .sort(
+                        (a, b) =>
+                            lastUsed.indexOf(b.node.type) -
+                            lastUsed.indexOf(a.node.type)
+                    );
+
                 return (
                     <>
                         <InputGroup variant="filled">
@@ -102,30 +144,11 @@ export function NewNodeContextMenu({
                                 borderBottomRadius={0}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
-                                        const filtered = Object.entries(
-                                            definitions
-                                        )
-                                            .map(([group, nodes]) =>
-                                                nodes.filter(
-                                                    (node) =>
-                                                        search.length === 0 ||
-                                                        node.title
-                                                            .toLowerCase()
-                                                            .includes(
-                                                                search.toLowerCase()
-                                                            ) ||
-                                                        group
-                                                            .toLowerCase()
-                                                            .includes(
-                                                                search.toLowerCase()
-                                                            )
-                                                )
-                                            )
-                                            .flat();
+                                        const filtered = nodes;
 
                                         if (filtered.length > 0) {
                                             createNode(
-                                                filtered[0].type,
+                                                filtered[0].node.type,
                                                 position!
                                             );
                                             close();
@@ -135,53 +158,40 @@ export function NewNodeContextMenu({
                             />
                         </InputGroup>
                         <Flex direction="column" overflowY="auto" maxH={64}>
-                            {Object.entries(definitions)
-                                .map(([group, nodes]) =>
-                                    nodes
-                                        .filter(
-                                            (node) =>
-                                                search.length === 0 ||
-                                                node.title
-                                                    .toLowerCase()
-                                                    .includes(
-                                                        search.toLowerCase()
-                                                    ) ||
-                                                group
-                                                    .toLowerCase()
-                                                    .includes(
-                                                        search.toLowerCase()
-                                                    )
-                                        )
-                                        .map((node) => ({ node, group }))
-                                )
-                                .flat()
-                                .map(({ node, group }, i) => (
-                                    <MenuItem
-                                        key={i}
-                                        py={1}
-                                        px={2}
-                                        _hover={{
-                                            bg: "gray.200",
-                                        }}
-                                        onClick={() =>
-                                            createNode(node.type, position!)
-                                        }
+                            {nodes.map(({ node, group, lastUsed }, i) => (
+                                <MenuItem
+                                    key={i}
+                                    py={1}
+                                    px={2}
+                                    _hover={{
+                                        bg: "gray.200",
+                                    }}
+                                    onClick={() =>
+                                        createNode(node.type, position!)
+                                    }
+                                >
+                                    <Flex
+                                        direction="row"
+                                        alignItems="center"
+                                        w="full"
                                     >
-                                        <Flex
-                                            direction="row"
-                                            alignItems="center"
-                                            w="full"
+                                        <Text opacity={0.5}>
+                                            {group}&nbsp;&gt;
+                                        </Text>
+                                        &nbsp;
+                                        <Text
+                                            whiteSpace="nowrap"
+                                            overflow="hidden"
+                                            textOverflow="ellipsis"
                                         >
-                                            <Text opacity={0.5}>
-                                                {group}&nbsp;&gt;
-                                            </Text>
-                                            &nbsp;
                                             {node.title}
-                                            <Spacer />
-                                            {i === 0 && <Kbd>Enter</Kbd>}
-                                        </Flex>
-                                    </MenuItem>
-                                ))}
+                                        </Text>
+                                        <Spacer />
+                                        {i === 0 && <Kbd mr={2}>Enter</Kbd>}
+                                        {lastUsed && <BiHistory />}
+                                    </Flex>
+                                </MenuItem>
+                            ))}
                         </Flex>
                     </>
                 );

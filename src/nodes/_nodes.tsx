@@ -5,6 +5,7 @@ import { ConstantBooleanNode } from "./boolean/ConstantBooleanNode";
 import { NotNode } from "./boolean/NotNode";
 import { ForceNotNullNode } from "./conditional/ForceNotNullNode";
 import { IsNullNode } from "./conditional/IsNullNode";
+import { NullNode } from "./conditional/NullNode";
 import { NullSwitchNode } from "./conditional/NullSwitchNode";
 import { SwitchNode } from "./conditional/SwitchNode";
 import { BoundingBoxNode } from "./geometry/BoundingBoxNode";
@@ -18,6 +19,7 @@ import { MaterialByNameNode } from "./material/MaterialByNameNode";
 import { MaterialScaleNode } from "./material/MaterialScaleNode";
 import { FillNode } from "./minecraft/FillNode";
 import { HighestBlockAtNode } from "./minecraft/HighestBlockAtNode";
+import { PlaceTreeNode } from "./minecraft/PlaceTreeNode";
 import { ReplaceNode } from "./minecraft/ReplaceNode";
 import { SetBlockNode } from "./minecraft/SetBlockNode";
 import { CommentNode } from "./misc/CommentNode";
@@ -61,4 +63,6 @@ export const nodes: Array<NodeConstructor> = [
     HighestBlockAtNode,
     ForceNotNullNode,
     RasterizeNode,
+    NullNode,
+    PlaceTreeNode,
 ];
