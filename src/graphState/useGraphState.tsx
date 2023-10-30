@@ -38,9 +38,11 @@ export function useGraphState(data: Data) {
 
     useEffect(() => {
         // On force update
-        setDirty();
-        reloadNodes();
-        reloadEdges();
+        if (version > 0) {
+            setDirty();
+            reloadNodes();
+            reloadEdges();
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [version]);

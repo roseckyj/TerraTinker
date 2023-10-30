@@ -1,9 +1,15 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Text } from "@chakra-ui/react";
 import { RefObject, useMemo, useState } from "react";
+import {
+    BiCrosshair,
+    BiDownload,
+    BiMinus,
+    BiPlus,
+    BiSave,
+} from "react-icons/bi";
 import ReactFlow, {
     Background,
     BackgroundVariant,
-    Controls,
     EdgeTypes,
     Panel,
     useReactFlow,
@@ -14,6 +20,7 @@ import { useGraphState } from "./graphState/useGraphState";
 import { nodes as nodeDefs } from "./nodes/_nodes";
 import { Data } from "./types/serializationTypes";
 import { useUpdateConnections } from "./useUpdateConnections";
+import { downloadFile } from "./utils/downloadFile";
 
 export interface INodeGraphProps {
     data: Data;
@@ -59,6 +66,9 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
     //     [graphState, updateMe]
     // );
 
+    const minZoom = 0.1;
+    const maxZoom = 1.5;
+
     return (
         <Box position="fixed" inset="0" overflow="hidden">
             <NewNodeContextMenu
@@ -79,6 +89,8 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}
                         fitView
+                        minZoom={minZoom}
+                        maxZoom={maxZoom}
                     >
                         <Panel position="top-right">
                             <Flex direction="row" alignItems="center">
@@ -87,19 +99,65 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                                         ? "Saved"
                                         : "Unsaved changes"}
                                 </Text>
-                                <Button
+                                <IconButton
+                                    aria-label="Save"
+                                    icon={<BiSave />}
                                     colorScheme="blue"
                                     isDisabled={lastChange === savedAt}
+                                    mr="2"
                                     onClick={() => {
                                         onSave?.(graphState.serialize());
                                         setSavedAt(lastChange);
                                     }}
-                                >
-                                    Save
-                                </Button>
+                                />
+                                <IconButton
+                                    aria-label="Save"
+                                    icon={<BiDownload />}
+                                    onClick={() => {
+                                        downloadFile(
+                                            new File(
+                                                [
+                                                    JSON.stringify(
+                                                        graphState.serialize()
+                                                    ),
+                                                ],
+                                                "graph.json",
+                                                { type: "text/plain" }
+                                            )
+                                        );
+                                    }}
+                                />
                             </Flex>
                         </Panel>
-                        <Controls position="top-left" />
+                        <Panel position="top-left">
+                            <Flex direction="column" alignItems="center">
+                                <IconButton
+                                    aria-label="Zoom in"
+                                    icon={<BiPlus />}
+                                    onClick={() => {
+                                        flow.zoomIn();
+                                    }}
+                                    borderBottomRadius={0}
+                                />
+                                <IconButton
+                                    aria-label="Zoom out"
+                                    icon={<BiMinus />}
+                                    onClick={() => {
+                                        flow.zoomOut();
+                                        console.log(flow.getZoom());
+                                    }}
+                                    borderTopRadius={0}
+                                    mb={2}
+                                />
+                                <IconButton
+                                    aria-label="Fit view"
+                                    icon={<BiCrosshair />}
+                                    onClick={() => {
+                                        flow.fitView();
+                                    }}
+                                />
+                            </Flex>
+                        </Panel>
                         <Background
                             variant={BackgroundVariant.Dots}
                             color="#ffffff20"
