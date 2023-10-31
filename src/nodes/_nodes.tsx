@@ -17,6 +17,7 @@ import { SelectedRegionNode } from "./geometry/SelectedRegionNode";
 import { EsriLoaderNode } from "./loaders/EsriLoaderNode";
 import { GeoJsonLoaderNode } from "./loaders/GeoJsonLoaderNode";
 import { GeoTiffLoaderNode } from "./loaders/GeoTiffLoaderNode";
+import { LocalFileNode } from "./loaders/LocalFileNode";
 import { OsmLoaderNode } from "./loaders/OsmLoaderNode";
 import { ConstantMaterialNode } from "./material/ConstantMaterialNode";
 import { MaterialByNameNode } from "./material/MaterialByNameNode";
@@ -75,4 +76,5 @@ export const nodes: Array<NodeConstructor> = [
     GeoJsonLoaderNode,
     EsriLoaderNode,
     OsmLoaderNode,
+    LocalFileNode,
 ];
