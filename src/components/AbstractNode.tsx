@@ -8,6 +8,7 @@ import { varTypes } from "./_varTypes";
 export type NodeData = {
     node: AbstractNode;
     forceUpdate: () => void;
+    updateConnections: () => void;
     version: any;
 };
 

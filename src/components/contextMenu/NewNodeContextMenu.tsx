@@ -127,7 +127,7 @@ export function NewNodeContextMenu({
                     );
 
                 return (
-                    <>
+                    <Flex direction="column" alignItems="stretch" color="white">
                         <InputGroup variant="filled">
                             <InputLeftElement pointerEvents="none">
                                 <BiSearch />
@@ -164,7 +164,7 @@ export function NewNodeContextMenu({
                                     py={1}
                                     px={2}
                                     _hover={{
-                                        bg: "gray.200",
+                                        bg: "gray.600",
                                     }}
                                     onClick={() =>
                                         createNode(node.type, position!)
@@ -193,7 +193,7 @@ export function NewNodeContextMenu({
                                 </MenuItem>
                             ))}
                         </Flex>
-                    </>
+                    </Flex>
                 );
             }}
         >

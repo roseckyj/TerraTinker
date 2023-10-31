@@ -14,6 +14,8 @@ import { CreateRectangleNode } from "./geometry/CreateRectangleNode";
 import { GeometryOverlapNode } from "./geometry/GeometryOverlapNode";
 import { RasterizeNode } from "./geometry/RasterizeNode";
 import { SelectedRegionNode } from "./geometry/SelectedRegionNode";
+import { GeoJsonLoaderNode } from "./loaders/GeoJsonLoaderNode";
+import { GeoTiffLoaderNode } from "./loaders/GeoTiffLoaderNode";
 import { ConstantMaterialNode } from "./material/ConstantMaterialNode";
 import { MaterialByNameNode } from "./material/MaterialByNameNode";
 import { MaterialScaleNode } from "./material/MaterialScaleNode";
@@ -22,6 +24,7 @@ import { HighestBlockAtNode } from "./minecraft/HighestBlockAtNode";
 import { PlaceTreeNode } from "./minecraft/PlaceTreeNode";
 import { ReplaceNode } from "./minecraft/ReplaceNode";
 import { SetBlockNode } from "./minecraft/SetBlockNode";
+import { WorldInfoNode } from "./minecraft/WorldInfoNode";
 import { CommentNode } from "./misc/CommentNode";
 import { ComparisonNode } from "./number/ComparisonNode";
 import { ConstantNumberNode } from "./number/ConstantNumberNode";
@@ -65,4 +68,7 @@ export const nodes: Array<NodeConstructor> = [
     RasterizeNode,
     NullNode,
     PlaceTreeNode,
+    WorldInfoNode,
+    GeoTiffLoaderNode,
+    GeoJsonLoaderNode,
 ];

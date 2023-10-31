@@ -109,11 +109,7 @@ export const varTypes: Record<
                 {mcData.blocksArray
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
                     .map((block, i) => (
-                        <option
-                            key={i}
-                            style={{ color: "#000000" }}
-                            value={block.name}
-                        >
+                        <option key={i} value={block.name}>
                             {block.displayName}
                         </option>
                     ))}

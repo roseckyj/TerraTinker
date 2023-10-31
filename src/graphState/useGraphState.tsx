@@ -62,6 +62,10 @@ export function useGraphState(data: Data) {
                     version,
                     node,
                     forceUpdate,
+                    updateConnections: () => {
+                        updateConnections(graphState);
+                        forceUpdate();
+                    },
                 } as NodeData,
             }))
         );

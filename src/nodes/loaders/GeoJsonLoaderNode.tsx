@@ -1,4 +1,3 @@
-import { Select } from "@chakra-ui/react";
 import { NodeProps } from "reactflow";
 import {
     AbstractNode,
@@ -8,75 +7,57 @@ import {
 import { GenericNode } from "../../components/GenericNode";
 import { Variable } from "../../components/Variable";
 import { GraphState } from "../../graphState/graphState";
-import { Node } from "../../types/serializationTypes";
-import { capitalize } from "../../utils/capitalize";
-import { nodeInputStyle } from "../../utils/styles";
+import { Node, VarType } from "../../types/serializationTypes";
 
-const allowedOperators = [
-    "add",
-    "subtract",
-    "multiply",
-    "divide",
-    "modulo",
-    "power",
-    "min",
-    "max",
-];
+type Attribute = {
+    type: VarType;
+    path: string;
+};
 
-export class MathNode extends AbstractNode {
-    static title = "Mathematics";
-    static category = "Number";
-    static type = "math";
+export class GeoJsonLoaderNode extends AbstractNode {
+    static title = "GeoJSON";
+    static category = "Loaders";
+    static type = "geoJsonLoader";
 
-    operator: string = "add";
+    private attributes: Attribute[] = [];
 
     public constructor(params: NodeConstructorParams) {
         super(
             {
-                a: {
-                    type: "float",
-                    title: "A",
-                },
-                b: {
-                    type: "float",
-                    title: "B",
+                path: {
+                    type: "string",
+                    title: "Path",
                 },
             },
             {
-                output: {
-                    type: "float",
-                    title: "Result",
+                geometry: {
+                    type: "geometry",
+                    title: "Geometry",
                 },
             },
             params
         );
     }
 
-    public static deserialize(id: string, node: Node) {
-        const created = super.deserialize(id, node) as MathNode;
+    public updateConnections(graphState: GraphState): void {
+        super.updateConnections(graphState);
 
-        if (node.nodeData.operator) {
-            created.operator = node.nodeData.operator;
-        }
+        this.outputState.raster.nullable = false;
+    }
+
+    public static deserialize(id: string, node: Node) {
+        const created = super.deserialize(id, node) as GeoJsonLoaderNode;
+
+        if (node.nodeData.attributes)
+            created.attributes = node.nodeData.attributes;
 
         return created;
     }
 
     public serializeNodeData(): Record<string, any> {
         return {
-            operator: this.operator,
+            attributes: this.attributes,
         };
-    }
-
-    public updateConnections(graphState: GraphState): void {
-        super.updateConnections(graphState);
-
-        // If any input is nullable, all outputs are nullable
-        const inputNullable = Object.values(this.inputState).some(
-            (state) => state.nullable
-        );
-
-        this.outputState.output.nullable = inputNullable;
     }
 
     public static Component({
@@ -84,7 +65,7 @@ export class MathNode extends AbstractNode {
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
-        const thisNode = node as MathNode;
+        const thisNode = node as GeoJsonLoaderNode;
 
         return (
             <GenericNode
@@ -92,20 +73,6 @@ export class MathNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
             >
-                <Select
-                    {...nodeInputStyle}
-                    value={thisNode.operator}
-                    onChange={(e) => {
-                        thisNode.operator = e.target.value as any;
-                        forceUpdate();
-                    }}
-                >
-                    {allowedOperators.map((type, i) => (
-                        <option key={i} value={type}>
-                            {capitalize(type)}
-                        </option>
-                    ))}
-                </Select>
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable
                         key={id}

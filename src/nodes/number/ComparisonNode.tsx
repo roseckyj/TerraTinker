@@ -99,11 +99,7 @@ export class ComparisonNode extends AbstractNode {
                     }}
                 >
                     {allowedOperators.map((type, i) => (
-                        <option
-                            key={i}
-                            style={{ color: "#000000" }}
-                            value={type}
-                        >
+                        <option key={i} value={type}>
                             {capitalize(type)}
                         </option>
                     ))}

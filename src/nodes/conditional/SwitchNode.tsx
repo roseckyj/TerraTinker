@@ -252,11 +252,7 @@ export class SwitchNode extends AbstractNode {
                     }}
                 >
                     {allowedSwitchTypes.map((type, i) => (
-                        <option
-                            key={i}
-                            style={{ color: "#000000" }}
-                            value={type}
-                        >
+                        <option key={i} value={type}>
                             {(varTypes as any)[type].title}
                         </option>
                     ))}
@@ -272,11 +268,7 @@ export class SwitchNode extends AbstractNode {
                     }}
                 >
                     {Object.entries(varTypes).map(([type, def], i) => (
-                        <option
-                            key={i}
-                            style={{ color: "#000000" }}
-                            value={type}
-                        >
+                        <option key={i} value={type}>
                             {def.title}
                         </option>
                     ))}

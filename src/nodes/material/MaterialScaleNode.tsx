@@ -253,15 +253,9 @@ export class MaterialScaleNode extends AbstractNode {
                         forceUpdate();
                     }}
                 >
-                    <option style={{ color: "#000000" }} value={"Custom"}>
-                        Custom
-                    </option>
+                    <option value={"Custom"}>Custom</option>
                     {Object.keys(presets).map((key, i) => (
-                        <option
-                            key={i}
-                            style={{ color: "#000000" }}
-                            value={key}
-                        >
+                        <option key={i} value={key}>
                             {key}
                         </option>
                     ))}

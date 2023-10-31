@@ -210,11 +210,7 @@ export class NullSwitchNode extends AbstractNode {
                     }}
                 >
                     {Object.entries(varTypes).map(([type, def], i) => (
-                        <option
-                            key={i}
-                            style={{ color: "#000000" }}
-                            value={type}
-                        >
+                        <option key={i} value={type}>
                             {def.title}
                         </option>
                     ))}

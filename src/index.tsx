@@ -1,5 +1,6 @@
 import {
     ChakraProvider,
+    DarkMode,
     Theme,
     ThemeConfig,
     extendTheme,
@@ -37,12 +38,14 @@ root.render(
                 config,
             } as Theme)}
         >
-            <NodeGraph
-                data={data}
-                onSave={(data) =>
-                    localStorage.setItem("data", JSON.stringify(data))
-                }
-            />
+            <DarkMode>
+                <NodeGraph
+                    data={data}
+                    onSave={(data) =>
+                        localStorage.setItem("data", JSON.stringify(data))
+                    }
+                />
+            </DarkMode>
         </ChakraProvider>
     </ReactFlowProvider>
 );

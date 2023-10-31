@@ -4,6 +4,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background: #1d1d1d;
 }
 
 .react-flow__attribution {
