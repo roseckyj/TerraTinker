@@ -168,7 +168,7 @@ export class NullSwitchNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, updateConnections },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -207,6 +207,7 @@ export class NullSwitchNode extends AbstractNode {
                     onChange={(e) => {
                         thisNode.setInputTypes(e.target.value as any);
                         forceUpdate();
+                        updateConnections();
                     }}
                 >
                     {Object.entries(varTypes).map(([type, def], i) => (

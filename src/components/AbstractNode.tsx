@@ -98,12 +98,24 @@ export abstract class AbstractNode {
                 const nullable =
                     parentNode.outputState[input.handleId!].nullable;
 
-                this.inputState[key] = {
-                    value: this.inputState[key].value,
-                    nodeId: parentNode.id,
-                    handleId: input.handleId!,
-                    nullable,
-                };
+                const type = this.inputs[key].type;
+                const parentType = parentNode.outputs[input.handleId!].type;
+
+                if (type !== parentType) {
+                    this.inputState[key] = {
+                        value: varTypes[type].default,
+                        nodeId: null,
+                        handleId: null,
+                        nullable: false,
+                    };
+                } else {
+                    this.inputState[key] = {
+                        value: this.inputState[key].value,
+                        nodeId: parentNode.id,
+                        handleId: input.handleId!,
+                        nullable,
+                    };
+                }
             });
 
         // Outputs are handled in specific nodes

@@ -43,6 +43,10 @@ export class ForceNotNullNode extends AbstractNode {
             type: type,
             title: "Input",
         };
+        this.outputs.output = {
+            type: type,
+            title: "Output",
+        };
         if (!this.inputState.input.nodeId) {
             this.inputState.input.value = varTypes[type].default;
         } else if (disconnect) {
@@ -75,7 +79,7 @@ export class ForceNotNullNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, updateConnections },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -93,6 +97,7 @@ export class ForceNotNullNode extends AbstractNode {
                     onChange={(e) => {
                         thisNode.setInputType(e.target.value as any);
                         forceUpdate();
+                        updateConnections();
                     }}
                 >
                     {Object.keys(varTypes).map((type, i) => (

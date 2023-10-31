@@ -32,6 +32,8 @@ export function useGraphState(data: Data) {
         reloadNodes();
         reloadEdges();
         updateConnections(graphState);
+        reloadNodes();
+        reloadEdges();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [graphState]);
