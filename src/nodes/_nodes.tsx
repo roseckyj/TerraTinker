@@ -14,8 +14,10 @@ import { CreateRectangleNode } from "./geometry/CreateRectangleNode";
 import { GeometryOverlapNode } from "./geometry/GeometryOverlapNode";
 import { RasterizeNode } from "./geometry/RasterizeNode";
 import { SelectedRegionNode } from "./geometry/SelectedRegionNode";
+import { EsriLoaderNode } from "./loaders/EsriLoaderNode";
 import { GeoJsonLoaderNode } from "./loaders/GeoJsonLoaderNode";
 import { GeoTiffLoaderNode } from "./loaders/GeoTiffLoaderNode";
+import { OsmLoaderNode } from "./loaders/OsmLoaderNode";
 import { ConstantMaterialNode } from "./material/ConstantMaterialNode";
 import { MaterialByNameNode } from "./material/MaterialByNameNode";
 import { MaterialScaleNode } from "./material/MaterialScaleNode";
@@ -71,4 +73,6 @@ export const nodes: Array<NodeConstructor> = [
     WorldInfoNode,
     GeoTiffLoaderNode,
     GeoJsonLoaderNode,
+    EsriLoaderNode,
+    OsmLoaderNode,
 ];

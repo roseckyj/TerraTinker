@@ -95,27 +95,34 @@ export abstract class AbstractNode {
                     (node) => node.id === input.nodeId
                 )!;
 
-                const nullable =
-                    parentNode.outputState[input.handleId!].nullable;
-
                 const type = this.inputs[key].type;
-                const parentType = parentNode.outputs[input.handleId!].type;
 
-                if (type !== parentType) {
-                    this.inputState[key] = {
-                        value: varTypes[type].default,
-                        nodeId: null,
-                        handleId: null,
-                        nullable: false,
-                    };
-                } else {
-                    this.inputState[key] = {
-                        value: this.inputState[key].value,
-                        nodeId: parentNode.id,
-                        handleId: input.handleId!,
-                        nullable,
-                    };
+                if (
+                    parentNode &&
+                    parentNode.outputs[input.handleId!] &&
+                    parentNode.outputState[input.handleId!]
+                ) {
+                    const nullable =
+                        parentNode.outputState[input.handleId!].nullable;
+
+                    const parentType = parentNode.outputs[input.handleId!].type;
+
+                    if (type === parentType) {
+                        this.inputState[key] = {
+                            value: this.inputState[key].value,
+                            nodeId: parentNode.id,
+                            handleId: input.handleId!,
+                            nullable,
+                        };
+                        return;
+                    }
                 }
+                this.inputState[key] = {
+                    value: varTypes[type].default,
+                    nodeId: null,
+                    handleId: null,
+                    nullable: false,
+                };
             });
 
         // Outputs are handled in specific nodes
