@@ -52,16 +52,15 @@ export class OsmLoaderNode extends AbstractNode {
 
     public constructor(params: NodeConstructorParams) {
         super(
-            {
-                path: {
-                    type: "string",
-                    title: "Path",
-                },
-            },
+            {},
             {
                 geometry: {
                     type: "geometry",
                     title: "Geometry",
+                },
+                id: {
+                    type: "string",
+                    title: "ID",
                 },
             },
             params
@@ -77,7 +76,7 @@ export class OsmLoaderNode extends AbstractNode {
         this.outputState = {};
         Object.keys(this.outputs).forEach((key) => {
             this.outputState[key] = {
-                nullable: key !== "geometry",
+                nullable: key !== "geometry" && key !== "id",
             };
         });
     }
@@ -95,6 +94,10 @@ export class OsmLoaderNode extends AbstractNode {
                 geometry: {
                     type: "geometry",
                     title: "Geometry",
+                },
+                id: {
+                    type: "float",
+                    title: "ID",
                 },
             }
         );
@@ -273,6 +276,13 @@ out geom;`;
                     param={"geometry"}
                     definition={node.outputs["geometry"]}
                     state={node.outputState["geometry"]}
+                />
+                <Variable
+                    key={"id"}
+                    orientation="output"
+                    param={"id"}
+                    definition={node.outputs["id"]}
+                    state={node.outputState["id"]}
                 />
                 {thisNode.attributes.map((attribute, i) => (
                     <Flex

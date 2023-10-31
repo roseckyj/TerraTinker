@@ -28,13 +28,9 @@ export class AggregateRasterNode extends AbstractNode {
                     type: "raster",
                     title: "Raster",
                 },
-                x: {
-                    type: "float",
-                    title: "X",
-                },
-                z: {
-                    type: "float",
-                    title: "Z",
+                geometry: {
+                    type: "geometry",
+                    title: "Geometry",
                 },
             },
             {
