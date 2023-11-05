@@ -8,18 +8,23 @@ export type VarType =
     | "material"
     | "boolean"
     | "raster";
+export type Position = [number, number];
 
 export type Data = {
     config: {
         join: "cartesian" | "primaryOuter";
         /* ... */
     };
+    flow: {
+        nodes: Array<NodeId>;
+        startLocation: Position;
+    };
     nodes: Record<NodeId, Node>;
 };
 
 export type Node = {
     type: string;
-    location: [number, number];
+    location: Position;
     inputs: Record<InputId, Input>;
     nodeData: Record<string, any>;
 };

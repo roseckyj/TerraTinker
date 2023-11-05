@@ -1,15 +1,23 @@
 import { CreateToastFnReturn } from "@chakra-ui/react";
 import { AbstractNode, NodeConstructor } from "../components/AbstractNode";
 import { nodes } from "../nodes/_nodes";
-import { Data } from "../types/serializationTypes";
+import { Data, Position } from "../types/serializationTypes";
 
 export class GraphState {
     public nodes: Array<AbstractNode> = [];
+    public flowStartLocation: Position = [0, 0];
 
     public serialize(): Data {
         return {
             config: {
                 join: "cartesian", // TBAL
+            },
+            flow: {
+                nodes: this.nodes
+                    .filter((node) => node.flowOrder !== null)
+                    .sort((a, b) => a.flowOrder! - b.flowOrder!)
+                    .map((node) => node.id),
+                startLocation: this.flowStartLocation,
             },
             nodes: this.nodes.reduce(
                 (prev, node) => ({ ...prev, [node.id]: node.serialize() }),
@@ -44,8 +52,24 @@ export class GraphState {
                     return null;
                 }
 
-                return ctor.deserialize(key, value);
+                const node = ctor.deserialize(key, value);
+                const flowOrder = (
+                    data.flow || {
+                        nodes: [],
+                        startLocation: [0, 0],
+                    }
+                ).nodes.indexOf(key);
+
+                node.flowOrder = flowOrder === -1 ? null : flowOrder;
+                return node;
             })
             .filter((node) => node !== null) as Array<AbstractNode>;
+
+        this.flowStartLocation = (
+            data.flow || {
+                nodes: [],
+                startLocation: [0, 0],
+            }
+        ).startLocation;
     }
 }

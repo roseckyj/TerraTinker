@@ -9,8 +9,8 @@ import ReactDOM from "react-dom/client";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
 import { NodeGraph } from "./NodeGraph";
+import defaultData from "./data/default.json";
 import "./index.css";
-import { sampleData } from "./sampleData";
 import { Data } from "./types/serializationTypes";
 
 const root = ReactDOM.createRoot(
@@ -25,8 +25,8 @@ const config: ThemeConfig = {
 const stored = localStorage.getItem("data");
 let data: Data;
 if (!stored) {
-    localStorage.setItem("data", JSON.stringify(sampleData));
-    data = sampleData;
+    localStorage.setItem("data", JSON.stringify(defaultData));
+    data = defaultData as any;
 } else {
     data = JSON.parse(stored);
 }

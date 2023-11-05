@@ -39,6 +39,7 @@ export class PlaceTreeNode extends AbstractNode {
     static title = "Place Tree";
     static category = "Minecraft";
     static type = "placeTree";
+    static canBeFlow = true;
 
     private treeType: string = "oak";
 

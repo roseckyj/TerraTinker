@@ -8,6 +8,7 @@ export class SetBlockNode extends AbstractNode {
     static title = "Set Block";
     static category = "Minecraft";
     static type = "setBlock";
+    static canBeFlow = true;
 
     public constructor(params: NodeConstructorParams) {
         super(

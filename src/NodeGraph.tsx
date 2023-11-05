@@ -14,7 +14,9 @@ import ReactFlow, {
     Panel,
     useReactFlow,
 } from "reactflow";
-import { Edge } from "./components/Edge";
+import { FlowEdge } from "./components/FlowEdge";
+import { FlowStart } from "./components/FlowStartNode";
+import { TypedEdge } from "./components/TypedEdge";
 import { NewNodeContextMenu } from "./components/contextMenu/NewNodeContextMenu";
 import { useGraphState } from "./graphState/useGraphState";
 import { nodes as nodeDefs } from "./nodes/_nodes";
@@ -44,20 +46,23 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
 
     const edgeTypes = useMemo<EdgeTypes>(
         () => ({
-            variable: Edge,
+            variable: TypedEdge,
+            flow: FlowEdge,
         }),
         []
     );
 
     const nodeTypes = useMemo(
-        () =>
-            nodeDefs.reduce(
+        () => ({
+            ...nodeDefs.reduce(
                 (prev, value) => ({
                     ...prev,
                     [(value as any).type]: (value as any).Component,
                 }),
                 {} as Record<string, any>
             ),
+            flowStart: FlowStart,
+        }),
         []
     );
 

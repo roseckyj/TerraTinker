@@ -1,6 +1,7 @@
 import { NodeProps } from "reactflow";
 import { GraphState } from "../graphState/graphState";
 import { Input, Node, VarType } from "../types/serializationTypes";
+import { FlowHandles } from "./FlowHandles";
 import { GenericNode } from "./GenericNode";
 import { Variable } from "./Variable";
 import { varTypes } from "./_varTypes";
@@ -43,6 +44,7 @@ export abstract class AbstractNode {
     static title: string;
     static category: string;
     static type: string;
+    static canBeFlow: boolean = false;
 
     id: string;
     position: { x: number; y: number };
@@ -53,6 +55,8 @@ export abstract class AbstractNode {
 
     inputState: Record<string, InputState> = {};
     outputState: Record<string, OutputState> = {};
+
+    flowOrder: number | null = null;
 
     constructor(
         inputs: HandlesDefinition,
@@ -66,7 +70,7 @@ export abstract class AbstractNode {
             (acc, key) => ({
                 ...acc,
                 [key]: {
-                    value: null,
+                    value: varTypes[this.inputs[key].type].default,
                     nodeId: null,
                     handleId: null,
                     nullable: false,
@@ -147,7 +151,9 @@ export abstract class AbstractNode {
                         : {
                               kind: "value",
                               type: this.inputs[key].type,
-                              value: value.value,
+                              value: varTypes[this.inputs[key].type].serialize(
+                                  value.value
+                              ),
                           },
                 }),
                 {}
@@ -189,6 +195,7 @@ export abstract class AbstractNode {
                           },
             };
         }, {});
+
         return def;
     }
 
@@ -226,6 +233,7 @@ export abstract class AbstractNode {
                         state={node.outputState[id]}
                     />
                 ))}
+                <FlowHandles node={node} />
             </GenericNode>
         );
     }

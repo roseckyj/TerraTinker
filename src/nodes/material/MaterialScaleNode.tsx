@@ -475,7 +475,7 @@ function MaterialSelect({ material, value, onChange }: IMaterialSelectProps) {
             mt={2}
             textAlign="center"
         >
-            <Texture material={material} w={6} h={6} />
+            <Texture material={material} w={6} h={6} showText />
             <select
                 value={value}
                 onChange={(event) => onChange(event.target.value)}

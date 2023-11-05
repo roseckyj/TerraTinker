@@ -8,6 +8,7 @@ export class ReplaceNode extends AbstractNode {
     static title = "Replace";
     static category = "Minecraft";
     static type = "replace";
+    static canBeFlow = true;
 
     public constructor(params: NodeConstructorParams) {
         super(

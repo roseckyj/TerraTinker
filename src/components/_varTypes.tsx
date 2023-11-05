@@ -23,6 +23,7 @@ export const varTypes: Record<
             onChange: (value: any) => void
         ) => JSX.Element | JSX.Element[];
         default: any;
+        serialize: (value: any) => any;
     }
 > = {
     float: {
@@ -51,6 +52,16 @@ export const varTypes: Record<
             </NumberInput>,
         ],
         default: 0,
+        serialize: (value) => {
+            switch (typeof value) {
+                case "number":
+                    return value;
+                case "string":
+                    return parseFloat(value);
+                default:
+                    return varTypes.float.default;
+            }
+        },
     },
     geometry: {
         title: "Geometry",
@@ -61,6 +72,7 @@ export const varTypes: Record<
             </Text>
         ),
         default: null,
+        serialize: (value) => null,
     },
     string: {
         title: "String",
@@ -84,6 +96,14 @@ export const varTypes: Record<
             </Text>,
         ],
         default: "",
+        serialize: (value) => {
+            switch (typeof value) {
+                case "string":
+                    return value;
+                default:
+                    return varTypes.string.default;
+            }
+        },
     },
     material: {
         title: "Material",
@@ -116,6 +136,14 @@ export const varTypes: Record<
             </Select>,
         ],
         default: "air",
+        serialize: (value) => {
+            switch (typeof value) {
+                case "string":
+                    return value;
+                default:
+                    return varTypes.material.default;
+            }
+        },
     },
     boolean: {
         title: "Boolean",
@@ -127,6 +155,14 @@ export const varTypes: Record<
             />
         ),
         default: false,
+        serialize: (value) => {
+            switch (typeof value) {
+                case "boolean":
+                    return value;
+                default:
+                    return varTypes.boolean.default;
+            }
+        },
     },
     raster: {
         title: "Raster",
@@ -137,5 +173,6 @@ export const varTypes: Record<
             </Text>
         ),
         default: null,
+        serialize: (value) => null,
     },
 };

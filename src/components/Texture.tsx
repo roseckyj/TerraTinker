@@ -1,11 +1,32 @@
-import { Image, ImageProps } from "@chakra-ui/react";
+import { Box, Image, ImageProps, Text } from "@chakra-ui/react";
 import { mcTextures } from "../minecraft/mcData";
 
 export interface ITextureProps extends ImageProps {
     material: string;
+    showText?: boolean;
 }
 
-export function Texture({ material, ...rest }: ITextureProps) {
+export function Texture({ material, showText, ...rest }: ITextureProps) {
+    if (showText && !(mcTextures as any)[`minecraft:${material}`]) {
+        return (
+            <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                {...rest}
+            >
+                <Text
+                    fontSize="0.5rem"
+                    color="whiteAlpha.500"
+                    fontStyle="italic"
+                    overflow="hidden"
+                >
+                    {material.split("_").join(" ")}
+                </Text>
+            </Box>
+        );
+    }
+
     return (
         <Image
             src={

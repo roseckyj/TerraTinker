@@ -2,7 +2,7 @@ import { BaseEdge, EdgeProps, getBezierPath } from "reactflow";
 import { VarType } from "../types/serializationTypes";
 import { varTypes } from "./_varTypes";
 
-export function Edge({
+export function TypedEdge({
     sourceX,
     sourceY,
     targetX,

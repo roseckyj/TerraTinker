@@ -8,6 +8,11 @@ import {
     Node as ReactFlowNode,
 } from "reactflow";
 import { NodeData } from "../components/AbstractNode";
+import {
+    flowInId,
+    flowOutId,
+    flowStartNodeId,
+} from "../components/FlowHandles";
 import { varTypes } from "../components/_varTypes";
 import { GraphState } from "../graphState/graphState";
 import { Data } from "../types/serializationTypes";
@@ -55,74 +60,110 @@ export function useGraphState(data: Data) {
 
     // Rebuild the nodes
     const reloadNodes = () => {
-        setNodes(
-            graphState.nodes.map((node) => ({
-                id: node.id,
-                type: (node.constructor as any).type,
-                position: node.position,
-                data: {
-                    version,
-                    node,
-                    forceUpdate,
-                    updateConnections: () => {
-                        updateConnections(graphState);
-                        forceUpdate();
-                    },
-                } as NodeData,
-            }))
-        );
+        const nodes = graphState.nodes.map((node) => ({
+            id: node.id,
+            type: (node.constructor as any).type,
+            position: node.position,
+            data: {
+                version,
+                node,
+                forceUpdate,
+                updateConnections: () => {
+                    updateConnections(graphState);
+                    forceUpdate();
+                },
+            } as NodeData,
+        }));
+        setNodes([
+            ...nodes,
+            {
+                id: flowStartNodeId,
+                type: "flowStart",
+                position: {
+                    x: graphState.flowStartLocation[0],
+                    y: graphState.flowStartLocation[1],
+                },
+                data: null,
+            },
+        ]);
     };
 
     // Rebuild the edges
     const reloadEdges = () => {
-        setEdges(
-            graphState.nodes
-                .map(
-                    (node) =>
-                        Object.entries(node.inputState)
-                            .filter(
-                                ([, value]) => value.nodeId && value.handleId
-                            )
-                            .map(([key, value]) => {
-                                const source = graphState.nodes.find(
-                                    (node) => node.id === value.nodeId
-                                )!;
+        const typedEdges = graphState.nodes
+            .map(
+                (node) =>
+                    Object.entries(node.inputState)
+                        .filter(([, value]) => value.nodeId && value.handleId)
+                        .map(([key, value]) => {
+                            const source = graphState.nodes.find(
+                                (node) => node.id === value.nodeId
+                            )!;
 
-                                if (!source) {
-                                    toast({
-                                        title: "Edge source not found",
-                                        description: `No source node found for edge with target ${node.id} (${key}), reseting to default value.`,
-                                        status: "error",
-                                        duration: 6000,
-                                        isClosable: true,
-                                    });
-                                    node.inputState[key] = {
-                                        value: varTypes[node.inputs[key].type]
-                                            .default,
-                                        nodeId: null,
-                                        handleId: null,
-                                        nullable: false,
-                                    };
-                                    return null;
-                                }
+                            if (!source) {
+                                toast({
+                                    title: "Edge source not found",
+                                    description: `No source node found for edge with target ${node.id} (${key}), reseting to default value.`,
+                                    status: "error",
+                                    duration: 6000,
+                                    isClosable: true,
+                                });
+                                node.inputState[key] = {
+                                    value: varTypes[node.inputs[key].type]
+                                        .default,
+                                    nodeId: null,
+                                    handleId: null,
+                                    nullable: false,
+                                };
+                                return null;
+                            }
 
-                                return {
-                                    id: `${node.id}#${key}`,
-                                    type: "variable",
-                                    source: value.nodeId,
-                                    sourceHandle: value.handleId,
-                                    target: node.id,
-                                    targetHandle: key,
-                                    data: {
-                                        nullable: value.nullable,
-                                        varType: node.inputs[key].type,
-                                    },
-                                } as ReactFlowEdge;
-                            })
-                            .filter((x) => x !== null) as ReactFlowEdge[]
-                )
-                .flat()
-        );
+                            return {
+                                id: `${node.id}#${key}`,
+                                type: "variable",
+                                source: value.nodeId,
+                                sourceHandle: value.handleId,
+                                target: node.id,
+                                targetHandle: key,
+                                data: {
+                                    nullable: value.nullable,
+                                    varType: node.inputs[key].type,
+                                },
+                            } as ReactFlowEdge;
+                        })
+                        .filter((x) => x !== null) as ReactFlowEdge[]
+            )
+            .flat();
+
+        const flowEdges = graphState.nodes
+            .map((node) => {
+                if (node.flowOrder === null) return null;
+                const source = graphState.nodes.find(
+                    (node2) => node2.flowOrder === node.flowOrder! - 1
+                );
+
+                if (!source)
+                    return {
+                        id: `${node.id}#${flowInId}`,
+                        type: "flow",
+                        source: flowStartNodeId,
+                        sourceHandle: flowOutId,
+                        target: node.id,
+                        targetHandle: flowInId,
+                    } as ReactFlowEdge;
+
+                return {
+                    id: `${node.id}#${flowInId}`,
+                    type: "flow",
+                    source: source.id,
+                    sourceHandle: flowOutId,
+                    target: node.id,
+                    targetHandle: flowInId,
+                } as ReactFlowEdge;
+            })
+            .filter((x) => x !== null) as ReactFlowEdge[];
+
+        setEdges([...typedEdges, ...flowEdges]);
     };
 
     // Soft update, do not rebuild the data
@@ -145,10 +186,16 @@ export function useGraphState(data: Data) {
                 switch (change.type) {
                     case "position":
                         if (change.position) {
-                            graphState.nodes.find(
-                                (node) => node.id === change.id
-                            )!.position = change.position;
-
+                            if (change.id === flowStartNodeId) {
+                                graphState.flowStartLocation = [
+                                    change.position.x,
+                                    change.position.y,
+                                ];
+                            } else {
+                                graphState.nodes.find(
+                                    (node) => node.id === change.id
+                                )!.position = change.position;
+                            }
                             nodes.find(
                                 (node) => node.id === change.id
                             )!.position = change.position;
@@ -157,10 +204,22 @@ export function useGraphState(data: Data) {
                         setDirty(); // Soft update does not trigger a save
                         break;
                     case "remove":
-                        graphState.nodes = graphState.nodes.filter(
-                            (node) => node.id !== change.id
-                        );
-                        forceUpdate();
+                        if (change.id === flowStartNodeId) {
+                            toast({
+                                title: "Invalid action",
+                                description:
+                                    "The flow start node cannot be removed.",
+                                status: "error",
+                                duration: 6000,
+                                isClosable: true,
+                            });
+                        } else {
+                            graphState.nodes = graphState.nodes.filter(
+                                (node) => node.id !== change.id
+                            );
+
+                            forceUpdate();
+                        }
                         break;
 
                     case "select":
@@ -180,12 +239,27 @@ export function useGraphState(data: Data) {
                         // Handled in onConnect
                         break;
                     case "remove":
-                        const def = graphState.nodes.find(
-                            (node) => node.id === change.id.split("#")[0]
-                        )!.inputState[change.id.split("#")[1]];
-                        def.handleId = null;
-                        def.nodeId = null;
-                        def.nullable = false;
+                        const [nodeId, inputId] = change.id.split("#");
+                        const node = graphState.nodes.find(
+                            (node) => node.id === nodeId
+                        )!;
+                        if (inputId === flowInId) {
+                            // Set flowOrder of all following nodes to null
+                            const follwoingNodes = graphState.nodes
+                                .filter((node) => node.flowOrder !== null)
+                                .sort((a, b) => a.flowOrder! - b.flowOrder!)
+                                .slice(node.flowOrder!);
+                            follwoingNodes.forEach((node) => {
+                                node.flowOrder = null;
+                            });
+                        } else {
+                            const def = node.inputState[inputId];
+                            if (def) {
+                                def.handleId = null;
+                                def.nodeId = null;
+                                def.nullable = false;
+                            }
+                        }
                         forceUpdate();
                         updateConnections(graphState);
                         break;
@@ -202,11 +276,104 @@ export function useGraphState(data: Data) {
         onConnect: (connection: Connection) => {
             const sourceNode = graphState.nodes.find(
                 (node) => node.id === connection.source
-            )!;
+            );
             const targetNode = graphState.nodes.find(
                 (node) => node.id === connection.target
             )!;
-            const sourceOutput = sourceNode.outputs[connection.sourceHandle!];
+
+            // Handle flow edge
+            if (
+                connection.sourceHandle === flowOutId &&
+                connection.targetHandle === flowInId
+            ) {
+                const sortedNodes = graphState.nodes
+                    .filter((node) => node.flowOrder !== null)
+                    .sort((a, b) => a.flowOrder! - b.flowOrder!);
+                const sourceFlowOrder = sourceNode ? sourceNode.flowOrder! : -1;
+                const targetFlowOrder = targetNode.flowOrder!;
+
+                if (sourceNode && sourceNode.flowOrder === null) {
+                    // === CASE 0: Source is not in the flow ===
+                    toast({
+                        title: "Invalid flow connection",
+                        description:
+                            "The source node is not a part of the flow.",
+                        status: "error",
+                        duration: 6000,
+                        isClosable: true,
+                    });
+                    return;
+                }
+
+                if (targetNode.flowOrder === null) {
+                    // === CASE 1: Target is not in the flow ===
+                    // Shift all following nodes by one
+                    sortedNodes
+                        .filter((node) => node.flowOrder! > sourceFlowOrder)
+                        .forEach((node) => {
+                            node.flowOrder! += 1;
+                        });
+                    targetNode.flowOrder = sourceFlowOrder + 1;
+                    forceUpdate();
+                    return;
+                }
+
+                if (targetFlowOrder > sourceFlowOrder) {
+                    // === CASE 2: Target is after source ===
+                    // Remove all intermediate nodes from the flow
+                    sortedNodes
+                        .filter(
+                            (node) =>
+                                node.flowOrder! > sourceFlowOrder &&
+                                node.flowOrder! < targetFlowOrder
+                        )
+                        .forEach((node) => {
+                            node.flowOrder = null;
+                        });
+                    // Set target and following nodes to source flow order + 1
+                    sortedNodes
+                        .filter(
+                            (node) => node.flowOrder! >= targetNode.flowOrder!
+                        )
+                        .forEach((node, i) => {
+                            node.flowOrder! = sourceFlowOrder + i + 1;
+                        });
+                    forceUpdate();
+                    return;
+                } else {
+                    // === CASE 3: Target is before source ===
+                    // Set source to target flow order and shift all intermediate nodes by one
+                    sortedNodes
+                        .filter(
+                            (node) =>
+                                node.flowOrder! >= targetFlowOrder &&
+                                node.flowOrder! < sourceFlowOrder
+                        )
+                        .forEach((node) => {
+                            node.flowOrder! += 1;
+                        });
+                    sourceNode!.flowOrder = targetFlowOrder;
+                    forceUpdate();
+                    return;
+                }
+            }
+            if (
+                connection.sourceHandle === flowOutId ||
+                connection.targetHandle === flowInId
+            ) {
+                toast({
+                    title: "Invalid connection",
+                    description:
+                        "Flow edges can only be connected to other flow edges.",
+                    status: "error",
+                    duration: 6000,
+                    isClosable: true,
+                });
+                return;
+            }
+
+            // Handle typed edge
+            const sourceOutput = sourceNode!.outputs[connection.sourceHandle!];
             const targetInput = targetNode.inputs[connection.targetHandle!];
             if (sourceOutput.type !== targetInput.type) {
                 toast({
