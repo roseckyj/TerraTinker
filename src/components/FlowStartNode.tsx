@@ -5,7 +5,7 @@ import { FlowHandle } from "./FlowHandles";
 export function FlowStart({ selected }: NodeProps<null>) {
     return (
         <Flex
-            bg="#292929"
+            bg="gray.800"
             borderRadius="md"
             direction="column"
             alignItems="stretch"

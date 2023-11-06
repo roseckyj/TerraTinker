@@ -89,7 +89,7 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                         onNodesChange={onNodesChange}
                         onEdgesChange={onEdgesChange}
                         onConnect={onConnect}
-                        bg="#1D1D1D"
+                        bg="gray.900"
                         color="#ffffff"
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}

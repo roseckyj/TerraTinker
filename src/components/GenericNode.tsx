@@ -21,7 +21,7 @@ export function GenericNode({
 
     return (
         <Flex
-            bg="#303030"
+            bg="gray.700"
             borderRadius="md"
             direction="column"
             alignItems="stretch"
@@ -33,7 +33,7 @@ export function GenericNode({
                 px={3}
                 py={1}
                 fontWeight="bold"
-                bg="#292929"
+                bg="gray.800"
                 borderTopRadius="md"
                 alignItems="center"
             >

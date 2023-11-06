@@ -1,3 +1,4 @@
+import { useToken } from "@chakra-ui/react";
 import { Handle, Position } from "reactflow";
 import { AbstractNode } from "./AbstractNode";
 
@@ -33,7 +34,7 @@ export function FlowHandle({ type }: IFlowHandleProps) {
             style={{
                 width: "60px",
                 borderRadius: "10px",
-                backgroundColor: "#565656",
+                backgroundColor: useToken("colors", "gray.600"),
                 border: "none",
             }}
         ></Handle>
