@@ -1,7 +1,7 @@
 import {
     AbstractNode,
     NodeConstructorParams,
-} from "../../components/AbstractNode";
+} from "../../components/nodeGraph/AbstractNode";
 
 export class RasterizeNode extends AbstractNode {
     static title = "Rasterize";

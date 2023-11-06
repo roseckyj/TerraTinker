@@ -10,3 +10,7 @@ body {
 .react-flow__attribution {
     background: rgba(29, 29, 29, 0.5) !important;
 }
+
+* {
+    outline: none;
+}

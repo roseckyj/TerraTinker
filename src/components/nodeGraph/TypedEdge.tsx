@@ -1,5 +1,5 @@
 import { BaseEdge, EdgeProps, getBezierPath } from "reactflow";
-import { VarType } from "../types/serializationTypes";
+import { VarType } from "../../types/serializationTypes";
 import { varTypes } from "./_varTypes";
 
 export function TypedEdge({

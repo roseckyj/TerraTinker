@@ -14,15 +14,15 @@ import ReactFlow, {
     Panel,
     useReactFlow,
 } from "reactflow";
-import { FlowEdge } from "./components/FlowEdge";
-import { FlowStart } from "./components/FlowStartNode";
-import { TypedEdge } from "./components/TypedEdge";
-import { NewNodeContextMenu } from "./components/contextMenu/NewNodeContextMenu";
-import { useGraphState } from "./graphState/useGraphState";
-import { nodes as nodeDefs } from "./nodes/_nodes";
-import { Data } from "./types/serializationTypes";
-import { useUpdateConnections } from "./useUpdateConnections";
-import { downloadFile } from "./utils/downloadFile";
+import { useGraphState } from "../../graphState/useGraphState";
+import { nodes as nodeDefs } from "../../nodes/_nodes";
+import { Data } from "../../types/serializationTypes";
+import { useUpdateConnections } from "../../useUpdateConnections";
+import { downloadFile } from "../../utils/downloadFile";
+import { FlowEdge } from "./FlowEdge";
+import { FlowStart } from "./FlowStartNode";
+import { TypedEdge } from "./TypedEdge";
+import { NewNodeContextMenu } from "./contextMenu/NewNodeContextMenu";
 
 export interface INodeGraphProps {
     data: Data;
@@ -75,7 +75,7 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
     const maxZoom = 1.5;
 
     return (
-        <Box position="fixed" inset="0" overflow="hidden">
+        <Box w="full" h="full" overflow="hidden">
             <NewNodeContextMenu
                 reactFlow={flow}
                 graphState={{ graphState, updateConnections, forceUpdate }}
@@ -89,7 +89,7 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                         onNodesChange={onNodesChange}
                         onEdgesChange={onEdgesChange}
                         onConnect={onConnect}
-                        bg="gray.900"
+                        bg="gray.800"
                         color="#ffffff"
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}

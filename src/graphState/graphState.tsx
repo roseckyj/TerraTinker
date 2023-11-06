@@ -1,5 +1,8 @@
 import { CreateToastFnReturn } from "@chakra-ui/react";
-import { AbstractNode, NodeConstructor } from "../components/AbstractNode";
+import {
+    AbstractNode,
+    NodeConstructor,
+} from "../components/nodeGraph/AbstractNode";
 import { nodes } from "../nodes/_nodes";
 import { Data, Position } from "../types/serializationTypes";
 

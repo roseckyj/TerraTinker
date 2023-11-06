@@ -4,9 +4,9 @@ import {
     AbstractNode,
     NodeConstructorParams,
     NodeData,
-} from "../../components/AbstractNode";
-import { GenericNode } from "../../components/GenericNode";
-import { Variable } from "../../components/Variable";
+} from "../../components/nodeGraph/AbstractNode";
+import { GenericNode } from "../../components/nodeGraph/GenericNode";
+import { Variable } from "../../components/nodeGraph/Variable";
 import { GraphState } from "../../graphState/graphState";
 import { nodeInputStyle } from "../../utils/styles";
 

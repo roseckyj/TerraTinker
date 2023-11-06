@@ -12,10 +12,10 @@ import {
     AbstractNode,
     NodeConstructorParams,
     NodeData,
-} from "../../components/AbstractNode";
-import { GenericNode } from "../../components/GenericNode";
-import { Variable } from "../../components/Variable";
-import { varTypes } from "../../components/_varTypes";
+} from "../../components/nodeGraph/AbstractNode";
+import { GenericNode } from "../../components/nodeGraph/GenericNode";
+import { Variable } from "../../components/nodeGraph/Variable";
+import { varTypes } from "../../components/nodeGraph/_varTypes";
 import { GraphState } from "../../graphState/graphState";
 import { Node, VarType } from "../../types/serializationTypes";
 import { nodeInputStyle } from "../../utils/styles";

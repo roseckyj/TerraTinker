@@ -4,10 +4,10 @@ import {
     AbstractNode,
     NodeConstructorParams,
     NodeData,
-} from "../../components/AbstractNode";
-import { FlowHandles } from "../../components/FlowHandles";
-import { GenericNode } from "../../components/GenericNode";
-import { Variable } from "../../components/Variable";
+} from "../../components/nodeGraph/AbstractNode";
+import { FlowHandles } from "../../components/nodeGraph/FlowHandles";
+import { GenericNode } from "../../components/nodeGraph/GenericNode";
+import { Variable } from "../../components/nodeGraph/Variable";
 import { GraphState } from "../../graphState/graphState";
 import { Node } from "../../types/serializationTypes";
 import { capitalize } from "../../utils/capitalize";

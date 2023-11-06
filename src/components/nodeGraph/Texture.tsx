@@ -1,5 +1,5 @@
 import { Box, Image, ImageProps, Text } from "@chakra-ui/react";
-import { mcTextures } from "../minecraft/mcData";
+import { mcTextures } from "../../minecraft/mcData";
 
 export interface ITextureProps extends ImageProps {
     material: string;

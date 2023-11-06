@@ -13,8 +13,8 @@ import { BiHistory, BiSearch } from "react-icons/bi";
 import { ReactFlowInstance } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
 import { forTime } from "waitasecond";
-import { GraphState } from "../../graphState/graphState";
-import { nodes as nodeDefs } from "../../nodes/_nodes";
+import { GraphState } from "../../../graphState/graphState";
+import { nodes as nodeDefs } from "../../../nodes/_nodes";
 import { AbstractNode, NodeConstructor } from "../AbstractNode";
 import { ContextMenu } from "./ContextMenu";
 

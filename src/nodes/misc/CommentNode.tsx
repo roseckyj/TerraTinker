@@ -10,7 +10,7 @@ import {
     AbstractNode,
     NodeConstructorParams,
     NodeData,
-} from "../../components/AbstractNode";
+} from "../../components/nodeGraph/AbstractNode";
 import { GraphState } from "../../graphState/graphState";
 import { Node } from "../../types/serializationTypes";
 

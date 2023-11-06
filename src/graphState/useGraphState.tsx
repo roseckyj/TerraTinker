@@ -7,13 +7,13 @@ import {
     Edge as ReactFlowEdge,
     Node as ReactFlowNode,
 } from "reactflow";
-import { NodeData } from "../components/AbstractNode";
+import { NodeData } from "../components/nodeGraph/AbstractNode";
 import {
     flowInId,
     flowOutId,
     flowStartNodeId,
-} from "../components/FlowHandles";
-import { varTypes } from "../components/_varTypes";
+} from "../components/nodeGraph/FlowHandles";
+import { varTypes } from "../components/nodeGraph/_varTypes";
 import { GraphState } from "../graphState/graphState";
 import { Data } from "../types/serializationTypes";
 import { useUpdateConnections } from "../useUpdateConnections";

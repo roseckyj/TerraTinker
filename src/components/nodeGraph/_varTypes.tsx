@@ -9,8 +9,8 @@ import {
     Select,
     Text,
 } from "@chakra-ui/react";
-import { mcData } from "../minecraft/mcData";
-import { VarType } from "../types/serializationTypes";
+import { mcData } from "../../minecraft/mcData";
+import { VarType } from "../../types/serializationTypes";
 import { Texture } from "./Texture";
 
 export const varTypes: Record<

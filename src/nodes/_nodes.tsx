@@ -1,4 +1,4 @@
-import { NodeConstructor } from "../components/AbstractNode";
+import { NodeConstructor } from "../components/nodeGraph/AbstractNode";
 import { ExampleNode } from "./ExampleNode";
 import { BooleanOperatorNode } from "./boolean/BooleanOperatorNode";
 import { ConstantBooleanNode } from "./boolean/ConstantBooleanNode";

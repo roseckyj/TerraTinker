@@ -1,7 +1,7 @@
 import {
     AbstractNode,
     NodeConstructorParams,
-} from "../../components/AbstractNode";
+} from "../../components/nodeGraph/AbstractNode";
 import { GraphState } from "../../graphState/graphState";
 
 export class GeoTiffLoaderNode extends AbstractNode {
