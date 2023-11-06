@@ -5,6 +5,7 @@ import {
     NodeConstructorParams,
     NodeData,
 } from "../../components/AbstractNode";
+import { FlowHandles } from "../../components/FlowHandles";
 import { GenericNode } from "../../components/GenericNode";
 import { Variable } from "../../components/Variable";
 import { GraphState } from "../../graphState/graphState";
@@ -39,7 +40,7 @@ export class PlaceTreeNode extends AbstractNode {
     static title = "Place Tree";
     static category = "Minecraft";
     static type = "placeTree";
-    static canBeFlow = true;
+    static isAction = true;
 
     private treeType: string = "oak";
 
@@ -100,6 +101,7 @@ export class PlaceTreeNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                tags={["action"]}
             >
                 <Select
                     {...nodeInputStyle}
@@ -137,6 +139,7 @@ export class PlaceTreeNode extends AbstractNode {
                         state={node.outputState[id]}
                     />
                 ))}
+                <FlowHandles node={node} />
             </GenericNode>
         );
     }

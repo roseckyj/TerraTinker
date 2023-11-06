@@ -7,6 +7,7 @@ export class RasterizeNode extends AbstractNode {
     static title = "Rasterize";
     static category = "Geometry";
     static type = "rasterize";
+    static isFork = true;
 
     public constructor(params: NodeConstructorParams) {
         super(

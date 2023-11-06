@@ -8,7 +8,7 @@ export class FillNode extends AbstractNode {
     static title = "Fill";
     static category = "Minecraft";
     static type = "fill";
-    static canBeFlow = true;
+    static isAction = true;
 
     public constructor(params: NodeConstructorParams) {
         super(

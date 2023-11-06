@@ -10,7 +10,7 @@ export interface IFlowHandlesProps {
 }
 
 export function FlowHandles({ node }: IFlowHandlesProps) {
-    if (!(node.constructor as typeof AbstractNode).canBeFlow) return <></>;
+    if (!(node.constructor as typeof AbstractNode).isAction) return <></>;
 
     return (
         <>

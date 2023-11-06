@@ -39,6 +39,7 @@ export class OsmLoaderNode extends AbstractNode {
     static title = "OpenStreetMap Overpass API";
     static category = "Loaders";
     static type = "osmLoader";
+    static isFork = true;
 
     private attributes: Attribute[] = [];
     private requests: OverpassRequest[] = [
@@ -155,6 +156,7 @@ out geom;`;
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                tags={["fork"]}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable

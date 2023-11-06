@@ -33,6 +33,7 @@ import { ComparisonNode } from "./number/ComparisonNode";
 import { ConstantNumberNode } from "./number/ConstantNumberNode";
 import { MathNode } from "./number/MathNode";
 import { RandomNumberNode } from "./number/RandomNumberNode";
+import { SequenceNode } from "./number/SequenceNode";
 import { AggregateRasterNode } from "./raster/AggregateRasterNode";
 import { SampleRasterNode } from "./raster/SampleRasterNode";
 import { ConstantStringNode } from "./string/ConstantStringNode";
@@ -77,4 +78,5 @@ export const nodes: Array<NodeConstructor> = [
     EsriLoaderNode,
     OsmLoaderNode,
     LocalFileNode,
+    SequenceNode,
 ];

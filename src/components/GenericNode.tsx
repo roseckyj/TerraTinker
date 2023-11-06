@@ -1,10 +1,12 @@
 import { Box, Flex, FlexProps } from "@chakra-ui/react";
+import { BiGitRepoForked, BiRocket } from "react-icons/bi";
 
 export interface IGenericNodeProps extends FlexProps {
     title: string;
     category: string;
     children: React.ReactNode;
     selected?: boolean;
+    tags?: ("action" | "fork")[];
 }
 
 export function GenericNode({
@@ -12,8 +14,11 @@ export function GenericNode({
     category,
     children,
     selected,
+    tags,
     ...rest
 }: IGenericNodeProps) {
+    const tagSet = new Set(tags || []);
+
     return (
         <Flex
             bg="#303030"
@@ -23,15 +28,19 @@ export function GenericNode({
             shadow={selected ? "outline" : "dark-lg"}
             {...rest}
         >
-            <Box
+            <Flex
+                direction="row"
                 px={3}
                 py={1}
                 fontWeight="bold"
                 bg="#292929"
                 borderTopRadius="md"
+                alignItems="center"
             >
-                {title}
-            </Box>
+                <Box flexGrow={1}>{title}</Box>
+                {tagSet.has("action") && <BiRocket />}
+                {tagSet.has("fork") && <BiGitRepoForked />}
+            </Flex>
             <Flex my={2} direction="column" alignItems="stretch" mx={2}>
                 {children}
             </Flex>

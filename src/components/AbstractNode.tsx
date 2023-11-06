@@ -44,7 +44,8 @@ export abstract class AbstractNode {
     static title: string;
     static category: string;
     static type: string;
-    static canBeFlow: boolean = false;
+    static isAction: boolean = false;
+    static isFork: boolean = false;
 
     id: string;
     position: { x: number; y: number };
@@ -210,6 +211,12 @@ export abstract class AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                tags={
+                    [
+                        ...(ctor.isAction ? ["action"] : []),
+                        ...(ctor.isFork ? ["fork"] : []),
+                    ] as any
+                }
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable

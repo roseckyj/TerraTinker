@@ -121,6 +121,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                tags={["fork"]}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable
