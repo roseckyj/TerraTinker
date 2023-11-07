@@ -6,12 +6,13 @@ import { BiSolidMap } from "react-icons/bi";
 import {
     MapContainer,
     Marker,
-    Rectangle,
+    Polygon,
     TileLayer,
     useMapEvents,
 } from "react-leaflet";
 import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
 import { GeneratorData } from "../../types/generatorTypes";
+import { Position } from "../../types/genericTypes";
 import { MapControls } from "./MapControls";
 
 export interface IMapProps {
@@ -51,6 +52,34 @@ export function Map(props: IMapProps) {
         []
     );
 
+    const rectanglePoints = useMemo(() => {
+        const insertMiddlePoints = (points: Position[]) => {
+            const newPoints: Position[] = [];
+            for (let i = 0; i < points.length; i++) {
+                const point = points[i];
+                const nextPoint = points[(i + 1) % points.length];
+                newPoints.push(point);
+                newPoints.push([
+                    (point[0] + nextPoint[0]) / 2,
+                    (point[1] + nextPoint[1]) / 2,
+                ]);
+            }
+            return newPoints;
+        };
+
+        let points: Position[] = [
+            [-data.mapSize.width / 2, -data.mapSize.height / 2],
+            [data.mapSize.width / 2, -data.mapSize.height / 2],
+            [data.mapSize.width / 2, data.mapSize.height / 2],
+            [-data.mapSize.width / 2, data.mapSize.height / 2],
+        ];
+        for (let i = 0; i < 4; i++) {
+            points = insertMiddlePoints(points);
+        }
+
+        return points.map((point) => translator.XZToLatLon(point[0], point[1]));
+    }, [translator, data.mapSize.width, data.mapSize.height]);
+
     return (
         <Box
             w="full"
@@ -80,18 +109,7 @@ export function Map(props: IMapProps) {
                         },
                     }}
                 />
-                <Rectangle
-                    bounds={[
-                        translator.XZToLatLon(
-                            -data.mapSize.width / 2,
-                            -data.mapSize.height / 2
-                        ),
-                        translator.XZToLatLon(
-                            data.mapSize.width / 2,
-                            data.mapSize.height / 2
-                        ),
-                    ]}
-                />
+                <Polygon positions={rectanglePoints} />
                 <MapEventsHandler {...props} />
             </MapContainer>
         </Box>

@@ -63,7 +63,7 @@ export function LogSlider({
             value={value && Math.log10(value)}
             defaultValue={rest.defaultValue && Math.log10(rest.defaultValue)}
             onChange={(newValue) => {
-                let rounded = Math.round(Math.pow(10, newValue) * 100) / 100;
+                let rounded = Math.pow(10, newValue);
 
                 if (stops) {
                     const nearMarker = stops.find(
