@@ -34,7 +34,7 @@ export function Map(props: IMapProps) {
                 data.scale.vertical,
                 0
             ),
-        [data.mapCenter, data.scale]
+        [data.mapCenter, data.scale.horizontal, data.scale.vertical]
     );
 
     const iconColor = useToken("colors", "blue.500");
