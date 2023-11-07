@@ -1,10 +1,21 @@
-import { Box, Flex, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    HStack,
+    Icon,
+    Text,
+    VStack,
+    useToken,
+} from "@chakra-ui/react";
 import { useMemo, useState } from "react";
-import { BiSolidCube } from "react-icons/bi";
+import { BiRocket, BiSolidCube } from "react-icons/bi";
 import defaultData from "../data/default.json";
 import { Data } from "../types/serializationTypes";
 import { Map } from "./map/Map";
+import { MapMenuItem } from "./map/MapMenuItem";
+import { MenuItem } from "./menu/MenuItem";
 import { NodeGraph } from "./nodeGraph/NodeGraph";
+import { NodeGraphMenuItem } from "./nodeGraph/NodeGraphMenuItem";
 
 export interface IAppProps {}
 
@@ -40,58 +51,45 @@ export function App() {
                 borderBottomWidth={2}
                 borderBottomColor="gray.800"
                 px={6}
+                flexShrink={0}
             >
                 <Icon as={BiSolidCube} mr={4} fontSize="3xl" />
                 <Text fontSize="2xl" fontWeight="bold">
                     Minecraft Map Maker
                 </Text>
             </HStack>
-            <Flex direction="row" flexGrow={1}>
-                <VStack
-                    w={64}
+            <Flex
+                direction="row"
+                flexGrow={1}
+                flexShrink={1}
+                h={`calc(100vh - ${useToken("sizes", "20")})`}
+            >
+                <Box
+                    overflowY="auto"
+                    w={80}
+                    h="full"
                     borderRightStyle="solid"
                     borderRightWidth={2}
                     borderRightColor="gray.800"
-                    alignItems="stretch"
-                    spacing={0}
                 >
-                    <Box
-                        px={6}
-                        py={4}
-                        borderBottomStyle="solid"
-                        borderBottomWidth={2}
-                        borderBottomColor="gray.800"
-                        bg={stage === "select" ? "blue.800" : undefined}
-                        onClick={() => setStage("select")}
-                        cursor="pointer"
-                    >
-                        <Text fontWeight="bold">Select area</Text>
-                    </Box>
-                    <Box
-                        px={6}
-                        py={4}
-                        borderBottomStyle="solid"
-                        borderBottomWidth={2}
-                        borderBottomColor="gray.800"
-                        bg={stage === "layers" ? "blue.800" : undefined}
-                        onClick={() => setStage("layers")}
-                        cursor="pointer"
-                    >
-                        <Text fontWeight="bold">Create layers</Text>
-                    </Box>
-                    <Box
-                        px={6}
-                        py={4}
-                        borderBottomStyle="solid"
-                        borderBottomWidth={2}
-                        borderBottomColor="gray.800"
-                        bg={stage === "publish" ? "blue.800" : undefined}
-                        onClick={() => setStage("publish")}
-                        cursor="pointer"
-                    >
-                        <Text fontWeight="bold">Publish</Text>
-                    </Box>
-                </VStack>
+                    <VStack w="full" alignItems="stretch" spacing={0}>
+                        <MapMenuItem
+                            onClick={() => setStage("select")}
+                            selected={stage === "select"}
+                        />
+                        <NodeGraphMenuItem
+                            onClick={() => setStage("layers")}
+                            selected={stage === "layers"}
+                        />
+                        <MenuItem
+                            icon={<BiRocket />}
+                            label="Publish"
+                            onClick={() => setStage("publish")}
+                            selected={stage === "publish"}
+                        ></MenuItem>
+                    </VStack>
+                </Box>
+
                 <Box flexGrow={1} bg="gray.800">
                     {stage === "select" && <Map />}
                     {stage === "layers" && (
