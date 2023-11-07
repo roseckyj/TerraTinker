@@ -1,4 +1,5 @@
 {
+    "name": "Default layer",
     "config": {
         "join": "cartesian"
     },

@@ -18,3 +18,8 @@ body {
 .leaflet-selecting .leaflet-grab {
     cursor: crosshair !important;
 }
+
+.leaflet-div-icon {
+    background: none !important;
+    border: none !important;
+}

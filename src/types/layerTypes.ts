@@ -12,6 +12,8 @@ export type VarType =
     | "raster";
 
 export type Layer = {
+    name: string;
+    id: string;
     config: {
         join: "cartesian" | "primaryOuter";
         /* ... */

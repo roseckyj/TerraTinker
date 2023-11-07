@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { GeneratorData } from "../types/generatorTypes";
 import { Layer } from "../types/layerTypes";
 import defaultLayer from "./layers/default.json";
@@ -13,6 +14,12 @@ export function getDefaultGeneratorData(): GeneratorData {
             width: 1000,
             height: 1000,
         },
-        layers: [defaultLayer as any as Layer],
+        layers: [getDefaultLayer()],
     };
+}
+
+export function getDefaultLayer(): Layer {
+    const layer = defaultLayer as any as Layer;
+    layer.id = uuidv4();
+    return layer;
 }

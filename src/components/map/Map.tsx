@@ -1,6 +1,8 @@
-import { Box } from "@chakra-ui/react";
-import { Icon, Marker as LeafletMarker } from "leaflet";
-import icon from "leaflet/dist/images/marker-icon.png";
+import { Box, useToken } from "@chakra-ui/react";
+import { DivIcon, Marker as LeafletMarker } from "leaflet";
+import { useMemo } from "react";
+import { renderToString } from "react-dom/server";
+import { BiSolidMap } from "react-icons/bi";
 import {
     MapContainer,
     Marker,
@@ -22,13 +24,31 @@ export interface IMapProps {
 export function Map(props: IMapProps) {
     const { data, isSelecting } = props;
 
-    const translator = new CoordsTranslator(
-        data.mapCenter,
-        [0, 0],
-        0,
-        data.scale.horizontal,
-        data.scale.vertical,
-        0
+    const translator = useMemo(
+        () =>
+            new CoordsTranslator(
+                data.mapCenter,
+                [0, 0],
+                0,
+                data.scale.horizontal,
+                data.scale.vertical,
+                0
+            ),
+        [data.mapCenter, data.scale]
+    );
+
+    const iconColor = useToken("colors", "blue.500");
+    const icon = useMemo(
+        () =>
+            new DivIcon({
+                html: renderToString(
+                    <BiSolidMap size="xl" style={{ color: iconColor }} />
+                ),
+                iconSize: [50, 50],
+                iconAnchor: [25, 50],
+            }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
     );
 
     return (
@@ -48,13 +68,7 @@ export function Map(props: IMapProps) {
                 <MapControls {...props} />
                 <Marker
                     position={data.mapCenter}
-                    icon={
-                        new Icon({
-                            iconUrl: icon,
-                            iconSize: [25, 41],
-                            iconAnchor: [12, 41],
-                        })
-                    }
+                    icon={icon}
                     draggable={true}
                     eventHandlers={{
                         dragend: (e) => {

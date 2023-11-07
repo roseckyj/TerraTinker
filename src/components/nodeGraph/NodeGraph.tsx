@@ -1,5 +1,5 @@
-import { Box, Flex, IconButton, Text } from "@chakra-ui/react";
-import { RefObject, useMemo, useState } from "react";
+import { Box, Flex, IconButton, Input } from "@chakra-ui/react";
+import { RefObject, useEffect, useMemo, useState } from "react";
 import {
     BiCrosshair,
     BiDownload,
@@ -27,9 +27,10 @@ import { NewNodeContextMenu } from "./contextMenu/NewNodeContextMenu";
 export interface INodeGraphProps {
     data: Layer;
     onSave?: (data: Layer) => void;
+    onChange?: (data: Layer) => void;
 }
 
-export function NodeGraph({ data, onSave }: INodeGraphProps) {
+export function NodeGraph({ data, onSave, onChange }: INodeGraphProps) {
     const {
         edges,
         nodes,
@@ -66,10 +67,11 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
         []
     );
 
-    // useEffect(
-    //     () => console.log(JSON.stringify(graphState.serialize(), undefined, 4)),
-    //     [graphState, updateMe]
-    // );
+    useEffect(
+        () => onChange && onChange(graphState.serialize()),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [lastChange, onChange]
+    );
 
     const minZoom = 0.1;
     const maxZoom = 1.5;
@@ -99,22 +101,29 @@ export function NodeGraph({ data, onSave }: INodeGraphProps) {
                     >
                         <Panel position="top-right">
                             <Flex direction="row" alignItems="center">
-                                <Text mr="4">
-                                    {lastChange === savedAt
-                                        ? "Saved"
-                                        : "Unsaved changes"}
-                                </Text>
-                                <IconButton
-                                    aria-label="Save"
-                                    icon={<BiSave />}
-                                    colorScheme="blue"
-                                    isDisabled={lastChange === savedAt}
-                                    mr="2"
-                                    onClick={() => {
-                                        onSave?.(graphState.serialize());
-                                        setSavedAt(lastChange);
+                                <Input
+                                    type="text"
+                                    value={graphState.layerName}
+                                    onChange={(e) => {
+                                        graphState.layerName = e.target.value;
+                                        forceUpdate();
                                     }}
+                                    variant="filled"
+                                    mr={2}
                                 />
+                                {onSave && (
+                                    <IconButton
+                                        aria-label="Save"
+                                        icon={<BiSave />}
+                                        colorScheme="blue"
+                                        isDisabled={lastChange === savedAt}
+                                        mr="2"
+                                        onClick={() => {
+                                            onSave?.(graphState.serialize());
+                                            setSavedAt(lastChange);
+                                        }}
+                                    />
+                                )}
                                 <IconButton
                                     aria-label="Save"
                                     icon={<BiDownload />}

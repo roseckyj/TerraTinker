@@ -55,14 +55,16 @@ export class CommentNode extends AbstractNode {
 
         return (
             <Flex
-                border="solid 1px #303030"
-                bg="#1d1d1d"
+                borderStyle="solid"
+                borderWidth={1}
+                borderColor="gray.700"
+                bg="gray.800"
                 borderRadius="md"
                 direction="column"
                 alignItems="stretch"
-                px={6}
-                py={4}
-                textColor="#888888"
+                px={4}
+                py={2}
+                textColor="gray.500"
                 fontStyle="italic"
                 maxW={96}
                 shadow={selected ? "outline" : "none"}

@@ -30,12 +30,12 @@ export function useGraphState(data: Layer) {
         const state = new GraphState();
         state.deserialize(data, toast);
         return state;
-    }, [data, toast]);
+        // Data removed from next line in order to prevent reloading (acts as defaultValue now)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [toast]);
 
     useEffect(() => {
         // On load
-        reloadNodes();
-        reloadEdges();
         updateConnections(graphState);
         reloadNodes();
         reloadEdges();

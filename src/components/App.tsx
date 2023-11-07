@@ -3,6 +3,7 @@ import {
     Flex,
     HStack,
     Icon,
+    Spacer,
     Text,
     VStack,
     useToken,
@@ -26,8 +27,8 @@ export function App() {
         "select"
     );
 
-    const [isSelecting, setIsSelecting] = useState(false);
-    const [version, forceUpdate] = useReducer((x) => x + 1, 0);
+    // Data
+    const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const [data, setData] = useState(() => {
         const stored = localStorage.getItem(localStorageKey);
         let data: GeneratorData;
@@ -40,12 +41,17 @@ export function App() {
         }
         return data;
     });
-
     const setDataAndSave = (data: GeneratorData) => {
         setData(data);
         forceUpdate();
         localStorage.setItem(localStorageKey, JSON.stringify(data));
     };
+
+    // Map stage
+    const [isSelecting, setIsSelecting] = useState(false);
+
+    // Layers stage
+    const [layerId, setLayerId] = useState<string>(data.layers[0].id);
 
     return (
         <Flex
@@ -68,6 +74,11 @@ export function App() {
                 <Text fontSize="2xl" fontWeight="bold">
                     TerraTinker
                 </Text>
+                <Spacer />
+                <HStack>
+                    <Box rounded="full" w="0.5em" h="0.5em" bg="green.500" />
+                    <Text opacity={0.8}>Connected</Text>
+                </HStack>
             </HStack>
             <Flex
                 direction="row"
@@ -85,7 +96,10 @@ export function App() {
                 >
                     <VStack w="full" alignItems="stretch" spacing={0}>
                         <MapMenuItem
-                            onClick={() => setStage("select")}
+                            onClick={() => {
+                                setStage("select");
+                                setIsSelecting(false);
+                            }}
                             selected={stage === "select"}
                             data={data}
                             onChange={setDataAndSave}
@@ -95,10 +109,14 @@ export function App() {
                             }
                         />
                         <NodeGraphMenuItem
-                            onClick={() => setStage("layers")}
+                            onClick={() => {
+                                setStage("layers");
+                            }}
                             selected={stage === "layers"}
                             data={data}
                             onChange={setDataAndSave}
+                            layerId={layerId}
+                            onLayerIdChange={setLayerId}
                         />
                         <MenuItem
                             icon={<BiRocket />}
@@ -122,13 +140,14 @@ export function App() {
                     )}
                     {stage === "layers" && (
                         <NodeGraph
-                            data={data.layers[0]}
-                            onSave={(layer) =>
-                                setDataAndSave({
-                                    ...data,
-                                    layers: [layer],
-                                })
-                            }
+                            key={layerId}
+                            data={data.layers.find((x) => x.id === layerId)!}
+                            onChange={(layer) => {
+                                data.layers = data.layers.map((x) =>
+                                    x.id === layer.id ? layer : x
+                                );
+                                setDataAndSave(data);
+                            }}
                         />
                     )}
                 </Box>

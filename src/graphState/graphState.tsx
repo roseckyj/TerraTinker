@@ -1,4 +1,5 @@
 import { CreateToastFnReturn } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 import {
     AbstractNode,
     NodeConstructor,
@@ -8,11 +9,15 @@ import { Position } from "../types/genericTypes";
 import { Layer } from "../types/layerTypes";
 
 export class GraphState {
+    public layerName: string = "New layer";
+    public id: string = uuidv4();
     public nodes: Array<AbstractNode> = [];
     public flowStartLocation: Position = [0, 0];
 
     public serialize(): Layer {
         return {
+            name: this.layerName,
+            id: this.id,
             config: {
                 join: "cartesian", // TBAL
             },
@@ -75,5 +80,8 @@ export class GraphState {
                 startLocation: [0, 0],
             }
         ).startLocation;
+
+        this.layerName = data.name;
+        this.id = data.id;
     }
 }
