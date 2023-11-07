@@ -1,8 +1,11 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
+import { GeneratorData } from "../../types/generatorTypes";
 
 export interface IAbstractMenuItemProps {
     onClick: () => void;
     selected: boolean;
+    data: GeneratorData;
+    onChange: (data: GeneratorData) => void;
 }
 
 export interface IMenuItemProps {

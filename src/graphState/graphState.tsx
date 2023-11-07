@@ -4,13 +4,14 @@ import {
     NodeConstructor,
 } from "../components/nodeGraph/AbstractNode";
 import { nodes } from "../nodes/_nodes";
-import { Data, Position } from "../types/serializationTypes";
+import { Position } from "../types/genericTypes";
+import { Layer } from "../types/layerTypes";
 
 export class GraphState {
     public nodes: Array<AbstractNode> = [];
     public flowStartLocation: Position = [0, 0];
 
-    public serialize(): Data {
+    public serialize(): Layer {
         return {
             config: {
                 join: "cartesian", // TBAL
@@ -29,7 +30,7 @@ export class GraphState {
         };
     }
 
-    public deserialize(data: Data, toast: CreateToastFnReturn): void {
+    public deserialize(data: Layer, toast: CreateToastFnReturn): void {
         const nodeTypes = nodes.reduce(
             (prev, value) => ({
                 ...prev,

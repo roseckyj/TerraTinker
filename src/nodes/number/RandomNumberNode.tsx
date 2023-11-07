@@ -8,7 +8,7 @@ import {
 import { GenericNode } from "../../components/nodeGraph/GenericNode";
 import { Variable } from "../../components/nodeGraph/Variable";
 import { GraphState } from "../../graphState/graphState";
-import { Node } from "../../types/serializationTypes";
+import { Node } from "../../types/layerTypes";
 
 export class RandomNumberNode extends AbstractNode {
     static title = "Random Number";

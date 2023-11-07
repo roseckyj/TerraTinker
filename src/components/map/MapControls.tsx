@@ -14,12 +14,13 @@ import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { RawResult } from "leaflet-geosearch/dist/providers/openStreetMapProvider";
 import { SearchResult } from "leaflet-geosearch/dist/providers/provider";
 import { useMemo, useState } from "react";
-import { BiMinus, BiPlus, BiSearch, BiX } from "react-icons/bi";
+import { BiCrosshair, BiMinus, BiPlus, BiSearch, BiX } from "react-icons/bi";
 import { useMap } from "react-leaflet";
 import { Panel } from "reactflow";
 import { Await } from "../utils/Await";
+import { IMapProps } from "./Map";
 
-export function MapControls() {
+export function MapControls(props: IMapProps) {
     const provider = useMemo(() => new OpenStreetMapProvider(), []);
     const [searchResult, setSearchResult] = useState<Promise<
         SearchResult<RawResult>[]
@@ -54,16 +55,18 @@ export function MapControls() {
                         borderTopRadius={0}
                         mb={2}
                     />
-                    {/* <IconButton
+                    <IconButton
                         aria-label="Fit view"
                         icon={<BiCrosshair />}
                         onClick={() => {
-                            // flow.fitView();
+                            map.flyTo(props.data.mapCenter, 13, {
+                                duration: 0.25,
+                            });
                         }}
                         colorScheme="gray"
                         bg="blackAlpha.800"
                         _hover={{ bg: "blackAlpha.900" }}
-                    /> */}
+                    />
                 </Flex>
                 <Flex ml={4} direction="row" alignItems="center">
                     <VStack
@@ -93,15 +96,17 @@ export function MapControls() {
                                 }}
                             />
                             <InputRightElement>
-                                <IconButton
-                                    aria-label="Clear search"
-                                    icon={<BiX />}
-                                    variant="ghost"
-                                    onClick={() => {
-                                        setSearchQuery("");
-                                        setSearchResult(null);
-                                    }}
-                                />
+                                {searchQuery.length > 0 && (
+                                    <IconButton
+                                        aria-label="Clear search"
+                                        icon={<BiX />}
+                                        variant="ghost"
+                                        onClick={() => {
+                                            setSearchQuery("");
+                                            setSearchResult(null);
+                                        }}
+                                    />
+                                )}
                             </InputRightElement>
                         </InputGroup>
                         {searchResult && (

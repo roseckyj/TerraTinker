@@ -10,7 +10,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { mcData } from "../../minecraft/mcData";
-import { VarType } from "../../types/serializationTypes";
+import { VarType } from "../../types/layerTypes";
 import { Texture } from "./Texture";
 
 export const varTypes: Record<

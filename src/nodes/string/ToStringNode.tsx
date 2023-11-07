@@ -9,7 +9,7 @@ import { GenericNode } from "../../components/nodeGraph/GenericNode";
 import { Variable } from "../../components/nodeGraph/Variable";
 import { varTypes } from "../../components/nodeGraph/_varTypes";
 import { GraphState } from "../../graphState/graphState";
-import { Node, VarType } from "../../types/serializationTypes";
+import { Node, VarType } from "../../types/layerTypes";
 import { nodeInputStyle } from "../../utils/styles";
 
 const allowedTypes = ["float", "boolean", "material"];

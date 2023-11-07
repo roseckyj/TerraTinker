@@ -15,10 +15,10 @@ import {
 } from "../components/nodeGraph/FlowHandles";
 import { varTypes } from "../components/nodeGraph/_varTypes";
 import { GraphState } from "../graphState/graphState";
-import { Data } from "../types/serializationTypes";
+import { Layer } from "../types/layerTypes";
 import { useUpdateConnections } from "../useUpdateConnections";
 
-export function useGraphState(data: Data) {
+export function useGraphState(data: Layer) {
     const [version, forceUpdate] = useReducer((x) => x + 1, 0);
     const [lastChange, setDirty] = useReducer(
         () => new Date().getTime(),

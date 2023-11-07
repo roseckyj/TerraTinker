@@ -1,6 +1,6 @@
 import { NodeProps } from "reactflow";
 import { GraphState } from "../../graphState/graphState";
-import { Input, Node, VarType } from "../../types/serializationTypes";
+import { Input, Node, VarType } from "../../types/layerTypes";
 import { FlowHandles } from "./FlowHandles";
 import { GenericNode } from "./GenericNode";
 import { Variable } from "./Variable";

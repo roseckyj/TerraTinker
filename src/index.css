@@ -14,3 +14,7 @@ body {
 * {
     outline: none;
 }
+
+.leaflet-selecting .leaflet-grab {
+    cursor: crosshair !important;
+}

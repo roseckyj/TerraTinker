@@ -1,3 +1,5 @@
+import { Position } from "./genericTypes";
+
 export type NodeId = string;
 export type OutputId = string;
 export type InputId = string;
@@ -8,9 +10,8 @@ export type VarType =
     | "material"
     | "boolean"
     | "raster";
-export type Position = [number, number];
 
-export type Data = {
+export type Layer = {
     config: {
         join: "cartesian" | "primaryOuter";
         /* ... */

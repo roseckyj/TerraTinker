@@ -7,15 +7,17 @@ import {
     VStack,
     useToken,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useReducer, useState } from "react";
 import { BiRocket, BiSolidCube } from "react-icons/bi";
-import defaultData from "../data/default.json";
-import { Data } from "../types/serializationTypes";
+import { getDefaultGeneratorData } from "../data/getDefaultGeneratorData";
+import { GeneratorData } from "../types/generatorTypes";
 import { Map } from "./map/Map";
 import { MapMenuItem } from "./map/MapMenuItem";
 import { MenuItem } from "./menu/MenuItem";
 import { NodeGraph } from "./nodeGraph/NodeGraph";
 import { NodeGraphMenuItem } from "./nodeGraph/NodeGraphMenuItem";
+
+const localStorageKey = "generatorData";
 
 export interface IAppProps {}
 
@@ -24,17 +26,26 @@ export function App() {
         "select"
     );
 
-    const data = useMemo(() => {
-        const stored = localStorage.getItem("data");
-        let data: Data;
+    const [isSelecting, setIsSelecting] = useState(false);
+    const [version, forceUpdate] = useReducer((x) => x + 1, 0);
+    const [data, setData] = useState(() => {
+        const stored = localStorage.getItem(localStorageKey);
+        let data: GeneratorData;
         if (!stored) {
-            localStorage.setItem("data", JSON.stringify(defaultData));
-            data = defaultData as any;
+            const def = getDefaultGeneratorData();
+            localStorage.setItem(localStorageKey, JSON.stringify(def));
+            data = def;
         } else {
             data = JSON.parse(stored);
         }
         return data;
-    }, []);
+    });
+
+    const setDataAndSave = (data: GeneratorData) => {
+        setData(data);
+        forceUpdate();
+        localStorage.setItem(localStorageKey, JSON.stringify(data));
+    };
 
     return (
         <Flex
@@ -55,7 +66,7 @@ export function App() {
             >
                 <Icon as={BiSolidCube} mr={4} fontSize="3xl" />
                 <Text fontSize="2xl" fontWeight="bold">
-                    Minecraft Map Maker
+                    TerraTinker
                 </Text>
             </HStack>
             <Flex
@@ -76,10 +87,18 @@ export function App() {
                         <MapMenuItem
                             onClick={() => setStage("select")}
                             selected={stage === "select"}
+                            data={data}
+                            onChange={setDataAndSave}
+                            isSelecting={isSelecting}
+                            onSelectionToggle={() =>
+                                setIsSelecting(!isSelecting)
+                            }
                         />
                         <NodeGraphMenuItem
                             onClick={() => setStage("layers")}
                             selected={stage === "layers"}
+                            data={data}
+                            onChange={setDataAndSave}
                         />
                         <MenuItem
                             icon={<BiRocket />}
@@ -91,15 +110,24 @@ export function App() {
                 </Box>
 
                 <Box flexGrow={1} bg="gray.800">
-                    {stage === "select" && <Map />}
+                    {stage === "select" && (
+                        <Map
+                            onSelectionToggle={() =>
+                                setIsSelecting(!isSelecting)
+                            }
+                            isSelecting={isSelecting}
+                            data={data}
+                            onChange={setDataAndSave}
+                        />
+                    )}
                     {stage === "layers" && (
                         <NodeGraph
-                            data={data}
-                            onSave={(data) =>
-                                localStorage.setItem(
-                                    "data",
-                                    JSON.stringify(data)
-                                )
+                            data={data.layers[0]}
+                            onSave={(layer) =>
+                                setDataAndSave({
+                                    ...data,
+                                    layers: [layer],
+                                })
                             }
                         />
                     )}

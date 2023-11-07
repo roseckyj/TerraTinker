@@ -21,7 +21,7 @@ import { Texture } from "../../components/nodeGraph/Texture";
 import { Variable } from "../../components/nodeGraph/Variable";
 import { GraphState } from "../../graphState/graphState";
 import { mcData } from "../../minecraft/mcData";
-import { Node } from "../../types/serializationTypes";
+import { Node } from "../../types/layerTypes";
 import { nodeInputStyle } from "../../utils/styles";
 
 type MaterialScale = {

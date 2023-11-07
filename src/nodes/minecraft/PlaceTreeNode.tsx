@@ -9,7 +9,7 @@ import { FlowHandles } from "../../components/nodeGraph/FlowHandles";
 import { GenericNode } from "../../components/nodeGraph/GenericNode";
 import { Variable } from "../../components/nodeGraph/Variable";
 import { GraphState } from "../../graphState/graphState";
-import { Node } from "../../types/serializationTypes";
+import { Node } from "../../types/layerTypes";
 import { capitalize } from "../../utils/capitalize";
 import { nodeInputStyle } from "../../utils/styles";
 

@@ -16,7 +16,7 @@ import ReactFlow, {
 } from "reactflow";
 import { useGraphState } from "../../graphState/useGraphState";
 import { nodes as nodeDefs } from "../../nodes/_nodes";
-import { Data } from "../../types/serializationTypes";
+import { Layer } from "../../types/layerTypes";
 import { useUpdateConnections } from "../../useUpdateConnections";
 import { downloadFile } from "../../utils/downloadFile";
 import { FlowEdge } from "./FlowEdge";
@@ -25,8 +25,8 @@ import { TypedEdge } from "./TypedEdge";
 import { NewNodeContextMenu } from "./contextMenu/NewNodeContextMenu";
 
 export interface INodeGraphProps {
-    data: Data;
-    onSave?: (data: Data) => void;
+    data: Layer;
+    onSave?: (data: Layer) => void;
 }
 
 export function NodeGraph({ data, onSave }: INodeGraphProps) {

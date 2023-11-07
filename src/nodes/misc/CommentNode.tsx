@@ -12,7 +12,7 @@ import {
     NodeData,
 } from "../../components/nodeGraph/AbstractNode";
 import { GraphState } from "../../graphState/graphState";
-import { Node } from "../../types/serializationTypes";
+import { Node } from "../../types/layerTypes";
 
 export class CommentNode extends AbstractNode {
     static title = "Comment";
