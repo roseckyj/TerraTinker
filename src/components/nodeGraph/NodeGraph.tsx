@@ -135,7 +135,7 @@ export function NodeGraph({ data, onSave, onChange }: INodeGraphProps) {
                                                         graphState.serialize()
                                                     ),
                                                 ],
-                                                "graph.json",
+                                                `${graphState.layerName}.json`,
                                                 { type: "text/plain" }
                                             )
                                         );

@@ -42,7 +42,7 @@ export class PlaceTreeNode extends AbstractNode {
     static type = "placeTree";
     static isAction = true;
 
-    private treeType: string = "oak";
+    private treeType: string = "tree";
 
     public constructor(params: NodeConstructorParams) {
         super(

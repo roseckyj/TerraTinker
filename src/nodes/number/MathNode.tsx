@@ -21,6 +21,20 @@ const allowedOperators = [
     "power",
     "min",
     "max",
+    "round",
+    "floor",
+    "ceil",
+    "abs",
+    "sin",
+    "cos",
+    "tan",
+    "asin",
+    "acos",
+    "atan",
+    "atan2",
+    "log",
+    "exp",
+    "sqrt",
 ];
 
 export class MathNode extends AbstractNode {
