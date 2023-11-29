@@ -1,8 +1,8 @@
-package cz.xrosecky.terratinker.evaluationTree;
+package cz.xrosecky.terratinker.evaluation;
 
 import java.util.HashMap;
 
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public class NodeOutput {
     private final HashMap<String, AbstractType> values = new HashMap<>();

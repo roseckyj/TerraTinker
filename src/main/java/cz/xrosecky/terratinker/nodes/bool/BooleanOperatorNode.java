@@ -6,9 +6,9 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.outputType.BooleanType;
-import cz.xrosecky.terratinker.evaluationTree.outputType.NullType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.outputType.BooleanType;
+import cz.xrosecky.terratinker.evaluation.outputType.NullType;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 
 public class BooleanOperatorNode extends AbstractNode {
@@ -56,7 +56,7 @@ public class BooleanOperatorNode extends AbstractNode {
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         return super.evaluationRoutine(program, tree, (inputs, output) -> {
             Boolean a = inputs.get("a").getBooleanValue();
             Boolean b = inputs.get("b").getBooleanValue();

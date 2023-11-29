@@ -6,10 +6,10 @@ import java.util.function.BiConsumer;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.NodeOutput;
-import cz.xrosecky.terratinker.evaluationTree.NodeOutputResolver;
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.NodeOutput;
+import cz.xrosecky.terratinker.evaluation.NodeOutputResolver;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 import cz.xrosecky.terratinker.nodeInput.AbstractNodeInput;
 import cz.xrosecky.terratinker.nodeInput.LinkNodeInput;
 import cz.xrosecky.terratinker.nodeInput.ValueNodeInput;
@@ -19,7 +19,7 @@ public abstract class AbstractActionNode extends AbstractNode {
         super(id, json);
     }
 
-    protected AbstractNode actionRoutine(Program program, EvaluationTree tree,
+    protected AbstractNode actionRoutine(Program program, EvaluationState tree,
             BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver) {
         NodeOutput output = new NodeOutput();
         AbstractNode fork = evaluatePrerequisites(program, tree);

@@ -3,7 +3,7 @@ package cz.xrosecky.terratinker.nodes;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
 
 public class LoggingNode extends AbstractActionNode {
 
@@ -12,7 +12,7 @@ public class LoggingNode extends AbstractActionNode {
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         return super.actionRoutine(program, tree, (inputs, output) -> {
             StringBuilder sb = new StringBuilder();
             inputs.forEach((key, value) -> {

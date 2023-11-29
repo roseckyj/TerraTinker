@@ -3,9 +3,9 @@ package cz.xrosecky.terratinker.nodes.conditional;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
-import cz.xrosecky.terratinker.evaluationTree.outputType.NullType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.outputType.NullType;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 
 public class NullSwitchNode extends AbstractNode {
@@ -18,7 +18,7 @@ public class NullSwitchNode extends AbstractNode {
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         return super.evaluationRoutine(program, tree, (inputs, output) -> {
             for (int i = 0; i < cases; i++) {
                 String inputId = i + "_case";

@@ -1,13 +1,20 @@
-package cz.xrosecky.terratinker.types;
+package cz.xrosecky.terratinker;
 
+import cz.xrosecky.terratinker.evaluation.StaticInfo;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import cz.xrosecky.terratinker.LayerEvaluator;
-import cz.xrosecky.terratinker.Program;
-
 public class Evaluator {
+    private final JavaPlugin plugin;
+
+    public Evaluator(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     public void evaluate(String input) {
+        StaticInfo staticInfo = new StaticInfo(plugin.getServer().getWorld("world"));
+
         JSONObject config = new JSONObject(input);
         JSONArray layers = config.getJSONArray("layers");
 
@@ -17,7 +24,7 @@ public class Evaluator {
             Program tree = Program.fromJson(layer);
 
             LayerEvaluator layerEvaluator = new LayerEvaluator(tree);
-            layerEvaluator.evaluate();
+            layerEvaluator.evaluate(staticInfo);
         }
     }
 }

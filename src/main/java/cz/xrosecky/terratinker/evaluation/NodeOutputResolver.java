@@ -1,10 +1,10 @@
-package cz.xrosecky.terratinker.evaluationTree;
+package cz.xrosecky.terratinker.evaluation;
 
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public class NodeOutputResolver {
     private final BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver;

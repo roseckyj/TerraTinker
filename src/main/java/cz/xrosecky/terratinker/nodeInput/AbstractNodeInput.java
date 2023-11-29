@@ -1,6 +1,6 @@
 package cz.xrosecky.terratinker.nodeInput;
 
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 import org.json.JSONObject;
 
 public abstract class AbstractNodeInput {

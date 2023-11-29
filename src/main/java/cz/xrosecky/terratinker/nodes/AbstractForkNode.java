@@ -6,10 +6,10 @@ import java.util.function.BiFunction;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.NodeOutput;
-import cz.xrosecky.terratinker.evaluationTree.NodeOutputResolver;
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.NodeOutput;
+import cz.xrosecky.terratinker.evaluation.NodeOutputResolver;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public abstract class AbstractForkNode extends AbstractNode {
     public AbstractForkNode(String id, JSONObject json) {
@@ -17,7 +17,7 @@ public abstract class AbstractForkNode extends AbstractNode {
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         AbstractNode fork = super.evaluatePrerequisites(program, tree);
         if (fork == null) {
             fork = super.evaluateInputs(program, tree);
@@ -38,9 +38,9 @@ public abstract class AbstractForkNode extends AbstractNode {
     public void teardown() {
     }
 
-    public abstract boolean evaluateNext(Program program, EvaluationTree tree);
+    public abstract boolean evaluateNext(Program program, EvaluationState tree);
 
-    protected boolean forkRoutine(Program program, EvaluationTree tree,
+    protected boolean forkRoutine(Program program, EvaluationState tree,
             BiFunction<HashMap<String, AbstractType>, NodeOutput, Boolean> resolver) {
         HashMap<String, AbstractType> inputs = getInputs(tree);
         NodeOutput output = new NodeOutput();

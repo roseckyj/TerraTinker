@@ -1,5 +1,6 @@
 package cz.xrosecky.terratinker.nodes;
 
+import cz.xrosecky.terratinker.nodes.minecraft.*;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.nodes.bool.BooleanOperatorNode;
@@ -46,8 +47,12 @@ public class NodeManager {
             case "materialScale" -> new MaterialScaleNode(id, json);
 
             // Minecraft
-            case "setBlock" -> new LoggingNode(id, json); // TODO: implement
-            // TODO: implement
+            case "setBlock" -> new SetBlockNode(id, json);
+            case "fill" -> new FillNode(id, json);
+            case "placeTree" -> new PlaceTreeNode(id, json);
+            case "replace" -> new ReplaceNode(id, json);
+            case "worldInfo" -> new WorldInfoNode(id, json);
+            case "highestBlockAt" -> new HighestBlockAtNode(id, json);
 
             // Misc
             case "comment" -> new VoidNode(id, json);

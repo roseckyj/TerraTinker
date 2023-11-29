@@ -3,8 +3,8 @@ package cz.xrosecky.terratinker.nodes.conditional;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.outputType.BooleanType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.outputType.BooleanType;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 
 public class IsNullNode extends AbstractNode {
@@ -14,7 +14,7 @@ public class IsNullNode extends AbstractNode {
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         return super.evaluationRoutine(program, tree, (inputs, output) -> {
             boolean input = inputs.get("input").isNull();
 

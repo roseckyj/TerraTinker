@@ -5,9 +5,9 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
-import cz.xrosecky.terratinker.evaluationTree.outputType.FloatType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.outputType.FloatType;
 import cz.xrosecky.terratinker.nodes.AbstractForkNode;
 
 public class SequenceNode extends AbstractForkNode {
@@ -22,7 +22,7 @@ public class SequenceNode extends AbstractForkNode {
     private Float count;
 
     @Override
-    public boolean evaluateNext(Program program, EvaluationTree tree) {
+    public boolean evaluateNext(Program program, EvaluationState tree) {
         return super.forkRoutine(program, tree, (inputs, output) -> {
             if (step == null || from == null || count == null) {
                 return false;

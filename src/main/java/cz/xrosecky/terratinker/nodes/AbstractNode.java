@@ -7,10 +7,10 @@ import java.util.function.BiConsumer;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.NodeOutput;
-import cz.xrosecky.terratinker.evaluationTree.NodeOutputResolver;
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.NodeOutput;
+import cz.xrosecky.terratinker.evaluation.NodeOutputResolver;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 import cz.xrosecky.terratinker.nodeInput.AbstractNodeInput;
 import cz.xrosecky.terratinker.nodeInput.LinkNodeInput;
 import cz.xrosecky.terratinker.nodeInput.ValueNodeInput;
@@ -39,7 +39,7 @@ public abstract class AbstractNode {
         });
     }
 
-    protected HashMap<String, AbstractType> getInputs(EvaluationTree tree) {
+    protected HashMap<String, AbstractType> getInputs(EvaluationState tree) {
         HashMap<String, AbstractType> inputs = new HashMap<>();
         for (String inputId : this.inputs.keySet()) {
             AbstractNodeInput input = this.inputs.get(inputId);
@@ -55,7 +55,7 @@ public abstract class AbstractNode {
         return inputs;
     }
 
-    protected AbstractNode evaluatePrerequisites(Program program, EvaluationTree tree) {
+    protected AbstractNode evaluatePrerequisites(Program program, EvaluationState tree) {
         List<AbstractNode> prerequisites = program.getflowPrerequisities(this);
 
         AbstractNode firstFork = null;
@@ -72,7 +72,7 @@ public abstract class AbstractNode {
         return firstFork;
     }
 
-    protected AbstractNode evaluateInputs(Program program, EvaluationTree tree) {
+    protected AbstractNode evaluateInputs(Program program, EvaluationState tree) {
         AbstractNode firstFork = null;
 
         for (AbstractNodeInput input : inputs.values()) {
@@ -90,9 +90,9 @@ public abstract class AbstractNode {
         return firstFork;
     }
 
-    public abstract AbstractNode evaluate(Program program, EvaluationTree tree);
+    public abstract AbstractNode evaluate(Program program, EvaluationState tree);
 
-    protected AbstractNode evaluationRoutine(Program program, EvaluationTree tree,
+    protected AbstractNode evaluationRoutine(Program program, EvaluationState tree,
             BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver) {
         AbstractNode fork = evaluatePrerequisites(program, tree);
         if (fork == null) {

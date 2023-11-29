@@ -1,9 +1,9 @@
-package cz.xrosecky.terratinker.evaluationTree.outputType;
+package cz.xrosecky.terratinker.evaluation.outputType;
 
+import org.bukkit.Material;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.types.Geometry;
-import cz.xrosecky.terratinker.types.Material;
 import cz.xrosecky.terratinker.types.Raster;
 
 public abstract class AbstractType {

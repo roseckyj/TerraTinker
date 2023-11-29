@@ -1,6 +1,7 @@
-package cz.xrosecky.terratinker.evaluationTree.outputType;
+package cz.xrosecky.terratinker.evaluation.outputType;
 
-import cz.xrosecky.terratinker.types.Material;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 
 public class MaterialType extends AbstractType {
     private final Material value; // To be changed to the Material enum
@@ -9,8 +10,13 @@ public class MaterialType extends AbstractType {
         this.value = value;
     }
 
+    public static Material materialFromString(String value) {
+        NamespacedKey key = new NamespacedKey(NamespacedKey.MINECRAFT, value);
+        return Material.getMaterial(key.getKey().toUpperCase(), false);
+    }
+
     public static MaterialType fromString(String value) {
-        return new MaterialType(Material.fromString(value));
+        return new MaterialType(materialFromString(value));
     }
 
     @Override
@@ -25,7 +31,7 @@ public class MaterialType extends AbstractType {
 
     @Override
     public String getStringValue() {
-        return value.toString();
+        return value.getKey().getKey();
     }
 
     @Override

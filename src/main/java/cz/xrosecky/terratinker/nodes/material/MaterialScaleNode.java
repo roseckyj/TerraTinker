@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Pair;
+import org.bukkit.Material;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.outputType.MaterialType;
-import cz.xrosecky.terratinker.evaluationTree.outputType.NullType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.outputType.MaterialType;
+import cz.xrosecky.terratinker.evaluation.outputType.NullType;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
-import cz.xrosecky.terratinker.types.Material;
 
 public class MaterialScaleNode extends AbstractNode {
     private final Material defaultMaterial;
@@ -22,20 +22,20 @@ public class MaterialScaleNode extends AbstractNode {
         super(id, json);
 
         JSONObject nodeData = json.getJSONObject("nodeData");
-        defaultMaterial = Material.fromString(nodeData.getString("defaultMaterial"));
+        defaultMaterial = MaterialType.materialFromString(nodeData.getString("defaultMaterial"));
 
         scale = new ArrayList<>();
         JSONArray scaleArray = nodeData.getJSONArray("scale");
         for (int i = 0; i < scaleArray.length(); i++) {
             JSONObject scaleEntry = scaleArray.getJSONObject(i);
             float value = scaleEntry.getFloat("from");
-            Material material = Material.fromString(scaleEntry.getString("material"));
+            Material material = MaterialType.materialFromString(scaleEntry.getString("material"));
             scale.add(new Pair<>(value, material));
         }
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         return super.evaluationRoutine(program, tree, (inputs, output) -> {
             Float min = inputs.get("min").getFloatValue();
             Float max = inputs.get("max").getFloatValue();

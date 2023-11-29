@@ -1,6 +1,6 @@
-package cz.xrosecky.terratinker.evaluationTree.outputType;
+package cz.xrosecky.terratinker.evaluation.outputType;
 
-import cz.xrosecky.terratinker.types.Material;
+import org.bukkit.Material;
 
 public class StringType extends AbstractType {
     private final String value;
@@ -35,7 +35,7 @@ public class StringType extends AbstractType {
 
     @Override
     public Material getMaterialValue() {
-        return Material.fromString(value);
+        return MaterialType.materialFromString(value);
     }
 
     @Override

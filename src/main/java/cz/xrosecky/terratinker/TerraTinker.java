@@ -1,8 +1,6 @@
 package cz.xrosecky.terratinker;
 
-import cz.xrosecky.terratinker.types.Evaluator;
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,7 +12,7 @@ public final class TerraTinker extends JavaPlugin {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(this.getClassLoader());
 
-        Evaluator evaluator = new Evaluator();
+        Evaluator evaluator = new Evaluator(this);
 
         app = Javalin.create(config -> {
             config.plugins.enableCors(cors -> {

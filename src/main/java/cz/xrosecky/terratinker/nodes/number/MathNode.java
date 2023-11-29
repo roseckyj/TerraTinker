@@ -6,9 +6,9 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
-import cz.xrosecky.terratinker.evaluationTree.outputType.FloatType;
-import cz.xrosecky.terratinker.evaluationTree.outputType.NullType;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.outputType.FloatType;
+import cz.xrosecky.terratinker.evaluation.outputType.NullType;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 
 public class MathNode extends AbstractNode {
@@ -22,6 +22,20 @@ public class MathNode extends AbstractNode {
         POWER("power"),
         MIN("min"),
         MAX("max"),
+        ROUND("round"),
+        FLOOR("floor"),
+        CEIL("ceil"),
+        ABS("abs"),
+        SIN("sin"),
+        COS("cos"),
+        TAN("tan"),
+        ASIN("asin"),
+        ACOS("acos"),
+        ATAN("atan"),
+        ATAN2("atan2"),
+        LOG("log"),
+        EXP("exp"),
+        SQRT("sqrt"),
 
         INVALID("");
 
@@ -58,7 +72,7 @@ public class MathNode extends AbstractNode {
     }
 
     @Override
-    public AbstractNode evaluate(Program program, EvaluationTree tree) {
+    public AbstractNode evaluate(Program program, EvaluationState tree) {
         return super.evaluationRoutine(program, tree, (inputs, output) -> {
             Float a = inputs.get("a").getFloatValue();
             Float b = inputs.get("b").getFloatValue();
@@ -77,6 +91,20 @@ public class MathNode extends AbstractNode {
                 case POWER -> (float) Math.pow(a, b);
                 case MIN -> Math.min(a, b);
                 case MAX -> Math.max(a, b);
+                case ROUND -> Math.round(a);
+                case FLOOR -> (float) Math.floor(a);
+                case CEIL -> (float) Math.ceil(a);
+                case ABS -> Math.abs(a);
+                case SIN -> (float) Math.sin(a);
+                case COS -> (float) Math.cos(a);
+                case TAN -> (float) Math.tan(a);
+                case ASIN -> (float) Math.asin(a);
+                case ACOS -> (float) Math.acos(a);
+                case ATAN -> (float) Math.atan(a);
+                case ATAN2 -> (float) Math.atan2(a, b);
+                case LOG -> (float) Math.log(a);
+                case EXP -> (float) Math.exp(a);
+                case SQRT -> (float) Math.sqrt(a);
                 default -> throw new RuntimeException("Invalid operator");
             };
 

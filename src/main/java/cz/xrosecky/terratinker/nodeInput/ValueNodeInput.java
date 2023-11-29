@@ -1,6 +1,6 @@
 package cz.xrosecky.terratinker.nodeInput;
 
-import cz.xrosecky.terratinker.evaluationTree.outputType.AbstractType;
+import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public class ValueNodeInput extends AbstractNodeInput {
     private AbstractType value;

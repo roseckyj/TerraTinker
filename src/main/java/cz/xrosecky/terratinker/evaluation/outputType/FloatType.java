@@ -1,4 +1,4 @@
-package cz.xrosecky.terratinker.evaluationTree.outputType;
+package cz.xrosecky.terratinker.evaluation.outputType;
 
 public class FloatType extends AbstractType {
     private final Float value;

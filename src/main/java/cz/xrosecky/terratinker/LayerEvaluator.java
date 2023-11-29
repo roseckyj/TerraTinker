@@ -1,6 +1,7 @@
 package cz.xrosecky.terratinker;
 
-import cz.xrosecky.terratinker.evaluationTree.EvaluationTree;
+import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.StaticInfo;
 import cz.xrosecky.terratinker.nodes.AbstractForkNode;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 
@@ -11,20 +12,20 @@ public class LayerEvaluator {
         this.program = program;
     }
 
-    public void evaluate() {
+    public void evaluate(StaticInfo staticInfo) {
         AbstractNode startNode = program.getFlowTail();
-        evaluateForTree(startNode, new EvaluationTree());
+        evaluateForTree(startNode, new EvaluationState(staticInfo));
     }
 
-    private void evaluateForTree(AbstractNode startNode, EvaluationTree tree) {
+    private void evaluateForTree(AbstractNode startNode, EvaluationState tree) {
         AbstractNode fork = startNode.evaluate(program, tree);
         if (fork != null) {
             evaluateFork(startNode, tree, fork);
         }
     }
 
-    private void evaluateFork(AbstractNode startNode, EvaluationTree tree, AbstractNode fork) {
-        EvaluationTree treeCopy = tree.cloneTree();
+    private void evaluateFork(AbstractNode startNode, EvaluationState tree, AbstractNode fork) {
+        EvaluationState treeCopy = tree.cloneTree();
 
         AbstractForkNode forkNode = (AbstractForkNode) fork;
 

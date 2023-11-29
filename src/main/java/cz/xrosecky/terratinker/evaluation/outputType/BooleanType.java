@@ -1,4 +1,4 @@
-package cz.xrosecky.terratinker.evaluationTree.outputType;
+package cz.xrosecky.terratinker.evaluation.outputType;
 
 public class BooleanType extends AbstractType {
     private final Boolean value;
