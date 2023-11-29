@@ -28,6 +28,7 @@ dependencies {
     // Javalin dependencies
     implementation("io.javalin:javalin:5.6.3")
     implementation("org.slf4j:slf4j-simple:2.0.7")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2")
 }
 
 tasks {
