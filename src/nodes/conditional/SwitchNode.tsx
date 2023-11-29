@@ -296,6 +296,10 @@ export class SwitchNode extends AbstractNode {
                             param={`${i}_case`}
                             definition={node.inputs[`${i}_case`]}
                             state={node.inputState[`${i}_case`]}
+                            onChange={(value) => {
+                                node.inputState[`${i}_case`].value = value;
+                                forceUpdate();
+                            }}
                         />
                         <Variable
                             key={`${i}_use`}
@@ -303,6 +307,10 @@ export class SwitchNode extends AbstractNode {
                             param={`${i}_use`}
                             definition={node.inputs[`${i}_use`]}
                             state={node.inputState[`${i}_use`]}
+                            onChange={(value) => {
+                                node.inputState[`${i}_use`].value = value;
+                                forceUpdate();
+                            }}
                         />
                     </Box>
                 ))}
@@ -312,6 +320,10 @@ export class SwitchNode extends AbstractNode {
                     param="default"
                     definition={node.inputs["default"]}
                     state={node.inputState["default"]}
+                    onChange={(value) => {
+                        node.inputState["default"].value = value;
+                        forceUpdate();
+                    }}
                 />
 
                 {Object.entries(node.outputs).map(([id, output]) => (

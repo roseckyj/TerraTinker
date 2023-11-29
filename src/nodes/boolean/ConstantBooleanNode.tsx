@@ -12,13 +12,13 @@ export class ConstantBooleanNode extends AbstractNode {
     public constructor(params: NodeConstructorParams) {
         super(
             {
-                boolean: {
+                input: {
                     type: "boolean",
                     title: "Boolean",
                 },
             },
             {
-                boolean: {
+                output: {
                     type: "boolean",
                     title: "Boolean",
                 },
@@ -35,6 +35,6 @@ export class ConstantBooleanNode extends AbstractNode {
             (state) => state.nullable
         );
 
-        this.outputState.boolean.nullable = inputNullable;
+        this.outputState.output.nullable = inputNullable;
     }
 }

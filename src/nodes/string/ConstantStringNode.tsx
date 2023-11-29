@@ -12,13 +12,13 @@ export class ConstantStringNode extends AbstractNode {
     public constructor(params: NodeConstructorParams) {
         super(
             {
-                string: {
+                input: {
                     type: "string",
                     title: "String",
                 },
             },
             {
-                string: {
+                output: {
                     type: "string",
                     title: "String",
                 },
@@ -35,6 +35,6 @@ export class ConstantStringNode extends AbstractNode {
             (state) => state.nullable
         );
 
-        this.outputState.string.nullable = inputNullable;
+        this.outputState.output.nullable = inputNullable;
     }
 }

@@ -1,5 +1,4 @@
 import { NodeConstructor } from "../components/nodeGraph/AbstractNode";
-import { ExampleNode } from "./ExampleNode";
 import { BooleanOperatorNode } from "./boolean/BooleanOperatorNode";
 import { ConstantBooleanNode } from "./boolean/ConstantBooleanNode";
 import { NotNode } from "./boolean/NotNode";
@@ -47,7 +46,7 @@ export const nodes: Array<NodeConstructor> = [
     ConstantMaterialNode,
     ToStringNode,
     MaterialByNameNode,
-    ExampleNode,
+    // ExampleNode,
     MathNode,
     ComparisonNode,
     BooleanOperatorNode,

@@ -12,13 +12,13 @@ export class ConstantNumberNode extends AbstractNode {
     public constructor(params: NodeConstructorParams) {
         super(
             {
-                float: {
+                input: {
                     type: "float",
                     title: "Number",
                 },
             },
             {
-                float: {
+                output: {
                     type: "float",
                     title: "Number",
                 },
@@ -35,6 +35,6 @@ export class ConstantNumberNode extends AbstractNode {
             (state) => state.nullable
         );
 
-        this.outputState.float.nullable = inputNullable;
+        this.outputState.output.nullable = inputNullable;
     }
 }

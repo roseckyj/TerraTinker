@@ -224,6 +224,10 @@ export class NullSwitchNode extends AbstractNode {
                         param={`${i}_case`}
                         definition={node.inputs[`${i}_case`]}
                         state={node.inputState[`${i}_case`]}
+                        onChange={(value) => {
+                            node.inputState[`${i}_case`].value = value;
+                            forceUpdate();
+                        }}
                     />
                 ))}
 

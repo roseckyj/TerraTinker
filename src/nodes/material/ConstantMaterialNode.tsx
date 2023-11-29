@@ -12,13 +12,13 @@ export class ConstantMaterialNode extends AbstractNode {
     public constructor(params: NodeConstructorParams) {
         super(
             {
-                material: {
+                input: {
                     type: "material",
                     title: "Material",
                 },
             },
             {
-                material: {
+                output: {
                     type: "material",
                     title: "Material",
                 },
@@ -35,6 +35,6 @@ export class ConstantMaterialNode extends AbstractNode {
             (state) => state.nullable
         );
 
-        this.outputState.material.nullable = inputNullable;
+        this.outputState.output.nullable = inputNullable;
     }
 }

@@ -54,9 +54,7 @@ export class GraphState {
                     toast({
                         title: "Unknown node type",
                         description: `Unknown node type "${value.type}" detected, ignoring.`,
-                        status: "error",
-                        duration: 6000,
-                        isClosable: true,
+                        status: "warning",
                     });
                     return null;
                 }

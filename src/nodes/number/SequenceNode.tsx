@@ -44,6 +44,6 @@ export class SequenceNode extends AbstractNode {
             (state) => state.nullable
         );
 
-        this.outputState.float.nullable = inputNullable;
+        this.outputState.number.nullable = inputNullable;
     }
 }

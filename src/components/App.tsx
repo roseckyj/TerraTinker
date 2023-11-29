@@ -1,14 +1,17 @@
 import {
     Box,
+    Button,
     Flex,
     HStack,
     Icon,
     Spacer,
     Text,
     VStack,
+    useToast,
     useToken,
 } from "@chakra-ui/react";
-import { useReducer, useState } from "react";
+import axios from "axios";
+import { useEffect, useReducer, useState } from "react";
 import { BiRocket, BiSolidCube } from "react-icons/bi";
 import { getDefaultGeneratorData } from "../data/getDefaultGeneratorData";
 import { GeneratorData } from "../types/generatorTypes";
@@ -26,6 +29,23 @@ export function App() {
     const [stage, setStage] = useState<"select" | "layers" | "publish">(
         "select"
     );
+    const [isConnected, setIsConnected] = useState(false);
+
+    useEffect(() => {
+        const checkConnection = async () => {
+            try {
+                await axios.get("http://localhost:7070/api/");
+                setIsConnected(true);
+            } catch (e) {
+                setIsConnected(false);
+            }
+        };
+
+        checkConnection();
+        const interval = setInterval(checkConnection, 1000);
+        return () => clearInterval(interval);
+    }, []);
+    const toast = useToast();
 
     // Data
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -76,8 +96,60 @@ export function App() {
                 </Text>
                 <Spacer />
                 <HStack>
-                    <Box rounded="full" w="0.5em" h="0.5em" bg="green.500" />
-                    <Text opacity={0.8}>Connected</Text>
+                    {isConnected ? (
+                        <>
+                            <Box
+                                rounded="full"
+                                w="0.5em"
+                                h="0.5em"
+                                bg="green.500"
+                            />
+                            <Text opacity={0.8}>Connected</Text>
+                        </>
+                    ) : (
+                        <>
+                            <Box
+                                rounded="full"
+                                w="0.5em"
+                                h="0.5em"
+                                bg="red.500"
+                            />
+                            <Text opacity={0.8}>Disconnected</Text>
+                        </>
+                    )}
+                    <Button
+                        colorScheme="blue"
+                        leftIcon={<BiRocket />}
+                        ml={6}
+                        onClick={async () => {
+                            try {
+                                const response = await axios.post(
+                                    "http://localhost:7070/api/evaluate",
+                                    JSON.stringify(data),
+                                    {
+                                        validateStatus: () => true,
+                                    }
+                                );
+
+                                if (response.status !== 200) {
+                                    toast({
+                                        title: "Execution failed",
+                                        description: response.data,
+                                        status: "error",
+                                    });
+                                }
+                            } catch (e) {
+                                toast({
+                                    title: "Network error",
+                                    description:
+                                        "Execution failed due to a network error",
+                                    status: "error",
+                                });
+                            }
+                        }}
+                    >
+                        Execute
+                    </Button>
                 </HStack>
             </HStack>
             <Flex

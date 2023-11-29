@@ -104,9 +104,7 @@ export function useGraphState(data: Layer) {
                                 toast({
                                     title: "Edge source not found",
                                     description: `No source node found for edge with target ${node.id} (${key}), reseting to default value.`,
-                                    status: "error",
-                                    duration: 6000,
-                                    isClosable: true,
+                                    status: "warning",
                                 });
                                 node.inputState[key] = {
                                     value: varTypes[node.inputs[key].type]
@@ -209,9 +207,7 @@ export function useGraphState(data: Layer) {
                                 title: "Invalid action",
                                 description:
                                     "The flow start node cannot be removed.",
-                                status: "error",
-                                duration: 6000,
-                                isClosable: true,
+                                status: "warning",
                             });
                         } else {
                             graphState.nodes = graphState.nodes.filter(
@@ -298,9 +294,7 @@ export function useGraphState(data: Layer) {
                         title: "Invalid flow connection",
                         description:
                             "The source node is not a part of the flow.",
-                        status: "error",
-                        duration: 6000,
-                        isClosable: true,
+                        status: "warning",
                     });
                     return;
                 }
@@ -365,9 +359,7 @@ export function useGraphState(data: Layer) {
                     title: "Invalid connection",
                     description:
                         "Flow edges can only be connected to other flow edges.",
-                    status: "error",
-                    duration: 6000,
-                    isClosable: true,
+                    status: "warning",
                 });
                 return;
             }
@@ -380,9 +372,7 @@ export function useGraphState(data: Layer) {
                     title: "Type mismatch",
                     description:
                         "The types of the source and target do not match.",
-                    status: "error",
-                    duration: 6000,
-                    isClosable: true,
+                    status: "warning",
                 });
                 return;
             }
@@ -401,9 +391,7 @@ export function useGraphState(data: Layer) {
                     title: "Cyclic connection",
                     description:
                         "This connection would create a loop, which is not allowed.",
-                    status: "error",
-                    duration: 6000,
-                    isClosable: true,
+                    status: "warning",
                 });
                 targetNode.inputState[connection.targetHandle!] = {
                     value: targetNode.inputState[connection.targetHandle!]
