@@ -7,6 +7,10 @@ public class FloatType extends AbstractType {
         this.value = value;
     }
 
+    public FloatType(Double value) {
+        this.value = value.floatValue();
+    }
+
     public static FloatType fromString(String value) {
         return new FloatType(Float.parseFloat(value));
     }

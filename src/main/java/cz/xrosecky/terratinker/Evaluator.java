@@ -4,6 +4,7 @@ import cz.xrosecky.terratinker.evaluation.StaticInfo;
 import cz.xrosecky.terratinker.geometry.CoordsTranslator;
 import cz.xrosecky.terratinker.geometry.Vector2D;
 import cz.xrosecky.terratinker.geometry.Vector2DInt;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +20,9 @@ public class Evaluator {
         plugin.getLogger().info("Executing program");
         long start = System.currentTimeMillis();
         try {
+            World world = plugin.getServer().getWorld("world");
+            assert world != null;
+
             JSONObject config = new JSONObject(input);
 
             JSONArray mapCenter = config.getJSONArray("mapCenter");
@@ -32,10 +36,11 @@ public class Evaluator {
             int height = mapSize.getInt("height");
             float minAltitude = config.getFloat("minAltitude");
 
-            CoordsTranslator coordsTranslator = new CoordsTranslator(new Vector2D(lat, lon), new Vector2D(0, 0), 0, horizontalScale, verticalScale, (int)(-minAltitude + 10 + 10 * verticalScale));
+            CoordsTranslator coordsTranslator = new CoordsTranslator(new Vector2D(lat, lon), new Vector2D(0, 0), 0, horizontalScale, verticalScale, world.getMinHeight());
+            coordsTranslator.setAltShift((int)(-minAltitude + 10 + 10 * verticalScale));
             Vector2DInt size = new Vector2DInt(width, height);
 
-            StaticInfo staticInfo = new StaticInfo(plugin, plugin.getServer().getWorld("world"), coordsTranslator, size);
+            StaticInfo staticInfo = new StaticInfo(plugin, world, coordsTranslator, size);
 
             JSONArray layers = config.getJSONArray("layers");
 

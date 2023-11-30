@@ -1,5 +1,9 @@
 package cz.xrosecky.terratinker.nodes;
 
+import cz.xrosecky.terratinker.nodes.geometry.AltitudeToYNode;
+import cz.xrosecky.terratinker.nodes.geometry.HeightToYNode;
+import cz.xrosecky.terratinker.nodes.geometry.MetersToBlocksNode;
+import cz.xrosecky.terratinker.nodes.geometry.YToAltitudeNode;
 import cz.xrosecky.terratinker.nodes.minecraft.*;
 import cz.xrosecky.terratinker.nodes.loaders.GeoTiffLoaderNode;
 import cz.xrosecky.terratinker.nodes.raster.SampleRasterNode;
@@ -38,6 +42,12 @@ public class NodeManager {
             case "switch" -> new SwitchNode(id, json);
 
             // Geometry
+            case "altitudeToY" -> new AltitudeToYNode(id, json);
+            case "yToAltitude" -> new YToAltitudeNode(id, json);
+            case "heightToY" -> new HeightToYNode(id, json);
+            case "yToHeight" -> new YToAltitudeNode(id, json);
+            case "metersToBlocks" -> new MetersToBlocksNode(id, json);
+            case "blocksToMeters" -> new MetersToBlocksNode(id, json);
             // TODO: implement
 
             // Loaders
