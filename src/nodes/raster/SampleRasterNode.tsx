@@ -38,9 +38,13 @@ export class SampleRasterNode extends AbstractNode {
                 },
             },
             {
-                value: {
+                y: {
                     type: "float",
-                    title: "Sampled value",
+                    title: "Y",
+                },
+                altitude: {
+                    type: "float",
+                    title: "Altitude",
                 },
             },
             params
@@ -50,7 +54,8 @@ export class SampleRasterNode extends AbstractNode {
     public updateConnections(graphState: GraphState): void {
         super.updateConnections(graphState);
 
-        this.outputState.value.nullable = true;
+        this.outputState.y.nullable = true;
+        this.outputState.altitude.nullable = true;
     }
 
     public static deserialize(id: string, node: Node) {
