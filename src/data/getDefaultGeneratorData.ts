@@ -6,6 +6,7 @@ import defaultLayer from "./layers/default.json";
 export function getDefaultGeneratorData(): GeneratorData {
     return {
         mapCenter: [49.1952669, 16.6073183],
+        minAltitude: 0,
         scale: {
             horizontal: 1,
             vertical: 1,

@@ -30,6 +30,6 @@ export class GeoTiffLoaderNode extends AbstractNode {
     public updateConnections(graphState: GraphState): void {
         super.updateConnections(graphState);
 
-        this.outputState.raster.nullable = false;
+        this.outputState.raster.nullable = true;
     }
 }

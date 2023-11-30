@@ -33,6 +33,18 @@ export class SelectedRegionNode extends AbstractNode {
                     type: "float",
                     title: "Max Z",
                 },
+                minAltitude: {
+                    type: "float",
+                    title: "Minimum Altitude",
+                },
+                horizontalScale: {
+                    type: "float",
+                    title: "Horizontal Scale",
+                },
+                verticalScale: {
+                    type: "float",
+                    title: "Vertical Scale",
+                },
             },
             params
         );

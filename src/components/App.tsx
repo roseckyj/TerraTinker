@@ -52,12 +52,12 @@ export function App() {
     const [data, setData] = useState(() => {
         const stored = localStorage.getItem(localStorageKey);
         let data: GeneratorData;
+        const def = getDefaultGeneratorData();
         if (!stored) {
-            const def = getDefaultGeneratorData();
-            localStorage.setItem(localStorageKey, JSON.stringify(def));
             data = def;
+            localStorage.setItem(localStorageKey, JSON.stringify(data));
         } else {
-            data = JSON.parse(stored);
+            data = { ...def, ...JSON.parse(stored) };
         }
         return data;
     });

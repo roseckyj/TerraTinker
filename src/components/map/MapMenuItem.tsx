@@ -1,5 +1,9 @@
 import { Box, HStack, IconButton, Input, Text } from "@chakra-ui/react";
-import { BiMap } from "react-icons/bi";
+import axios from "axios";
+import { BiCloudDownload, BiMap } from "react-icons/bi";
+import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
+import { Position } from "../../types/genericTypes";
+import { insertMiddlePoints } from "../../utils/insertMidPoints";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
 import { LogSlider } from "../utils/LogSlider";
 
@@ -42,6 +46,74 @@ export function MapMenuItem({
                         icon={<BiMap />}
                         colorScheme={isSelecting ? "blue" : "gray"}
                         onClick={() => onSelectionToggle()}
+                    />
+                </HStack>
+            </Box>
+            <Box>
+                <Text opacity={0.5} fontSize="smaller">
+                    Minimum altitude
+                </Text>
+                <HStack>
+                    <Input
+                        flex={1}
+                        variant="filled"
+                        type="number"
+                        value={`${data.minAltitude}`}
+                        onChange={(e) => {
+                            data.minAltitude = parseInt(e.target.value);
+                            onChange(data);
+                        }}
+                    />
+                    <IconButton
+                        aria-label="Select map center"
+                        icon={<BiCloudDownload />}
+                        onClick={async () => {
+                            let points: Position[] = [
+                                [
+                                    -data.mapSize.width / 2,
+                                    -data.mapSize.height / 2,
+                                ],
+                                [
+                                    data.mapSize.width / 2,
+                                    -data.mapSize.height / 2,
+                                ],
+                                [
+                                    data.mapSize.width / 2,
+                                    data.mapSize.height / 2,
+                                ],
+                                [
+                                    -data.mapSize.width / 2,
+                                    data.mapSize.height / 2,
+                                ],
+                            ];
+
+                            points = insertMiddlePoints(points);
+                            points.push([0, 0]);
+
+                            const translator = new CoordsTranslator(
+                                data.mapCenter,
+                                [0, 0],
+                                0,
+                                data.scale.horizontal,
+                                data.scale.vertical,
+                                0
+                            );
+
+                            const latLons = points.map((point) =>
+                                translator.XZToLatLon(point[0], point[1])
+                            );
+                            const response = await axios.get(
+                                `https://api.open-meteo.com/v1/elevation?latitude=${latLons
+                                    .map((p) => p[0])
+                                    .join(",")}&longitude=${latLons
+                                    .map((p) => p[1])
+                                    .join(",")}`
+                            );
+                            const alts = response.data.elevation;
+                            const minAlt = Math.min(...alts);
+                            data.minAltitude = minAlt - 20;
+                            onChange(data);
+                        }}
                     />
                 </HStack>
             </Box>

@@ -3,6 +3,7 @@ import { Layer } from "./layerTypes";
 
 export type GeneratorData = {
     mapCenter: Position;
+    minAltitude: number;
     scale: {
         horizontal: number;
         vertical: number;

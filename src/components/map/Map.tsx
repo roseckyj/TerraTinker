@@ -13,6 +13,7 @@ import {
 import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
 import { GeneratorData } from "../../types/generatorTypes";
 import { Position } from "../../types/genericTypes";
+import { insertMiddlePoints } from "../../utils/insertMidPoints";
 import { MapControls } from "./MapControls";
 
 export interface IMapProps {
@@ -53,20 +54,6 @@ export function Map(props: IMapProps) {
     );
 
     const rectanglePoints = useMemo(() => {
-        const insertMiddlePoints = (points: Position[]) => {
-            const newPoints: Position[] = [];
-            for (let i = 0; i < points.length; i++) {
-                const point = points[i];
-                const nextPoint = points[(i + 1) % points.length];
-                newPoints.push(point);
-                newPoints.push([
-                    (point[0] + nextPoint[0]) / 2,
-                    (point[1] + nextPoint[1]) / 2,
-                ]);
-            }
-            return newPoints;
-        };
-
         let points: Position[] = [
             [-data.mapSize.width / 2, -data.mapSize.height / 2],
             [data.mapSize.width / 2, -data.mapSize.height / 2],
