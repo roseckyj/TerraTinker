@@ -40,7 +40,7 @@ public class Evaluator {
             coordsTranslator.setAltShift((int)(-minAltitude + 10 + 10 * verticalScale));
             Vector2DInt size = new Vector2DInt(width, height);
 
-            StaticInfo staticInfo = new StaticInfo(plugin, world, coordsTranslator, size);
+            StaticInfo staticInfo = new StaticInfo(plugin, world, coordsTranslator, size, minAltitude);
 
             JSONArray layers = config.getJSONArray("layers");
 

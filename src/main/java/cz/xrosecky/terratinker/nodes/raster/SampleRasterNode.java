@@ -45,11 +45,13 @@ public class SampleRasterNode extends AbstractNode {
             Float value = raster.getPixelValue((float)latLon.lat(), (float)latLon.lon(), bilinear);
 
             if (value == null) {
-                output.addValue("value", new NullType());
+                output.addValue("y", new NullType());
+                output.addValue("altitude", new NullType());
                 return;
             }
 
-            output.addValue("value", new FloatType((float)tree.info().coordsTranslator.altToY(value)));
+            output.addValue("altitude", new FloatType(value));
+            output.addValue("y", new FloatType((float)tree.info().coordsTranslator.altToY(value)));
         });
     }
 }

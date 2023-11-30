@@ -1,9 +1,6 @@
 package cz.xrosecky.terratinker.nodes;
 
-import cz.xrosecky.terratinker.nodes.geometry.AltitudeToYNode;
-import cz.xrosecky.terratinker.nodes.geometry.HeightToYNode;
-import cz.xrosecky.terratinker.nodes.geometry.MetersToBlocksNode;
-import cz.xrosecky.terratinker.nodes.geometry.YToAltitudeNode;
+import cz.xrosecky.terratinker.nodes.geometry.*;
 import cz.xrosecky.terratinker.nodes.minecraft.*;
 import cz.xrosecky.terratinker.nodes.loaders.GeoTiffLoaderNode;
 import cz.xrosecky.terratinker.nodes.raster.SampleRasterNode;
@@ -48,10 +45,19 @@ public class NodeManager {
             case "yToHeight" -> new YToAltitudeNode(id, json);
             case "metersToBlocks" -> new MetersToBlocksNode(id, json);
             case "blocksToMeters" -> new MetersToBlocksNode(id, json);
-            // TODO: implement
+            case "selectedRegion" -> new SelectedRegionNode(id, json);
+            // case "boundingBox"
+            // case "createPoint"
+            // case "createRectangle"
+            // case "geometryOverlap"
+            // case "rasterize"
 
             // Loaders
             case "geoTiffLoader" -> new GeoTiffLoaderNode(id, json);
+            // case "esriLoader"
+            // case "geoJsonLoader"
+            // case "localFile"
+            // case "osmLoader"
 
             // Material
             case "constantMaterial" -> new ConstantNode(id, json);
@@ -79,7 +85,7 @@ public class NodeManager {
 
             // Raster
             case "sampleRaster" -> new SampleRasterNode(id, json);
-            // TODO: implement
+            // case "aggregateRaster"
 
             // String
             case "constantString" -> new ConstantNode(id, json);

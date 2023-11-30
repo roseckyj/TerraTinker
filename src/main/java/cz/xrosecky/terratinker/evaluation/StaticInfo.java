@@ -9,12 +9,14 @@ public class StaticInfo {
     public final JavaPlugin plugin;
     public final World world;
     public final CoordsTranslator coordsTranslator;
-    Vector2DInt size;
+    public final Vector2DInt size;
+    public final float minAltitude;
 
-    public StaticInfo(JavaPlugin plugin, World world, CoordsTranslator coordsTranslator, Vector2DInt size) {
+    public StaticInfo(JavaPlugin plugin, World world, CoordsTranslator coordsTranslator, Vector2DInt size, float minAltitude) {
         this.plugin = plugin;
         this.world = world;
         this.coordsTranslator = coordsTranslator;
         this.size = size;
+        this.minAltitude = minAltitude;
     }
 }
