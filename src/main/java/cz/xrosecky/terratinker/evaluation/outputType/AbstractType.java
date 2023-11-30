@@ -16,12 +16,12 @@ public abstract class AbstractType {
         }
 
         AbstractType type = switch (inputJson.getString("type")) {
-            case "string" -> new StringType(inputJson.getString("value"));
-            case "boolean" -> new BooleanType(inputJson.getBoolean("value"));
-            case "float" -> new FloatType(inputJson.getFloat("value"));
+            case "string" -> new StringType(inputJson.isNull("value") ? "" : inputJson.getString("value"));
+            case "boolean" -> new BooleanType(inputJson.isNull("value") ? false : inputJson.getBoolean("value"));
+            case "float" -> new FloatType(inputJson.isNull("value") ? 0f : inputJson.getFloat("value"));
 
             case "geometry" -> GeometryType.fromString(inputJson.getString("value"));
-            case "material" -> MaterialType.fromString(inputJson.getString("value"));
+            case "material" -> MaterialType.fromString(inputJson.isNull("value") ? "air" : inputJson.getString("value"));
             case "raster" -> RasterType.fromString(inputJson.getString("value"));
 
             default -> new NullType();

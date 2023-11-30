@@ -3,12 +3,14 @@ package cz.xrosecky.terratinker;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.gdal.gdal.gdal;
 
 public final class TerraTinker extends JavaPlugin {
     private Javalin app;
 
     @Override
     public void onEnable() {
+        // Start the web server
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(this.getClassLoader());
 
@@ -39,6 +41,12 @@ public final class TerraTinker extends JavaPlugin {
         });
         app.start(7070);
         Thread.currentThread().setContextClassLoader(classLoader);
+
+        // Setup a plugin folder
+        getDataFolder().mkdirs();
+
+        // Register gdal native library
+        gdal.AllRegister();
     }
 
     @Override

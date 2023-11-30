@@ -1,6 +1,8 @@
 package cz.xrosecky.terratinker.nodes;
 
 import cz.xrosecky.terratinker.nodes.minecraft.*;
+import cz.xrosecky.terratinker.nodes.loaders.GeoTiffLoaderNode;
+import cz.xrosecky.terratinker.nodes.raster.SampleRasterNode;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.nodes.bool.BooleanOperatorNode;
@@ -39,7 +41,7 @@ public class NodeManager {
             // TODO: implement
 
             // Loaders
-            // TODO: implement
+            case "geoTiffLoader" -> new GeoTiffLoaderNode(id, json);
 
             // Material
             case "constantMaterial" -> new ConstantNode(id, json);
@@ -56,6 +58,7 @@ public class NodeManager {
 
             // Misc
             case "comment" -> new VoidNode(id, json);
+            case "log" -> new LoggingNode(id, json);
 
             // Number
             case "comparison" -> new ComparisonNode(id, json);
@@ -65,6 +68,7 @@ public class NodeManager {
             case "sequence" -> new SequenceNode(id, json);
 
             // Raster
+            case "sampleRaster" -> new SampleRasterNode(id, json);
             // TODO: implement
 
             // String

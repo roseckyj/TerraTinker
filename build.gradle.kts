@@ -13,6 +13,8 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://oss.sonatype.org/content/groups/public/")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://repo.osgeo.org/repository/release/")
+    maven("https://maven.geo-solutions.it/")
 }
 
 java {
@@ -20,8 +22,10 @@ java {
 }
 
 dependencies {
+    // Paper dependencies
     implementation("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
 
+    // Utility dependencies
     implementation("org.json:json:20231013")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
 
@@ -29,6 +33,10 @@ dependencies {
     implementation("io.javalin:javalin:5.6.3")
     implementation("org.slf4j:slf4j-simple:2.0.7")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.2")
+
+    // Gdal dependencies
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("org.gdal:gdal:3.7.0")
 }
 
 tasks {
