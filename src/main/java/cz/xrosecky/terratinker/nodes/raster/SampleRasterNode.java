@@ -49,7 +49,7 @@ public class SampleRasterNode extends AbstractNode {
                 return;
             }
 
-            output.addValue("value", new FloatType(value));
+            output.addValue("value", new FloatType((float)tree.info().coordsTranslator.altToY(value)));
         });
     }
 }

@@ -30,8 +30,9 @@ public class Evaluator {
             JSONObject mapSize = config.getJSONObject("mapSize");
             int width = mapSize.getInt("width");
             int height = mapSize.getInt("height");
+            float minAltitude = config.getFloat("minAltitude");
 
-            CoordsTranslator coordsTranslator = new CoordsTranslator(new Vector2D(lat, lon), new Vector2D(0, 0), 0, horizontalScale, verticalScale, 0);
+            CoordsTranslator coordsTranslator = new CoordsTranslator(new Vector2D(lat, lon), new Vector2D(0, 0), 0, horizontalScale, verticalScale, (int)(-minAltitude + 10 + 10 * verticalScale));
             Vector2DInt size = new Vector2DInt(width, height);
 
             StaticInfo staticInfo = new StaticInfo(plugin, plugin.getServer().getWorld("world"), coordsTranslator, size);
