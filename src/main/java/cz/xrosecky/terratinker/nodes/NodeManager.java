@@ -3,6 +3,7 @@ package cz.xrosecky.terratinker.nodes;
 import cz.xrosecky.terratinker.nodes.geometry.*;
 import cz.xrosecky.terratinker.nodes.minecraft.*;
 import cz.xrosecky.terratinker.nodes.loaders.GeoTiffLoaderNode;
+import cz.xrosecky.terratinker.nodes.raster.RasterInfoNode;
 import cz.xrosecky.terratinker.nodes.raster.SampleRasterNode;
 import org.json.JSONObject;
 
@@ -46,11 +47,11 @@ public class NodeManager {
             case "metersToBlocks" -> new MetersToBlocksNode(id, json);
             case "blocksToMeters" -> new MetersToBlocksNode(id, json);
             case "selectedRegion" -> new SelectedRegionNode(id, json);
-            // case "boundingBox"
-            // case "createPoint"
-            // case "createRectangle"
-            // case "geometryOverlap"
-            // case "rasterize"
+            case "boundingBox" -> new BoundingBoxNode(id, json);
+            case "createPoint" -> new CreatePointNode(id, json);
+            case "createRectangle" -> new CreateRectangleNode(id, json);
+            case "geometryOverlap" -> new GeometryOverlapNode(id, json);
+            case "rasterize" -> new RasterizeNode(id, json);
 
             // Loaders
             case "geoTiffLoader" -> new GeoTiffLoaderNode(id, json);
@@ -85,6 +86,7 @@ public class NodeManager {
 
             // Raster
             case "sampleRaster" -> new SampleRasterNode(id, json);
+            case "rasterInfo" -> new RasterInfoNode(id, json);
             // case "aggregateRaster"
 
             // String

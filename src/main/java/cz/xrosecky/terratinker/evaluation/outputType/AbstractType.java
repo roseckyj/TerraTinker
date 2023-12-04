@@ -20,9 +20,9 @@ public abstract class AbstractType {
             case "boolean" -> new BooleanType(inputJson.isNull("value") ? false : inputJson.getBoolean("value"));
             case "float" -> new FloatType(inputJson.isNull("value") ? 0f : inputJson.getFloat("value"));
 
-            case "geometry" -> GeometryType.fromString(inputJson.getString("value"));
+            case "geometry" -> GeometryType.emptyGeometry();
             case "material" -> MaterialType.fromString(inputJson.isNull("value") ? "air" : inputJson.getString("value"));
-            case "raster" -> RasterType.fromString(inputJson.getString("value"));
+            case "raster" -> RasterType.emptyRaster();
 
             default -> new NullType();
         };

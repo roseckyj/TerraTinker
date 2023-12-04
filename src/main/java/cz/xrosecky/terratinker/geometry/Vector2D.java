@@ -21,6 +21,11 @@ public class Vector2D {
         z = vec3.z;
     }
 
+    public Vector2D(float v) {
+        this.x = v;
+        this.z = v;
+    }
+
     public double lat() {
         return x;
     }
