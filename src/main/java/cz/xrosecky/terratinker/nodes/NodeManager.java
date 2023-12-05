@@ -1,6 +1,8 @@
 package cz.xrosecky.terratinker.nodes;
 
 import cz.xrosecky.terratinker.nodes.geometry.*;
+import cz.xrosecky.terratinker.nodes.loaders.EsriLoaderNode;
+import cz.xrosecky.terratinker.nodes.loaders.GeoJsonLoaderNode;
 import cz.xrosecky.terratinker.nodes.loaders.OsmLoaderNode;
 import cz.xrosecky.terratinker.nodes.minecraft.*;
 import cz.xrosecky.terratinker.nodes.loaders.GeoTiffLoaderNode;
@@ -57,10 +59,10 @@ public class NodeManager {
 
             // Loaders
             case "geoTiffLoader" -> new GeoTiffLoaderNode(id, json);
-            // case "esriLoader"
-            // case "geoJsonLoader"
-            // case "localFile"
+            case "esriLoader" -> new EsriLoaderNode(id, json);
+            case "geoJsonLoader" -> new GeoJsonLoaderNode(id, json);
             case "osmLoader" -> new OsmLoaderNode(id, json);
+            // case "localFile"
 
             // Material
             case "constantMaterial" -> new ConstantNode(id, json);

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import cz.xrosecky.terratinker.evaluation.InputMap;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
@@ -39,8 +40,8 @@ public abstract class AbstractNode {
         });
     }
 
-    protected HashMap<String, AbstractType> getInputs(EvaluationState tree) {
-        HashMap<String, AbstractType> inputs = new HashMap<>();
+    protected InputMap getInputs(EvaluationState tree) {
+        InputMap inputs = new InputMap();
         for (String inputId : this.inputs.keySet()) {
             AbstractNodeInput input = this.inputs.get(inputId);
 
@@ -93,7 +94,7 @@ public abstract class AbstractNode {
     public abstract AbstractNode evaluate(Program program, EvaluationState tree);
 
     protected AbstractNode evaluationRoutine(Program program, EvaluationState tree,
-            BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver) {
+            BiConsumer<InputMap, NodeOutput> resolver) {
         AbstractNode fork = evaluatePrerequisites(program, tree);
         if (fork == null) {
             fork = evaluateInputs(program, tree);

@@ -2,6 +2,7 @@ package cz.xrosecky.terratinker.nodes.loaders;
 
 import cz.xrosecky.terratinker.Program;
 import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.InputMap;
 import cz.xrosecky.terratinker.evaluation.outputType.*;
 import cz.xrosecky.terratinker.geometry.CoordsTranslator;
 import cz.xrosecky.terratinker.geometry.Ring;
@@ -80,7 +81,7 @@ public class OsmLoaderNode extends AbstractForkNode {
     }
 
     @Override
-    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
+    public void setup(InputMap inputs, EvaluationState tree) {
         // Reset the iterator
         index = 0;
 

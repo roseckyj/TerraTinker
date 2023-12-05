@@ -2,6 +2,7 @@ package cz.xrosecky.terratinker.nodes.number;
 
 import java.util.HashMap;
 
+import cz.xrosecky.terratinker.evaluation.InputMap;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
@@ -41,7 +42,7 @@ public class SequenceNode extends AbstractForkNode {
     }
 
     @Override
-    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
+    public void setup(InputMap inputs, EvaluationState tree) {
         steps = 0;
         step = inputs.get("step").getFloatValue();
         from = inputs.get("from").getFloatValue();

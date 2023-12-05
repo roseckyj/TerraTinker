@@ -25,7 +25,11 @@ public class StringType extends AbstractType {
 
     @Override
     public Float getFloatValue() {
-        return Float.parseFloat(value);
+        try {
+            return Float.parseFloat(value);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

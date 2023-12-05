@@ -5,7 +5,7 @@ import java.util.HashMap;
 import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public class NodeOutput {
-    private final HashMap<String, AbstractType> values = new HashMap<>();
+    private final InputMap values = new InputMap();
 
     public void addValue(String key, AbstractType value) {
         values.put(key, value);

@@ -3,6 +3,7 @@ package cz.xrosecky.terratinker.nodes;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 
+import cz.xrosecky.terratinker.evaluation.InputMap;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
@@ -26,13 +27,13 @@ public abstract class AbstractForkNode extends AbstractNode {
             return fork;
         }
 
-        HashMap<String, AbstractType> inputs = getInputs(tree);
+        InputMap inputs = getInputs(tree);
         this.setup(inputs, tree);
 
         return this;
     }
 
-    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
+    public void setup(InputMap inputs, EvaluationState tree) {
     }
 
     public void teardown() {
@@ -41,8 +42,8 @@ public abstract class AbstractForkNode extends AbstractNode {
     public abstract boolean evaluateNext(Program program, EvaluationState tree);
 
     protected boolean forkRoutine(Program program, EvaluationState tree,
-            BiFunction<HashMap<String, AbstractType>, NodeOutput, Boolean> resolver) {
-        HashMap<String, AbstractType> inputs = getInputs(tree);
+            BiFunction<InputMap, NodeOutput, Boolean> resolver) {
+        InputMap inputs = getInputs(tree);
         NodeOutput output = new NodeOutput();
 
         // Evaluate this node

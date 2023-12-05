@@ -2,10 +2,12 @@ package cz.xrosecky.terratinker.nodes.geometry;
 
 import cz.xrosecky.terratinker.Program;
 import cz.xrosecky.terratinker.evaluation.EvaluationState;
+import cz.xrosecky.terratinker.evaluation.InputMap;
 import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 import cz.xrosecky.terratinker.evaluation.outputType.FloatType;
 import cz.xrosecky.terratinker.geometry.Ring;
 import cz.xrosecky.terratinker.geometry.Vector2D;
+import cz.xrosecky.terratinker.geometry.Vector2DInt;
 import cz.xrosecky.terratinker.nodes.AbstractForkNode;
 import cz.xrosecky.terratinker.types.Geometry;
 import org.json.JSONObject;
@@ -26,6 +28,7 @@ public class RasterizeNode extends AbstractForkNode {
     Graphics2D graphics2D;
     Vector2D minBoundary;
     Vector2D maxBoundary;
+    boolean clip;
 
     int x;
     int y;
@@ -37,13 +40,26 @@ public class RasterizeNode extends AbstractForkNode {
                 return false;
             }
 
+            Vector2D size = new Vector2D(tree.info().size).scale(0.5f);
+
             do {
                 x++;
                 if (x >= image.getWidth()) {
                     x = 0;
                     y++;
                 }
-            } while (y < image.getHeight() && Color.WHITE.getRGB() != image.getRGB(x, y));
+            } while (
+                    y < image.getHeight() && // While not outside the image
+                    (
+                        Color.WHITE.getRGB() != image.getRGB(x, y) || // And on a black pixel
+                        (clip && ( // Or outside the clip area if the cliping is enabled
+                                x + minBoundary.x < -size.x ||
+                                x + minBoundary.x > size.x ||
+                                y + minBoundary.z < -size.z ||
+                                y + minBoundary.z > size.z
+                        ))
+                    )
+            );
 
             if (y >= image.getHeight()) {
                 return false;
@@ -56,19 +72,20 @@ public class RasterizeNode extends AbstractForkNode {
     }
 
     @Override
-    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
+    public void setup(InputMap inputs, EvaluationState tree) {
         Geometry geometry = inputs.get("geometry").getGeometryValue();
         Boolean fill = inputs.get("fill").getBooleanValue();
         Float strokeWeight = inputs.get("strokeWeight").getFloatValue();
         Float pointSize = inputs.get("pointSize").getFloatValue();
         Boolean ignore = inputs.get("ignore").getBooleanValue();
+        Boolean clip = inputs.get("clip").getBooleanValue();
 
         if (ignore != null && ignore) {
             image = null;
             return;
         }
 
-        if (geometry == null || fill == null || strokeWeight == null || pointSize == null) {
+        if (geometry == null || fill == null || strokeWeight == null || pointSize == null || clip == null) {
             image = null;
             return;
         }
@@ -77,8 +94,11 @@ public class RasterizeNode extends AbstractForkNode {
 
         image = output.image;
         graphics2D = output.graphics2D;
+
+        // TODO: Cliping should be done here
         minBoundary = output.minBoundary;
         maxBoundary = output.maxBoundary;
+        this.clip = clip;
 
 //        File f = new File("D:\\" + System.currentTimeMillis() + ".png");
 //        try {
@@ -112,6 +132,10 @@ public class RasterizeNode extends AbstractForkNode {
         Vector2D minBoundary = geometry.minBoundary.floor().subtract(margin);
         Vector2D maxBoundary = geometry.maxBoundary.ceil().add(margin);
         Vector2D size = maxBoundary.subtract(minBoundary);
+
+        if (size.x < 0 || size.z < 0) {
+            return output;
+        }
 
         BufferedImage image = new BufferedImage((int)size.x, (int)size.z, BufferedImage.TYPE_BYTE_BINARY);
 

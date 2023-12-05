@@ -3,6 +3,7 @@ package cz.xrosecky.terratinker.nodes;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+import cz.xrosecky.terratinker.evaluation.InputMap;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
@@ -20,7 +21,7 @@ public abstract class AbstractActionNode extends AbstractNode {
     }
 
     protected AbstractNode actionRoutine(Program program, EvaluationState tree,
-            BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver) {
+            BiConsumer<InputMap, NodeOutput> resolver) {
         NodeOutput output = new NodeOutput();
         AbstractNode fork = evaluatePrerequisites(program, tree);
 
@@ -68,7 +69,7 @@ public abstract class AbstractActionNode extends AbstractNode {
         }
 
         // Evaluate this node
-        HashMap<String, AbstractType> inputs = getInputs(tree);
+        InputMap inputs = getInputs(tree);
         resolver.accept(inputs, output);
 
         // Set the output

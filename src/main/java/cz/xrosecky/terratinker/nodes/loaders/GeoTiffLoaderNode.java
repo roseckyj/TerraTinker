@@ -8,6 +8,7 @@ import cz.xrosecky.terratinker.evaluation.outputType.RasterType;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 import cz.xrosecky.terratinker.types.Raster;
 import cz.xrosecky.terratinker.utils.Downloader;
+import cz.xrosecky.terratinker.utils.FileUtils;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -37,19 +38,7 @@ public class GeoTiffLoaderNode extends AbstractNode {
                 return;
             }
 
-            File file;
-
-            if (path.startsWith("http")) {
-                try {
-                    file = Downloader.downloadFile(new URI(path), tree.info().plugin.getDataFolder());
-                } catch (URISyntaxException e) {
-                    output.addValue("raster", new NullType());
-                    cache.put(path, null);
-                    return;
-                }
-            } else {
-                file = new File(tree.info().plugin.getDataFolder(), path);
-            }
+            File file = FileUtils.pathToFile(path, tree.info().plugin.getDataFolder());
 
             if (file == null || !file.exists()) {
                 output.addValue("raster", new NullType());

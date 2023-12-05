@@ -53,8 +53,8 @@ public class Evaluator {
                 layerEvaluator.evaluate(staticInfo);
             }
         } catch (Exception e) {
-            //e.printStackTrace();
-            plugin.getLogger().warning(e.getMessage());
+            e.printStackTrace();
+//            plugin.getLogger().warning(e.getMessage());
         }
         long finish = System.currentTimeMillis();
         long timeElapsed = finish - start;

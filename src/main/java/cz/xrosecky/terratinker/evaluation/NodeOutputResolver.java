@@ -7,18 +7,17 @@ import java.util.function.Supplier;
 import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public class NodeOutputResolver {
-    private final BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver;
-    private final Supplier<HashMap<String, AbstractType>> inputs;
+    private final BiConsumer<InputMap, NodeOutput> resolver;
+    private final Supplier<InputMap> inputs;
 
-    public NodeOutputResolver(BiConsumer<HashMap<String, AbstractType>, NodeOutput> resolver,
-            Supplier<HashMap<String, AbstractType>> inputs) {
+    public NodeOutputResolver(BiConsumer<InputMap, NodeOutput> resolver, Supplier<InputMap> inputs) {
         this.resolver = resolver;
         this.inputs = inputs;
     }
 
     public NodeOutputResolver(NodeOutput output) {
         this.resolver = (inputs, output1) -> output1.addAll(output);
-        this.inputs = HashMap::new;
+        this.inputs = InputMap::new;
     }
 
     public NodeOutput resolve() {
