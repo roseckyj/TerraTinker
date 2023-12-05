@@ -41,7 +41,7 @@ public class SequenceNode extends AbstractForkNode {
     }
 
     @Override
-    public void setup(HashMap<String, AbstractType> inputs) {
+    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
         steps = 0;
         step = inputs.get("step").getFloatValue();
         from = inputs.get("from").getFloatValue();

@@ -27,12 +27,12 @@ public abstract class AbstractForkNode extends AbstractNode {
         }
 
         HashMap<String, AbstractType> inputs = getInputs(tree);
-        this.setup(inputs);
+        this.setup(inputs, tree);
 
         return this;
     }
 
-    public void setup(HashMap<String, AbstractType> inputs) {
+    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
     }
 
     public void teardown() {

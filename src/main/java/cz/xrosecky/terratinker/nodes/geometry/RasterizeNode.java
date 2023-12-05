@@ -8,17 +8,12 @@ import cz.xrosecky.terratinker.geometry.Ring;
 import cz.xrosecky.terratinker.geometry.Vector2D;
 import cz.xrosecky.terratinker.nodes.AbstractForkNode;
 import cz.xrosecky.terratinker.types.Geometry;
-import kotlin.Pair;
 import org.json.JSONObject;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class RasterizeNode extends AbstractForkNode {
@@ -61,7 +56,7 @@ public class RasterizeNode extends AbstractForkNode {
     }
 
     @Override
-    public void setup(HashMap<String, AbstractType> inputs) {
+    public void setup(HashMap<String, AbstractType> inputs, EvaluationState tree) {
         Geometry geometry = inputs.get("geometry").getGeometryValue();
         Boolean fill = inputs.get("fill").getBooleanValue();
         Float strokeWeight = inputs.get("strokeWeight").getFloatValue();
@@ -78,7 +73,7 @@ public class RasterizeNode extends AbstractForkNode {
             return;
         }
 
-        RasterizeOutput output = Rasterize(geometry, fill, strokeWeight, pointSize);
+        RasterizeOutput output = rasterize(geometry, fill, strokeWeight, pointSize);
 
         image = output.image;
         graphics2D = output.graphics2D;
@@ -110,7 +105,7 @@ public class RasterizeNode extends AbstractForkNode {
         y = 0;
     }
 
-    public static RasterizeOutput Rasterize(Geometry geometry, Boolean fill, Float strokeWeight, Float pointSize) {
+    public static RasterizeOutput rasterize(Geometry geometry, Boolean fill, Float strokeWeight, Float pointSize) {
         RasterizeOutput output = new RasterizeOutput();
 
         Vector2D margin = new Vector2D((int)Math.ceil(Math.max(strokeWeight / 2.0, pointSize / 2.0)) + 2).ceil();

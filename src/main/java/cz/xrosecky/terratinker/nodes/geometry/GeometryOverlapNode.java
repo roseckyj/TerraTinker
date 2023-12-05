@@ -3,11 +3,8 @@ package cz.xrosecky.terratinker.nodes.geometry;
 import cz.xrosecky.terratinker.Program;
 import cz.xrosecky.terratinker.evaluation.EvaluationState;
 import cz.xrosecky.terratinker.evaluation.outputType.BooleanType;
-import cz.xrosecky.terratinker.evaluation.outputType.FloatType;
-import cz.xrosecky.terratinker.evaluation.outputType.GeometryType;
 import cz.xrosecky.terratinker.evaluation.outputType.NullType;
 import cz.xrosecky.terratinker.geometry.Vector2D;
-import cz.xrosecky.terratinker.geometry.Vector2DInt;
 import cz.xrosecky.terratinker.nodes.AbstractNode;
 import cz.xrosecky.terratinker.types.Geometry;
 import org.json.JSONObject;
@@ -34,8 +31,8 @@ public class GeometryOverlapNode extends AbstractNode {
             // Detect if two geometries overlap
             boolean overlap = false;
 
-            RasterizeNode.RasterizeOutput rasterizedA = RasterizeNode.Rasterize(a, true, 0f, 1f);
-            RasterizeNode.RasterizeOutput rasterizedB = RasterizeNode.Rasterize(b, true, 0f, 1f);
+            RasterizeNode.RasterizeOutput rasterizedA = RasterizeNode.rasterize(a, true, 0f, 1f);
+            RasterizeNode.RasterizeOutput rasterizedB = RasterizeNode.rasterize(b, true, 0f, 1f);
 
             for (int x = 0; x < rasterizedA.image.getWidth(); x++) {
                 for (int y = 0; y < rasterizedA.image.getHeight(); y++) {

@@ -26,12 +26,16 @@ public class RasterInfoNode extends AbstractNode {
                 output.addValue("region", new NullType());
                 output.addValue("min", new NullType());
                 output.addValue("max", new NullType());
+                output.addValue("minY", new NullType());
+                output.addValue("maxY", new NullType());
                 return;
             }
 
             double[] extremes = raster.getExtremes();
             output.addValue("min", new FloatType((float) extremes[0]));
             output.addValue("max", new FloatType((float) extremes[1]));
+            output.addValue("minY", new FloatType((float) tree.info().coordsTranslator.altToY(extremes[0])));
+            output.addValue("maxY", new FloatType((float) tree.info().coordsTranslator.altToY(extremes[1])));
 
             Geometry region = raster.getGeometry(tree.info().coordsTranslator);
             output.addValue("region", new GeometryType(region));

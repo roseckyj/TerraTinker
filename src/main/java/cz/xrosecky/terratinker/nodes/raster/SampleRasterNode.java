@@ -46,11 +46,11 @@ public class SampleRasterNode extends AbstractNode {
 
             if (value == null) {
                 output.addValue("y", new NullType());
-                output.addValue("altitude", new NullType());
+                output.addValue("value", new NullType());
                 return;
             }
 
-            output.addValue("altitude", new FloatType(value));
+            output.addValue("value", new FloatType(value));
             output.addValue("y", new FloatType((float)tree.info().coordsTranslator.altToY(value)));
         });
     }

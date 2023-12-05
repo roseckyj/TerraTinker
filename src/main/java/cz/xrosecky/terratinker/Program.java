@@ -38,6 +38,9 @@ public class Program {
     }
 
     public AbstractNode getFlowTail() {
+        if (flow.isEmpty()) {
+            throw new IllegalArgumentException("Flow is empty");
+        }
         String tailId = flow.get(flow.size() - 1);
         AbstractNode tail = nodes.get(tailId);
         if (tail == null) {

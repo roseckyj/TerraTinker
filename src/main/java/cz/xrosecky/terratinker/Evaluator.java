@@ -53,6 +53,7 @@ public class Evaluator {
                 layerEvaluator.evaluate(staticInfo);
             }
         } catch (Exception e) {
+            //e.printStackTrace();
             plugin.getLogger().warning(e.getMessage());
         }
         long finish = System.currentTimeMillis();
