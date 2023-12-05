@@ -38,13 +38,13 @@ export class SampleRasterNode extends AbstractNode {
                 },
             },
             {
+                value: {
+                    type: "float",
+                    title: "Value",
+                },
                 y: {
                     type: "float",
                     title: "Y",
-                },
-                altitude: {
-                    type: "float",
-                    title: "Altitude",
                 },
             },
             params
@@ -54,8 +54,14 @@ export class SampleRasterNode extends AbstractNode {
     public updateConnections(graphState: GraphState): void {
         super.updateConnections(graphState);
 
-        this.outputState.y.nullable = true;
-        this.outputState.altitude.nullable = true;
+        // If any input is nullable, all outputs are nullable
+        const inputNullable = Object.values(this.inputState).some(
+            (state) => state.nullable
+        );
+
+        Object.values(this.outputState).forEach((state) => {
+            state.nullable = inputNullable;
+        });
     }
 
     public static deserialize(id: string, node: Node) {

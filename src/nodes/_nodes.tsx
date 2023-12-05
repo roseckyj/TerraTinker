@@ -41,6 +41,7 @@ import { MathNode } from "./number/MathNode";
 import { RandomNumberNode } from "./number/RandomNumberNode";
 import { SequenceNode } from "./number/SequenceNode";
 import { AggregateRasterNode } from "./raster/AggregateRasterNode";
+import { RasterInfoNode } from "./raster/RasterInfoNode";
 import { SampleRasterNode } from "./raster/SampleRasterNode";
 import { ConstantStringNode } from "./string/ConstantStringNode";
 import { ToStringNode } from "./string/ToStringNode";
@@ -92,4 +93,5 @@ export const nodes: Array<NodeConstructor> = [
     AltitudeToYNode,
     YToHeightNode,
     HeightToYNode,
+    RasterInfoNode,
 ];

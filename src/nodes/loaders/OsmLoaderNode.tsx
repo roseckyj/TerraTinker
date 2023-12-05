@@ -113,12 +113,17 @@ export class OsmLoaderNode extends AbstractNode {
             created.generateOutputs();
         }
 
+        if (node.nodeData.requests) {
+            created.requests = node.nodeData.requests;
+        }
+
         return created;
     }
 
     public serializeNodeData(): Record<string, any> {
         return {
             attributes: this.attributes,
+            requests: this.requests,
         };
     }
 

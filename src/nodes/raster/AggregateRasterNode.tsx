@@ -12,14 +12,14 @@ import { Node } from "../../types/layerTypes";
 import { capitalize } from "../../utils/capitalize";
 import { nodeInputStyle } from "../../utils/styles";
 
-const possibleAggregations = ["min", "max", "average"];
+const possibleInterpolations = ["nearest", "bilinear"];
 
 export class AggregateRasterNode extends AbstractNode {
     static title = "Aggregate Raster";
     static category = "Raster";
     static type = "aggregateRaster";
 
-    private aggregation: string = "bilinear";
+    private interpolation: string = "bilinear";
 
     public constructor(params: NodeConstructorParams) {
         super(
@@ -34,9 +34,29 @@ export class AggregateRasterNode extends AbstractNode {
                 },
             },
             {
-                value: {
+                min: {
                     type: "float",
-                    title: "Sampled value",
+                    title: "Minimum value",
+                },
+                max: {
+                    type: "float",
+                    title: "Maximum value",
+                },
+                average: {
+                    type: "float",
+                    title: "Average value",
+                },
+                minY: {
+                    type: "float",
+                    title: "Minimum Y",
+                },
+                maxY: {
+                    type: "float",
+                    title: "Maximum Y",
+                },
+                averageY: {
+                    type: "float",
+                    title: "Average Y",
                 },
             },
             params
@@ -46,14 +66,21 @@ export class AggregateRasterNode extends AbstractNode {
     public updateConnections(graphState: GraphState): void {
         super.updateConnections(graphState);
 
-        this.outputState.value.nullable = true;
+        // If any input is nullable, all outputs are nullable
+        const inputNullable = Object.values(this.inputState).some(
+            (state) => state.nullable
+        );
+
+        Object.values(this.outputState).forEach((state) => {
+            state.nullable = inputNullable;
+        });
     }
 
     public static deserialize(id: string, node: Node) {
         const created = super.deserialize(id, node) as AggregateRasterNode;
 
-        if (node.nodeData.aggregation) {
-            created.aggregation = node.nodeData.aggregation;
+        if (node.nodeData.interpolation) {
+            created.interpolation = node.nodeData.interpolation;
         }
 
         return created;
@@ -61,7 +88,7 @@ export class AggregateRasterNode extends AbstractNode {
 
     public serializeNodeData(): Record<string, any> {
         return {
-            aggregation: this.aggregation,
+            interpolation: this.interpolation,
         };
     }
 
@@ -80,13 +107,13 @@ export class AggregateRasterNode extends AbstractNode {
             >
                 <Select
                     {...nodeInputStyle}
-                    value={thisNode.aggregation}
+                    value={thisNode.interpolation}
                     onChange={(e) => {
-                        thisNode.aggregation = e.target.value as any;
+                        thisNode.interpolation = e.target.value as any;
                         forceUpdate();
                     }}
                 >
-                    {possibleAggregations.map((type, i) => (
+                    {possibleInterpolations.map((type, i) => (
                         <option key={i} value={type}>
                             {capitalize(type)}
                         </option>
