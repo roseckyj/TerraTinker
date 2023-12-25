@@ -28,6 +28,10 @@ export class RasterizeNode extends AbstractNode {
                     type: "float",
                     title: "Point Size",
                 },
+                clip: {
+                    type: "boolean",
+                    title: "Clip to region",
+                },
                 ignore: {
                     type: "boolean",
                     title: "Ignore",

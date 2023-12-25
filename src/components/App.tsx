@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
-import { BiRocket, BiSolidCube } from "react-icons/bi";
+import { BiRocket, BiSearch, BiSolidCube } from "react-icons/bi";
 import { getDefaultGeneratorData } from "../data/getDefaultGeneratorData";
 import { GeneratorData } from "../types/generatorTypes";
 import { Map } from "./map/Map";
@@ -20,24 +20,42 @@ import { MapMenuItem } from "./map/MapMenuItem";
 import { MenuItem } from "./menu/MenuItem";
 import { NodeGraph } from "./nodeGraph/NodeGraph";
 import { NodeGraphMenuItem } from "./nodeGraph/NodeGraphMenuItem";
+import { Preview } from "./preview/Preview";
+import { Publish } from "./publish/Publish";
 
 const localStorageKey = "generatorData";
 
 export interface IAppProps {}
 
 export function App() {
-    const [stage, setStage] = useState<"select" | "layers" | "publish">(
-        "select"
-    );
-    const [isConnected, setIsConnected] = useState(false);
+    const [stage, setStage] = useState<
+        "select" | "layers" | "preview" | "publish"
+    >("select");
+    const [serverStatus, setServerStatus] = useState<{
+        connected: boolean;
+        queued: number;
+    }>({
+        connected: false,
+        queued: 0,
+    });
 
     useEffect(() => {
         const checkConnection = async () => {
             try {
-                await axios.get("http://localhost:7070/api/");
-                setIsConnected(true);
+                const response = await axios.get(
+                    "http://localhost:7070/api/status"
+                );
+                const status = response.data.status;
+                const queued = response.data.queued;
+                setServerStatus({
+                    connected: status === "ok",
+                    queued,
+                });
             } catch (e) {
-                setIsConnected(false);
+                setServerStatus({
+                    connected: false,
+                    queued: 0,
+                });
             }
         };
 
@@ -96,16 +114,30 @@ export function App() {
                 </Text>
                 <Spacer />
                 <HStack>
-                    {isConnected ? (
-                        <>
-                            <Box
-                                rounded="full"
-                                w="0.5em"
-                                h="0.5em"
-                                bg="green.500"
-                            />
-                            <Text opacity={0.8}>Connected</Text>
-                        </>
+                    {serverStatus.connected ? (
+                        serverStatus.queued > 0 ? (
+                            <>
+                                <Box
+                                    rounded="full"
+                                    w="0.5em"
+                                    h="0.5em"
+                                    bg="yellow.500"
+                                />
+                                <Text opacity={0.8}>
+                                    Busy ({serverStatus.queued} tasks queued)
+                                </Text>
+                            </>
+                        ) : (
+                            <>
+                                <Box
+                                    rounded="full"
+                                    w="0.5em"
+                                    h="0.5em"
+                                    bg="green.500"
+                                />
+                                <Text opacity={0.8}>Connected</Text>
+                            </>
+                        )
                     ) : (
                         <>
                             <Box
@@ -124,7 +156,7 @@ export function App() {
                         onClick={async () => {
                             try {
                                 const response = await axios.post(
-                                    "http://localhost:7070/api/evaluate",
+                                    "http://localhost:7070/api/run",
                                     JSON.stringify(data),
                                     {
                                         validateStatus: () => true,
@@ -191,11 +223,17 @@ export function App() {
                             onLayerIdChange={setLayerId}
                         />
                         <MenuItem
+                            icon={<BiSearch />}
+                            label="Preview"
+                            onClick={() => setStage("preview")}
+                            selected={stage === "preview"}
+                        />
+                        <MenuItem
                             icon={<BiRocket />}
                             label="Publish"
                             onClick={() => setStage("publish")}
                             selected={stage === "publish"}
-                        ></MenuItem>
+                        />
                     </VStack>
                 </Box>
 
@@ -222,6 +260,16 @@ export function App() {
                             }}
                         />
                     )}
+                    <Preview
+                        apiUrl="http://localhost:7070/api"
+                        data={data}
+                        hide={stage !== "preview"}
+                    />
+                    <Publish
+                        apiUrl="http://localhost:7070/api"
+                        data={data}
+                        hide={stage !== "publish"}
+                    />
                 </Box>
             </Flex>
         </Flex>
