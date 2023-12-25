@@ -15,6 +15,8 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.osgeo.org/repository/release/")
     maven("https://maven.geo-solutions.it/")
+    maven("https://maven.enginehub.org/repo/")
+    maven("https://repo.onarandombox.com/content/groups/public/")
 }
 
 java {
@@ -37,6 +39,12 @@ dependencies {
     // Gdal dependencies
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.gdal:gdal:3.7.0")
+
+    // Multiverse dependencies
+    compileOnly("com.onarandombox.multiversecore:Multiverse-Core:4.3.1")
+
+    // Zip4j dependencies
+    implementation("net.lingala.zip4j:zip4j:2.11.5")
 }
 
 tasks {

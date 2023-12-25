@@ -31,7 +31,7 @@ public class HighestBlockAtNode extends AbstractNode {
             int x = xF.intValue();
             int z = zF.intValue();
 
-            Block block = world.getHighestBlockAt(x, z);
+            Block block = world.getHighestBlockAt(x + tree.info().origin.x, z + tree.info().origin.z);
 
             if (block.isEmpty()) {
                 output.addValue("y", new FloatType((float) tree.info().world.getMinHeight()));

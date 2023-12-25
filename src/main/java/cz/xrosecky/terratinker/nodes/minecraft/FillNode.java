@@ -40,7 +40,7 @@ public class FillNode extends AbstractActionNode {
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
-                        world.setType(x, y, z, material);
+                        world.setType(x + tree.info().origin.x, y + tree.info().origin.y, z + tree.info().origin.z, material);
                     }
                 }
             }

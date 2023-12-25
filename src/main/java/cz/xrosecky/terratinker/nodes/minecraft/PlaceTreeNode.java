@@ -38,7 +38,7 @@ public class PlaceTreeNode extends AbstractActionNode {
             int y = yF.intValue();
             int z = zF.intValue();
 
-            world.generateTree(new Location(world, x, y, z), treeType);
+            world.generateTree(new Location(world, x + tree.info().origin.x, y + tree.info().origin.y, z + tree.info().origin.z), treeType);
         });
     }
 }

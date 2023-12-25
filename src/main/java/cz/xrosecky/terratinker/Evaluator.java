@@ -4,25 +4,27 @@ import cz.xrosecky.terratinker.evaluation.StaticInfo;
 import cz.xrosecky.terratinker.geometry.CoordsTranslator;
 import cz.xrosecky.terratinker.geometry.Vector2D;
 import cz.xrosecky.terratinker.geometry.Vector2DInt;
+import cz.xrosecky.terratinker.geometry.Vector3DInt;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Evaluator {
+    private static final int PREVIEW_SIZE = 16 * 4;
     private final JavaPlugin plugin;
+    private final boolean isPreview;
+    private boolean running = false;
 
-    public Evaluator(JavaPlugin plugin) {
+    public Evaluator(JavaPlugin plugin, boolean isPreview) {
         this.plugin = plugin;
+        this.isPreview = isPreview;
     }
 
-    public void evaluate(String input) {
-        plugin.getLogger().info("Executing program");
+    public void evaluate(String input, World world) {
+        running = true;
         long start = System.currentTimeMillis();
         try {
-            World world = plugin.getServer().getWorld("world");
-            assert world != null;
-
             JSONObject config = new JSONObject(input);
 
             JSONArray mapCenter = config.getJSONArray("mapCenter");
@@ -38,9 +40,9 @@ public class Evaluator {
 
             CoordsTranslator coordsTranslator = new CoordsTranslator(new Vector2D(lat, lon), new Vector2D(0, 0), 0, horizontalScale, verticalScale, world.getMinHeight());
             coordsTranslator.setAltShift((int)(-minAltitude + 10 + 10 * verticalScale));
-            Vector2DInt size = new Vector2DInt(width, height);
+            Vector2DInt size = isPreview ? new Vector2DInt(PREVIEW_SIZE, PREVIEW_SIZE) : new Vector2DInt(width, height);
 
-            StaticInfo staticInfo = new StaticInfo(plugin, world, coordsTranslator, size, minAltitude);
+            StaticInfo staticInfo = new StaticInfo(plugin, world, coordsTranslator, size, minAltitude, isPreview ? new Vector3DInt(512 / 2, 0, 512 / 2) : new Vector3DInt(0, 0, 0));
 
             JSONArray layers = config.getJSONArray("layers");
 
@@ -56,8 +58,14 @@ public class Evaluator {
             e.printStackTrace();
 //            plugin.getLogger().warning(e.getMessage());
         }
+        world.save();
+        running = false;
         long finish = System.currentTimeMillis();
         long timeElapsed = finish - start;
         plugin.getLogger().info("Finished in " + timeElapsed + " ms");
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }
