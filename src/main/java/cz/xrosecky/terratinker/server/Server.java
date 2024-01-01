@@ -109,7 +109,7 @@ public class Server implements Runnable {
             response.put("id", session.id);
             if (queue.contains(session))
                 response.put("state", "queued");
-            else if (session.isRunning())
+            else if (session.isRunning() || session == currentSession)
                 response.put("state", "running");
             else
                 response.put("state", "finished");
