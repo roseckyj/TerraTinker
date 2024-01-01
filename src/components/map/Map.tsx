@@ -67,6 +67,20 @@ export function Map(props: IMapProps) {
         return points.map((point) => translator.XZToLatLon(point[0], point[1]));
     }, [translator, data.mapSize.width, data.mapSize.height]);
 
+    const previewPoints = useMemo(() => {
+        let points: Position[] = [
+            [-32, -32],
+            [31, -32],
+            [31, 31],
+            [-32, 31],
+        ];
+        for (let i = 0; i < 4; i++) {
+            points = insertMiddlePoints(points);
+        }
+
+        return points.map((point) => translator.XZToLatLon(point[0], point[1]));
+    }, [translator]);
+
     return (
         <Box
             w="full"
@@ -97,6 +111,11 @@ export function Map(props: IMapProps) {
                     }}
                 />
                 <Polygon positions={rectanglePoints} />
+                <Polygon
+                    positions={previewPoints}
+                    dashArray={[6, 10]}
+                    fill={false}
+                />
                 <MapEventsHandler {...props} />
             </MapContainer>
         </Box>

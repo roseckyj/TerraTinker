@@ -74,7 +74,7 @@ export function App() {
         checkConnection();
         const interval = setInterval(checkConnection, 1000);
         return () => clearInterval(interval);
-    }, []);
+    }, [apiUrl]);
     const toast = useToast();
 
     // Data

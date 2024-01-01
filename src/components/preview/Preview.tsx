@@ -48,7 +48,7 @@ export function Preview(props: IPreviewProps) {
         checkStatus();
         const interval = setInterval(checkStatus, 1000);
         return () => clearInterval(interval);
-    }, [previewSession]);
+    }, [previewSession, props.apiUrl]);
 
     const chunks = useMemo(() => {
         const chunks: [number, number][] = [[16, 16]];
