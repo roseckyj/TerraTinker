@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     Flex,
     HStack,
     Icon,
@@ -161,7 +160,7 @@ export function App() {
                             <Text opacity={0.8}>Disconnected</Text>
                         </>
                     )}
-                    <Button
+                    {/*<Button
                         colorScheme="blue"
                         leftIcon={<BiRocket />}
                         ml={6}
@@ -193,7 +192,7 @@ export function App() {
                         }}
                     >
                         Execute
-                    </Button>
+                    </Button>*/}
                 </HStack>
             </HStack>
             <Flex
