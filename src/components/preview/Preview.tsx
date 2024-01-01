@@ -32,7 +32,7 @@ export function Preview(props: IPreviewProps) {
             if (previewSession) {
                 try {
                     const response = await axios.get(
-                        `http://localhost:7070/api/session/${previewSession}`
+                        `${props.apiUrl}/session/${previewSession}`
                     );
                     if (response.data.state === "finished") {
                         setPreviewState("ready");
@@ -95,7 +95,7 @@ export function Preview(props: IPreviewProps) {
                         onClick={async () => {
                             try {
                                 const response = await axios.post(
-                                    "http://localhost:7070/api/preview",
+                                    props.apiUrl + "/preview",
                                     JSON.stringify(props.data),
                                     {
                                         validateStatus: () => true,
@@ -144,7 +144,7 @@ export function Preview(props: IPreviewProps) {
         <Box w="100%" h="100%">
             <MinecraftViewer
                 chunks={chunks}
-                regionPath={`http://localhost:7070/api/session/${previewSession}/region/0/0`}
+                regionPath={`${props.apiUrl}/session/${previewSession}/region/0/0`}
                 assetsPath="McVizFrontend/assets.zip"
                 backgroundColor={[26 / 255, 32 / 255, 44 / 255]}
                 spinner={

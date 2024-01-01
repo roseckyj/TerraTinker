@@ -11,7 +11,7 @@ import {
     useToken,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import { BiRocket, BiSearch, BiSolidCube } from "react-icons/bi";
 import { getDefaultGeneratorData } from "../data/getDefaultGeneratorData";
 import { GeneratorData } from "../types/generatorTypes";
@@ -39,12 +39,24 @@ export function App() {
         queued: 0,
     });
 
+    const apiUrl = useMemo(() => {
+        // Read from current url and change port to 7070
+        // Eg. http://localhost:3000/McVizFrontend -> http://localhost:7070/api
+
+        const url = new URL(window.location.href);
+        url.port = "7070";
+        url.pathname = "/api";
+        const path = url.toString();
+
+        console.log("API URL:", path);
+
+        return path;
+    }, []);
+
     useEffect(() => {
         const checkConnection = async () => {
             try {
-                const response = await axios.get(
-                    "http://localhost:7070/api/status"
-                );
+                const response = await axios.get(apiUrl + "/status");
                 const status = response.data.status;
                 const queued = response.data.queued;
                 setServerStatus({
@@ -156,7 +168,7 @@ export function App() {
                         onClick={async () => {
                             try {
                                 const response = await axios.post(
-                                    "http://localhost:7070/api/run",
+                                    apiUrl + "/run",
                                     JSON.stringify(data),
                                     {
                                         validateStatus: () => true,
@@ -261,12 +273,12 @@ export function App() {
                         />
                     )}
                     <Preview
-                        apiUrl="http://localhost:7070/api"
+                        apiUrl={apiUrl}
                         data={data}
                         hide={stage !== "preview"}
                     />
                     <Publish
-                        apiUrl="http://localhost:7070/api"
+                        apiUrl={apiUrl}
                         data={data}
                         hide={stage !== "publish"}
                     />

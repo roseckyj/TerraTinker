@@ -31,7 +31,7 @@ export function Publish(props: IPublishProps) {
             if (publishSession) {
                 try {
                     const response = await axios.get(
-                        `http://localhost:7070/api/session/${publishSession}`
+                        `${props.apiUrl}/session/${publishSession}`
                     );
                     if (response.data.state === "finished") {
                         setPublishState("ready");
@@ -47,7 +47,7 @@ export function Publish(props: IPublishProps) {
         checkStatus();
         const interval = setInterval(checkStatus, 1000);
         return () => clearInterval(interval);
-    }, [publishSession]);
+    }, [props.apiUrl, publishSession]);
 
     if (
         publishSession !== null &&
@@ -80,7 +80,7 @@ export function Publish(props: IPublishProps) {
                         onClick={async () => {
                             try {
                                 const response = await axios.post(
-                                    "http://localhost:7070/api/run",
+                                    props.apiUrl + "/run",
                                     JSON.stringify(props.data),
                                     {
                                         validateStatus: () => true,
@@ -135,7 +135,7 @@ export function Publish(props: IPublishProps) {
                     mt={6}
                     onClick={() => {
                         downloadFileFromUrl(
-                            `http://localhost:7070/api/session/${publishSession}/zip`,
+                            `${props.apiUrl}/session/${publishSession}/zip`,
                             "world.zip"
                         );
                     }}
