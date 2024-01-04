@@ -78,8 +78,8 @@ dependencies:
     specifier: ^9.0.0
     version: 9.0.1(@types/react@18.2.45)(react@18.2.0)
   react-minecraft-viewer:
-    specifier: ^1.3.2
-    version: 1.3.2(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
+    specifier: ^1.4.0
+    version: 1.4.0(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
   react-scripts:
     specifier: 5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.23.3)(@babel/plugin-transform-react-jsx@7.23.4)(eslint@8.56.0)(react@18.2.0)(typescript@4.9.5)
@@ -10204,8 +10204,8 @@ packages:
       - supports-color
     dev: false
 
-  /react-minecraft-viewer@1.3.2(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-TWRt6MIENAmDnCwStMoc6mSDkoMNPxiTh1Fp//w1S993Wth7mKOa6YZtLVJ6S2oI9AmZInxw/+pJX+W5Mt0mJA==}
+  /react-minecraft-viewer@1.4.0(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-O6uoofx1pJ/tMuFbL//1etWKKjvVdT9ONwGjMoNHyefIaSKCvBjG//Z433eQsgydwSraeasIRCk+8XVGT/+v9Q==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
