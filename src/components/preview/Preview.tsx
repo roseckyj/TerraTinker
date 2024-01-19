@@ -7,15 +7,14 @@ import {
     VStack,
     useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { BiRocket } from "react-icons/bi";
 import { MinecraftViewer } from "react-minecraft-viewer";
+import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
 
 export interface IPreviewProps {
     data: GeneratorData;
-    apiUrl: string;
     hide: boolean;
 }
 
@@ -26,20 +25,18 @@ export function Preview(props: IPreviewProps) {
         "running"
     );
     const toast = useToast();
+    const api = useApi();
 
     useEffect(() => {
         const checkStatus = async () => {
             if (previewSession) {
-                try {
-                    const response = await axios.get(
-                        `${props.apiUrl}/session/${previewSession}`
-                    );
-                    if (response.data.state === "finished") {
-                        setPreviewState("ready");
-                    } else {
-                        setPreviewState("running");
-                    }
-                } catch (e) {
+                const response = await api.get(`/session/${previewSession}`);
+                if (
+                    response.status === 200 &&
+                    response.data.state === "finished"
+                ) {
+                    setPreviewState("ready");
+                } else {
                     setPreviewState("running");
                 }
             }
@@ -48,7 +45,7 @@ export function Preview(props: IPreviewProps) {
         checkStatus();
         const interval = setInterval(checkStatus, 1000);
         return () => clearInterval(interval);
-    }, [previewSession, props.apiUrl]);
+    }, [previewSession, api]);
 
     const chunks = useMemo(() => {
         const chunks: [number, number][] = [[16, 16]];
@@ -93,33 +90,23 @@ export function Preview(props: IPreviewProps) {
                         leftIcon={<BiRocket />}
                         mt={6}
                         onClick={async () => {
-                            try {
-                                const response = await axios.post(
-                                    props.apiUrl + "/preview",
-                                    JSON.stringify(props.data),
-                                    {
-                                        validateStatus: () => true,
-                                    }
-                                );
+                            const response = await api.post(
+                                "/preview",
+                                JSON.stringify(props.data)
+                            );
 
-                                if (response.status !== 200) {
-                                    toast({
-                                        title: "Execution failed",
-                                        description: response.data,
-                                        status: "error",
-                                    });
-                                }
-
-                                setPreviewSession(response.data.id);
-                                setPreviewData(props.data);
-                            } catch (e) {
+                            if (response.status !== 200) {
                                 toast({
                                     title: "Network error",
                                     description:
                                         "Execution failed due to a network error",
                                     status: "error",
                                 });
+                                return;
                             }
+
+                            setPreviewSession(response.data.id);
+                            setPreviewData(props.data);
                         }}
                     >
                         Generate preview
@@ -144,7 +131,7 @@ export function Preview(props: IPreviewProps) {
         <Box w="100%" h="100%">
             <MinecraftViewer
                 chunks={chunks}
-                regionPath={`${props.apiUrl}/session/${previewSession}/region/0/0`}
+                regionPath={api.getUrl(`/session/${previewSession}/region/0/0`)}
                 assetsPath="McVizFrontend/assets.zip"
                 backgroundColor={[26 / 255, 32 / 255, 44 / 255]}
                 spinner={

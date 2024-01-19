@@ -9,6 +9,8 @@ import "leaflet/dist/leaflet.css";
 import ReactDOM from "react-dom/client";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
+import { Api } from "./api/Api";
+import { ApiProvider } from "./api/ApiProvider";
 import { App } from "./components/App";
 import "./index.css";
 
@@ -21,6 +23,8 @@ const config: ThemeConfig = {
     useSystemColorMode: false,
 };
 
+const api = new Api();
+
 root.render(
     <ReactFlowProvider>
         <ChakraProvider
@@ -29,7 +33,9 @@ root.render(
             } as Theme)}
         >
             <DarkMode>
-                <App />
+                <ApiProvider api={api}>
+                    <App />
+                </ApiProvider>
             </DarkMode>
         </ChakraProvider>
     </ReactFlowProvider>

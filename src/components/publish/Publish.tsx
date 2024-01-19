@@ -6,15 +6,14 @@ import {
     VStack,
     useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiDownload, BiRocket } from "react-icons/bi";
+import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
 import { downloadFileFromUrl } from "../../utils/downloadFile";
 
 export interface IPublishProps {
     data: GeneratorData;
-    apiUrl: string;
     hide: boolean;
 }
 
@@ -25,20 +24,18 @@ export function Publish(props: IPublishProps) {
         "running"
     );
     const toast = useToast();
+    const api = useApi();
 
     useEffect(() => {
         const checkStatus = async () => {
             if (publishSession) {
-                try {
-                    const response = await axios.get(
-                        `${props.apiUrl}/session/${publishSession}`
-                    );
-                    if (response.data.state === "finished") {
-                        setPublishState("ready");
-                    } else {
-                        setPublishState("running");
-                    }
-                } catch (e) {
+                const response = await api.get(`/session/${publishSession}`);
+                if (
+                    response.status === 200 &&
+                    response.data.state === "finished"
+                ) {
+                    setPublishState("ready");
+                } else {
                     setPublishState("running");
                 }
             }
@@ -47,7 +44,7 @@ export function Publish(props: IPublishProps) {
         checkStatus();
         const interval = setInterval(checkStatus, 1000);
         return () => clearInterval(interval);
-    }, [props.apiUrl, publishSession]);
+    }, [api, publishSession]);
 
     if (
         publishSession !== null &&
@@ -78,33 +75,23 @@ export function Publish(props: IPublishProps) {
                         leftIcon={<BiRocket />}
                         mt={6}
                         onClick={async () => {
-                            try {
-                                const response = await axios.post(
-                                    props.apiUrl + "/run",
-                                    JSON.stringify(props.data),
-                                    {
-                                        validateStatus: () => true,
-                                    }
-                                );
+                            const response = await api.post(
+                                "/run",
+                                JSON.stringify(props.data)
+                            );
 
-                                if (response.status !== 200) {
-                                    toast({
-                                        title: "Execution failed",
-                                        description: response.data,
-                                        status: "error",
-                                    });
-                                }
-
-                                setPublishSession(response.data.id);
-                                setPublishData(props.data);
-                            } catch (e) {
+                            if (response.status !== 200) {
                                 toast({
                                     title: "Network error",
                                     description:
                                         "Execution failed due to a network error",
                                     status: "error",
                                 });
+                                return;
                             }
+
+                            setPublishSession(response.data.id);
+                            setPublishData(props.data);
                         }}
                     >
                         Generate the map
@@ -135,7 +122,7 @@ export function Publish(props: IPublishProps) {
                     mt={6}
                     onClick={() => {
                         downloadFileFromUrl(
-                            `${props.apiUrl}/session/${publishSession}/zip`,
+                            api.getUrl(`/session/${publishSession}/zip`),
                             "world.zip"
                         );
                     }}
