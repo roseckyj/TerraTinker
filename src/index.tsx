@@ -12,6 +12,7 @@ import "reactflow/dist/style.css";
 import { Api } from "./api/Api";
 import { ApiProvider } from "./api/ApiProvider";
 import { App } from "./components/App";
+import { HelpProvider } from "./components/help/HelpProvider";
 import "./index.css";
 
 const root = ReactDOM.createRoot(
@@ -34,7 +35,9 @@ root.render(
         >
             <DarkMode>
                 <ApiProvider api={api}>
-                    <App />
+                    <HelpProvider>
+                        <App />
+                    </HelpProvider>
                 </ApiProvider>
             </DarkMode>
         </ChakraProvider>

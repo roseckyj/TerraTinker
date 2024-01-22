@@ -1,9 +1,10 @@
-import { Flex, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
+import { Button, Flex, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
 import { useReducer, useState } from "react";
-import { BiSolidCube } from "react-icons/bi";
+import { BiQuestionMark, BiSolidCube } from "react-icons/bi";
 import { getDefaultGeneratorData } from "../data/getDefaultGeneratorData";
 import { GeneratorData } from "../types/generatorTypes";
 import { AppWindow } from "./AppWindow";
+import { useHelp } from "./help/HelpProvider";
 import { MapStep } from "./map/_MapStep";
 import { NodeGraphStep } from "./nodeGraph/_NodeGraphStep";
 import { PreviewStep } from "./preview/_PreviewStep";
@@ -35,6 +36,8 @@ export function App() {
         localStorage.setItem(localStorageKey, JSON.stringify(data));
     };
 
+    const help = useHelp();
+
     return (
         <Flex
             position="fixed"
@@ -58,6 +61,13 @@ export function App() {
                 </Text>
                 <Spacer />
                 <ServerStatus />
+                <Button
+                    ml={4}
+                    leftIcon={<BiQuestionMark />}
+                    onClick={() => help.onReopen()}
+                >
+                    Help
+                </Button>
             </HStack>
             <AppWindow
                 data={data}
