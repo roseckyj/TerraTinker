@@ -6,7 +6,7 @@ import {
 } from "../components/nodeGraph/AbstractNode";
 import { nodes } from "../nodes/_nodes";
 import { Position } from "../types/genericTypes";
-import { Layer } from "../types/layerTypes";
+import { Layer, Node } from "../types/layerTypes";
 
 export class GraphState {
     public layerName: string = "New layer";
@@ -36,21 +36,11 @@ export class GraphState {
     }
 
     public deserialize(data: Layer, toast: CreateToastFnReturn): void {
-        const nodeTypes = nodes.reduce(
-            (prev, value) => ({
-                ...prev,
-                [(value as any).type]: value as any,
-            }),
-            {} as Record<string, NodeConstructor>
-        );
-
         this.nodes = Object.entries(data.nodes)
             .map(([key, value]) => {
-                const ctor = nodeTypes[
-                    value.type
-                ] as any as typeof AbstractNode;
+                const node = GraphState.deserializeNode(value, key);
 
-                if (!ctor) {
+                if (!node) {
                     toast({
                         title: "Unknown node type",
                         description: `Unknown node type "${value.type}" detected, ignoring.`,
@@ -59,7 +49,6 @@ export class GraphState {
                     return null;
                 }
 
-                const node = ctor.deserialize(key, value);
                 const flowOrder = (
                     data.flow || {
                         nodes: [],
@@ -81,5 +70,26 @@ export class GraphState {
 
         this.layerName = data.name;
         this.id = data.id;
+    }
+
+    public static deserializeNode(
+        node: Node,
+        key: string
+    ): AbstractNode | null {
+        const nodeTypes = nodes.reduce(
+            (prev, value) => ({
+                ...prev,
+                [(value as any).type]: value as any,
+            }),
+            {} as Record<string, NodeConstructor>
+        );
+
+        const ctor = nodeTypes[node.type] as any as typeof AbstractNode;
+
+        if (!ctor) {
+            return null;
+        }
+
+        return ctor.deserialize(key, node);
     }
 }
