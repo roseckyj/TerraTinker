@@ -8,6 +8,7 @@ export const separator = "___";
 export type IVariableProps = {
     param: string;
     definition: HandleDefinition;
+    locked: boolean;
     onChange?: (value: any) => void;
 } & (
     | {
@@ -26,6 +27,7 @@ export function Variable({
     onChange,
     orientation,
     state,
+    locked,
 }: IVariableProps) {
     if (orientation === "output") {
         // Right
@@ -35,11 +37,12 @@ export function Variable({
                 <TypedHandle
                     id={param}
                     position={Position.Right}
-                    isConnectable={true}
+                    isConnectable={!locked}
                     varType={definition.type}
                     nullable={state.nullable}
                     value={null}
-                    onChange={(value) => onChange && onChange(value)}
+                    locked={locked}
+                    onChange={(value) => !locked && onChange && onChange(value)}
                 />
             </Box>
         );
@@ -51,12 +54,13 @@ export function Variable({
                 <TypedHandle
                     id={param}
                     position={Position.Left}
-                    isConnectable={true}
+                    isConnectable={!locked}
                     varType={definition.type}
                     connected={!!state.nodeId}
                     nullable={state.nullable}
                     value={state.value}
-                    onChange={(value) => onChange && onChange(value)}
+                    locked={locked}
+                    onChange={(value) => !locked && onChange && onChange(value)}
                 />
             </Box>
         );

@@ -46,7 +46,7 @@ export class CommentNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -75,6 +75,7 @@ export class CommentNode extends AbstractNode {
                         thisNode.content = value;
                         forceUpdate();
                     }}
+                    isDisabled={locked}
                 >
                     <EditablePreview ref={ref} />
                     <EditableTextarea

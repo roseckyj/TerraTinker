@@ -19,19 +19,21 @@ import { AbstractNode, NodeConstructor } from "../AbstractNode";
 import { ContextMenu } from "./ContextMenu";
 
 export interface INewNodeContextMenuProps {
-    children: (ref: RefObject<HTMLElement>) => JSX.Element;
+    children: (ref: RefObject<HTMLElement> | undefined) => JSX.Element;
     reactFlow: ReactFlowInstance;
     graphState: {
         graphState: GraphState;
         updateConnections: (graphState: GraphState) => void;
         forceUpdate: () => void;
     };
+    disabled?: boolean;
 }
 
 export function NewNodeContextMenu({
     children,
     reactFlow,
     graphState: { graphState, updateConnections, forceUpdate },
+    disabled,
 }: INewNodeContextMenuProps) {
     const ref = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState("");
@@ -80,6 +82,10 @@ export function NewNodeContextMenu({
         localStorage.setItem("lastUsedNodes", JSON.stringify(lastUsed));
         return newNode;
     };
+
+    if (disabled) {
+        return <>{children(undefined)}</>;
+    }
 
     return (
         <ContextMenu

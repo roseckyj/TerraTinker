@@ -18,7 +18,7 @@ import { GraphState } from "../graphState/graphState";
 import { Layer } from "../types/layerTypes";
 import { useUpdateConnections } from "../useUpdateConnections";
 
-export function useGraphState(data: Layer) {
+export function useGraphState(data: Layer, locked: boolean) {
     const [version, forceUpdate] = useReducer((x) => x + 1, 0);
     const [lastChange, setDirty] = useReducer(
         () => new Date().getTime(),
@@ -67,7 +67,8 @@ export function useGraphState(data: Layer) {
             data: {
                 version,
                 node,
-                forceUpdate,
+                forceUpdate: forceUpdate,
+                locked,
                 updateConnections: () => {
                     updateConnections(graphState);
                     forceUpdate();
@@ -83,7 +84,9 @@ export function useGraphState(data: Layer) {
                     x: graphState.flowStartLocation[0],
                     y: graphState.flowStartLocation[1],
                 },
-                data: null,
+                data: {
+                    locked,
+                },
             },
         ]);
     };

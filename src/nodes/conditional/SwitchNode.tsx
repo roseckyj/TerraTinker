@@ -210,7 +210,7 @@ export class SwitchNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate, updateConnections },
+        data: { node, forceUpdate, updateConnections, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -221,6 +221,7 @@ export class SwitchNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                locked={locked}
             >
                 <Text {...nodeDescriptionStype}>Number of cases</Text>
                 <NumberInput
@@ -281,6 +282,7 @@ export class SwitchNode extends AbstractNode {
                     param={"value"}
                     definition={node.inputs["value"]}
                     state={node.inputState["value"]}
+                    locked={locked}
                     onChange={(value) => {
                         node.inputState["value"].value = value;
                         forceUpdate();
@@ -296,6 +298,7 @@ export class SwitchNode extends AbstractNode {
                             param={`${i}_case`}
                             definition={node.inputs[`${i}_case`]}
                             state={node.inputState[`${i}_case`]}
+                            locked={locked}
                             onChange={(value) => {
                                 node.inputState[`${i}_case`].value = value;
                                 forceUpdate();
@@ -307,6 +310,7 @@ export class SwitchNode extends AbstractNode {
                             param={`${i}_use`}
                             definition={node.inputs[`${i}_use`]}
                             state={node.inputState[`${i}_use`]}
+                            locked={locked}
                             onChange={(value) => {
                                 node.inputState[`${i}_use`].value = value;
                                 forceUpdate();
@@ -320,6 +324,7 @@ export class SwitchNode extends AbstractNode {
                     param="default"
                     definition={node.inputs["default"]}
                     state={node.inputState["default"]}
+                    locked={locked}
                     onChange={(value) => {
                         node.inputState["default"].value = value;
                         forceUpdate();
@@ -333,6 +338,7 @@ export class SwitchNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
             </GenericNode>

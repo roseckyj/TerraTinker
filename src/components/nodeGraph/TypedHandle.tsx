@@ -9,6 +9,7 @@ export interface ITypedHandleProps extends Omit<HandleProps, "type"> {
     connected?: boolean;
     nullable?: boolean;
     value: any;
+    locked: boolean;
     onChange: (value: any) => void;
 }
 
@@ -19,6 +20,7 @@ export function TypedHandle({
     nullable,
     value,
     onChange,
+    locked,
     ...rest
 }: ITypedHandleProps) {
     const typedef = varTypes[varType];
@@ -76,6 +78,7 @@ export function TypedHandle({
                                 direction="row"
                                 alignItems="stretch"
                                 fontSize="0.9em"
+                                pointerEvents={locked ? "none" : undefined}
                             >
                                 {typedef.editor(value, onChange)}
                             </Flex>

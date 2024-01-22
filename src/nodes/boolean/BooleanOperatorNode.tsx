@@ -71,7 +71,7 @@ export class BooleanOperatorNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -82,6 +82,7 @@ export class BooleanOperatorNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                locked={locked}
             >
                 <Select
                     {...nodeInputStyle}
@@ -104,6 +105,7 @@ export class BooleanOperatorNode extends AbstractNode {
                         param={id}
                         definition={input}
                         state={node.inputState[id]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
@@ -117,6 +119,7 @@ export class BooleanOperatorNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
             </GenericNode>

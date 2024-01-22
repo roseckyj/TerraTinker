@@ -110,7 +110,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate, updateConnections },
+        data: { node, forceUpdate, updateConnections, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -122,6 +122,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 tags={["fork"]}
+                locked={locked}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable
@@ -130,6 +131,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                         param={id}
                         definition={input}
                         state={node.inputState[id]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
@@ -142,6 +144,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                     param={"geometry"}
                     definition={node.outputs["geometry"]}
                     state={node.outputState["geometry"]}
+                    locked={locked}
                 />
                 {thisNode.attributes.map((attribute, i) => (
                     <Flex
@@ -208,6 +211,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                             param={attribute.path}
                             definition={node.outputs[attribute.path]}
                             state={node.outputState[attribute.path]}
+                            locked={locked}
                         />
                     </Flex>
                 ))}

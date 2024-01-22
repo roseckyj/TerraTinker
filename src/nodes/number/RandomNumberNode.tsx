@@ -73,7 +73,7 @@ export class RandomNumberNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -84,6 +84,7 @@ export class RandomNumberNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                locked={locked}
             >
                 <Checkbox
                     isChecked={thisNode.randomSeed}
@@ -100,6 +101,7 @@ export class RandomNumberNode extends AbstractNode {
                     param={"decimal"}
                     definition={thisNode.inputs["decimal"]}
                     state={node.inputState["decimal"]}
+                    locked={locked}
                     onChange={(value) => {
                         node.inputState["decimal"].value = value;
                         forceUpdate();
@@ -111,6 +113,7 @@ export class RandomNumberNode extends AbstractNode {
                     param={"from"}
                     definition={thisNode.inputs["from"]}
                     state={node.inputState["from"]}
+                    locked={locked}
                     onChange={(value) => {
                         node.inputState["from"].value = value;
                         forceUpdate();
@@ -122,6 +125,7 @@ export class RandomNumberNode extends AbstractNode {
                     param={"to"}
                     definition={thisNode.inputs["to"]}
                     state={node.inputState["to"]}
+                    locked={locked}
                     onChange={(value) => {
                         node.inputState["to"].value = value;
                         forceUpdate();
@@ -134,6 +138,7 @@ export class RandomNumberNode extends AbstractNode {
                         param={"seed"}
                         definition={thisNode.inputs["seed"]}
                         state={node.inputState["seed"]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState["seed"].value = value;
                             forceUpdate();
@@ -147,6 +152,7 @@ export class RandomNumberNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
             </GenericNode>

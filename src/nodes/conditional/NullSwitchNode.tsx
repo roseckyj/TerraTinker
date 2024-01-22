@@ -168,7 +168,7 @@ export class NullSwitchNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate, updateConnections },
+        data: { node, forceUpdate, updateConnections, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -179,6 +179,7 @@ export class NullSwitchNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                locked={locked}
             >
                 <Text {...nodeDescriptionStype}>Number of cases</Text>
                 <NumberInput
@@ -224,6 +225,7 @@ export class NullSwitchNode extends AbstractNode {
                         param={`${i}_case`}
                         definition={node.inputs[`${i}_case`]}
                         state={node.inputState[`${i}_case`]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[`${i}_case`].value = value;
                             forceUpdate();
@@ -238,6 +240,7 @@ export class NullSwitchNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
             </GenericNode>

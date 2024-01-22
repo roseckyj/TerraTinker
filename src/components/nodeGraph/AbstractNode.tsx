@@ -11,6 +11,7 @@ export type NodeData = {
     forceUpdate: () => void;
     updateConnections: () => void;
     version: any;
+    locked: boolean;
 };
 
 export type HandleDefinition = {
@@ -201,7 +202,7 @@ export abstract class AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -217,6 +218,7 @@ export abstract class AbstractNode {
                         ...(ctor.isFork ? ["fork"] : []),
                     ] as any
                 }
+                locked={locked}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable
@@ -225,6 +227,7 @@ export abstract class AbstractNode {
                         param={id}
                         definition={input}
                         state={node.inputState[id]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
@@ -238,6 +241,7 @@ export abstract class AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
                 <FlowHandles node={node} />

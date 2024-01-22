@@ -16,7 +16,6 @@ import { SearchResult } from "leaflet-geosearch/dist/providers/provider";
 import { useMemo, useState } from "react";
 import { BiCrosshair, BiMinus, BiPlus, BiSearch, BiX } from "react-icons/bi";
 import { useMap } from "react-leaflet";
-import { Panel } from "reactflow";
 import { Await } from "../utils/Await";
 import { IMapProps } from "./Map";
 
@@ -29,7 +28,7 @@ export function MapControls(props: IMapProps) {
     const map = useMap();
 
     return (
-        <Panel position="top-left" style={{ zIndex: 1000 }}>
+        <Box zIndex="overlay" position="absolute" top={4} left={4}>
             <Flex direction="row" alignItems="start" fontFamily={"body"}>
                 <Flex direction="column" alignItems="center" zIndex={1000}>
                     <IconButton
@@ -152,6 +151,6 @@ export function MapControls(props: IMapProps) {
                     </VStack>
                 </Flex>
             </Flex>
-        </Panel>
+        </Box>
     );
 }

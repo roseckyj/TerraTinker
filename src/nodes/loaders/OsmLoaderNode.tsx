@@ -136,7 +136,7 @@ export class OsmLoaderNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate, updateConnections },
+        data: { node, forceUpdate, updateConnections, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -162,6 +162,7 @@ out geom;`;
                 category={ctor.category}
                 selected={selected}
                 tags={["fork"]}
+                locked={locked}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable
@@ -170,6 +171,7 @@ out geom;`;
                         param={id}
                         definition={input}
                         state={node.inputState[id]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
@@ -283,6 +285,7 @@ out geom;`;
                     param={"geometry"}
                     definition={node.outputs["geometry"]}
                     state={node.outputState["geometry"]}
+                    locked={locked}
                 />
                 <Variable
                     key={"id"}
@@ -290,6 +293,7 @@ out geom;`;
                     param={"id"}
                     definition={node.outputs["id"]}
                     state={node.outputState["id"]}
+                    locked={locked}
                 />
                 {thisNode.attributes.map((attribute, i) => (
                     <Flex
@@ -356,6 +360,7 @@ out geom;`;
                             param={attribute.path}
                             definition={node.outputs[attribute.path]}
                             state={node.outputState[attribute.path]}
+                            locked={locked}
                         />
                     </Flex>
                 ))}

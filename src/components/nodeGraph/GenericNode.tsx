@@ -6,6 +6,7 @@ export interface IGenericNodeProps extends FlexProps {
     title: string;
     category: string;
     children: React.ReactNode;
+    locked: boolean;
     selected?: boolean;
     tags?: ("action" | "fork")[];
 }
@@ -16,6 +17,7 @@ export function GenericNode({
     children,
     selected,
     tags,
+    locked,
     ...rest
 }: IGenericNodeProps) {
     const tagSet = new Set(tags || []);
@@ -27,7 +29,8 @@ export function GenericNode({
             borderRadius="md"
             direction="column"
             alignItems="stretch"
-            shadow={selected ? "outline" : "dark-lg"}
+            shadow={selected && !locked ? "outline" : "dark-lg"}
+            pointerEvents={locked ? "none" : undefined}
             {...rest}
         >
             <Flex

@@ -7,7 +7,6 @@ import {
 } from "@chakra-ui/react";
 import "leaflet/dist/leaflet.css";
 import ReactDOM from "react-dom/client";
-import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
 import { Api } from "./api/Api";
 import { ApiProvider } from "./api/ApiProvider";
@@ -27,19 +26,17 @@ const config: ThemeConfig = {
 const api = new Api();
 
 root.render(
-    <ReactFlowProvider>
-        <ChakraProvider
-            theme={extendTheme({
-                config,
-            } as Theme)}
-        >
-            <DarkMode>
-                <ApiProvider api={api}>
-                    <HelpProvider>
-                        <App />
-                    </HelpProvider>
-                </ApiProvider>
-            </DarkMode>
-        </ChakraProvider>
-    </ReactFlowProvider>
+    <ChakraProvider
+        theme={extendTheme({
+            config,
+        } as Theme)}
+    >
+        <DarkMode>
+            <ApiProvider api={api}>
+                <HelpProvider>
+                    <App />
+                </HelpProvider>
+            </ApiProvider>
+        </DarkMode>
+    </ChakraProvider>
 );

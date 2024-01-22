@@ -90,7 +90,7 @@ export class PlaceTreeNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -102,6 +102,7 @@ export class PlaceTreeNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 tags={["action"]}
+                locked={locked}
             >
                 <Select
                     {...nodeInputStyle}
@@ -124,6 +125,7 @@ export class PlaceTreeNode extends AbstractNode {
                         param={id}
                         definition={input}
                         state={node.inputState[id]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
@@ -137,6 +139,7 @@ export class PlaceTreeNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
                 <FlowHandles node={node} />

@@ -35,7 +35,7 @@ export class LocalFileNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof LocalFileNode;
@@ -45,6 +45,7 @@ export class LocalFileNode extends AbstractNode {
                 title={ctor.title}
                 category={ctor.category}
                 selected={selected}
+                locked={locked}
             >
                 <Input {...nodeInputStyle} type="file"></Input>
                 {Object.entries(node.outputs).map(([id, output]) => (
@@ -54,6 +55,7 @@ export class LocalFileNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
             </GenericNode>

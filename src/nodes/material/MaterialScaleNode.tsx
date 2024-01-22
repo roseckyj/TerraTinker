@@ -218,7 +218,7 @@ export class MaterialScaleNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate },
+        data: { node, forceUpdate, locked },
         selected,
     }: NodeProps<NodeData>) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -232,6 +232,7 @@ export class MaterialScaleNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 w={96}
+                locked={locked}
             >
                 <Select
                     {...nodeInputStyle}
@@ -436,6 +437,7 @@ export class MaterialScaleNode extends AbstractNode {
                         param={id}
                         definition={input}
                         state={node.inputState[id]}
+                        locked={locked}
                         onChange={(value) => {
                             node.inputState[id].value = value;
                             forceUpdate();
@@ -449,6 +451,7 @@ export class MaterialScaleNode extends AbstractNode {
                         param={id}
                         definition={output}
                         state={node.outputState[id]}
+                        locked={locked}
                     />
                 ))}
             </GenericNode>
