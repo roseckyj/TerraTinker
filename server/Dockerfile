@@ -14,7 +14,7 @@ RUN apk --no-cache add curl java-gdal jq
 # Build the plugin
 RUN mkdir -p ${PLUGIN_HOME}
 WORKDIR ${PLUGIN_HOME}
-COPY ./app ${PLUGIN_HOME}
+COPY . ${PLUGIN_HOME}
 RUN gradle shadowJar --no-daemon
 
 # Create files for the server
@@ -22,7 +22,7 @@ RUN mkdir -p ${SERVER_HOME}
 WORKDIR ${SERVER_HOME}
 RUN mkdir -p ${SERVER_HOME}/plugins
 RUN mv ${PLUGIN_HOME}/build/libs/TerraTinker.jar ${SERVER_HOME}/plugins
-COPY ./server-config ${SERVER_HOME}
+COPY ./config ${SERVER_HOME}
 
 # Copy the scripts
 WORKDIR ${APP_HOME}
