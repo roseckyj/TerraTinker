@@ -22,3 +22,5 @@ services:
         networks:
             default:
         restart: always
+        links:
+            - server

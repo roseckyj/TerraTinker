@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9ca5943b-8de9-42b3-8cac-86038f6b23c8" name="Changes" comment="Added check for the moment before session starts">
+      <change beforePath="$PROJECT_DIR$/../web/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../web/nginx.conf" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="D:\MUNI\DP\TerraTinker">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2Yrgey72QNxESXqHab8Fk9xEBaz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "android.gradle.sync.needed": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/MUNI/DP/TerraTinker/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\MUNI\DP\TerraTinker\src\main\java\cz\xrosecky\terratinker\server" />
+      <recent name="D:\MUNI\DP\TerraTinker\src\main\java\cz\xrosecky\terratinker" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cz.xrosecky.terratinker.nodes.loaders" />
+      <recent name="cz.xrosecky.terratinker.nodes.raster" />
+      <recent name="cz.xrosecky.terratinker.nodes.geometry" />
+      <recent name="cz.xrosecky.terratinker.utils" />
+      <recent name="cz.xrosecky.terratinker.nodes.minecraft" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.TerraTinker build">
+    <configuration name="TerraTinker [runServer]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="runServer" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TerraTinker [runServer]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="runServer" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TerraTinker build" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" value="TerraTinker build" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="shadowJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TerraTinker build" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" value="TerraTinker build" />
+        <option name="externalProjectPath" value="D:\MUNI\DP\TerraTinker" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.TerraTinker build" />
+      <item itemvalue="Gradle.TerraTinker [runServer]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.TerraTinker [runServer]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9ca5943b-8de9-42b3-8cac-86038f6b23c8" name="Changes" comment="" />
+      <created>1701289213438</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701289213438</updated>
+      <workItem from="1701289214478" duration="8806000" />
+      <workItem from="1701339616422" duration="11453000" />
+      <workItem from="1701431575326" duration="2149000" />
+      <workItem from="1701509392061" duration="5619000" />
+      <workItem from="1701690356948" duration="22844000" />
+      <workItem from="1701872565587" duration="2485000" />
+      <workItem from="1701962263507" duration="2582000" />
+      <workItem from="1702374637271" duration="814000" />
+      <workItem from="1702406883894" duration="691000" />
+      <workItem from="1703522365515" duration="10842000" />
+      <workItem from="1703593034562" duration="1058000" />
+      <workItem from="1703930646243" duration="811000" />
+      <workItem from="1704115126466" duration="21000" />
+      <workItem from="1704124927541" duration="660000" />
+      <workItem from="1704379176719" duration="690000" />
+      <workItem from="1706013730333" duration="557000" />
+      <workItem from="1706017328949" duration="1911000" />
+    </task>
+    <task id="LOCAL-00001" summary="Made the server work within a plugin">
+      <option name="closed" value="true" />
+      <created>1701291102599</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1701291102599</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added more node types">
+      <option name="closed" value="true" />
+      <created>1701298547562</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701298547562</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added raster loading and coord translator class">
+      <option name="closed" value="true" />
+      <created>1701345104599</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701345104599</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added min altitude to the configurator">
+      <option name="closed" value="true" />
+      <created>1701354521588</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701354521588</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added transform nodes">
+      <option name="closed" value="true" />
+      <created>1701357209913</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701357209913</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Updated selected region node">
+      <option name="closed" value="true" />
+      <created>1701365458630</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701365458630</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added raster and geometry operations">
+      <option name="closed" value="true" />
+      <created>1701724228150</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1701724228150</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added OSM loader">
+      <option name="closed" value="true" />
+      <created>1701776809456</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1701776809456</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Changed node input from hash map to intermediate class">
+      <option name="closed" value="true" />
+      <created>1701784377470</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701784377470</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added sessions, added preview and world download">
+      <option name="closed" value="true" />
+      <created>1703543970459</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1703543970459</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added check for the moment before session starts">
+      <option name="closed" value="true" />
+      <created>1704124991045</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1704124991045</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="Made the server work within a plugin" />
+    <MESSAGE value="Added more node types" />
+    <MESSAGE value="Added raster loading and coord translator class" />
+    <MESSAGE value="Added min altitude to the configurator" />
+    <MESSAGE value="Added transform nodes" />
+    <MESSAGE value="Updated selected region node" />
+    <MESSAGE value="Added raster and geometry operations" />
+    <MESSAGE value="Added OSM loader" />
+    <MESSAGE value="Changed node input from hash map to intermediate class" />
+    <MESSAGE value="Added sessions, added preview and world download" />
+    <MESSAGE value="Added check for the moment before session starts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added check for the moment before session starts" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cz/xrosecky/terratinker/evaluation/outputType/MaterialType.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cz/xrosecky/terratinker/nodes/minecraft/PlaceTreeNode.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cz/xrosecky/terratinker/types/Raster.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

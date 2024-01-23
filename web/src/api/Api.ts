@@ -4,17 +4,36 @@ export class Api {
     private apiURL: string = "";
 
     constructor() {
-        // Read from current url and change port to 7070
-        // Eg. http://localhost:3000/McVizFrontend -> http://localhost:7070/api
+        this.findApiEndpoint();
+    }
 
-        const url = new URL(window.location.href);
+    private async findApiEndpoint() {
+        let url = new URL(window.location.href);
+
+        // https://current-host/api
+        url = new URL(window.location.href);
+        url.port = "80";
+        url.pathname = "/api";
+
+        if (await this.testApiEndpoint(url)) {
+            this.apiURL = url.toString();
+            return;
+        }
+
+        // https://current-host:7070/api
+        url = new URL(window.location.href);
         url.port = "7070";
         url.pathname = "/api";
-        const path = url.toString();
 
-        console.log("API URL:", path);
+        if (await this.testApiEndpoint(url)) {
+            this.apiURL = url.toString();
+            return;
+        }
+    }
 
-        this.apiURL = path;
+    private async testApiEndpoint(url: URL) {
+        const response = await axios.get(url.toString() + "/status");
+        return response.status === 200;
     }
 
     public async get(path: string) {
