@@ -132,7 +132,7 @@ export function Preview(props: IPreviewProps) {
             <MinecraftViewer
                 chunks={chunks}
                 regionPath={api.getUrl(`/session/${previewSession}/region/0/0`)}
-                assetsPath="McVizFrontend/assets.zip"
+                assetsPath="/assets.zip"
                 backgroundColor={[26 / 255, 32 / 255, 44 / 255]}
                 spinner={
                     <Center w="100%" h="100%">
