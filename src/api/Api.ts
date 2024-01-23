@@ -3,7 +3,7 @@ import axios from "axios";
 export class Api {
     private apiURL: string = "";
 
-    public Api() {
+    constructor() {
         // Read from current url and change port to 7070
         // Eg. http://localhost:3000/McVizFrontend -> http://localhost:7070/api
 
