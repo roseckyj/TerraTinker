@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        expose:
+            - 7070
+        networks:
+            default:
+        restart: always
+        environment:
+            - EULA=${EULA}
+
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile
+        ports:
+            - 80:80
+        networks:
+            default:
+        restart: always
