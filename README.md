@@ -10,6 +10,8 @@ This project uses Docker and Docker Compose to run the application. To start the
 docker compose up
 ```
 
+Before running the application you need to agree to [Minecraft EULA](https://aka.ms/MinecraftEULA). To do so you need to create a file `.env` in the root of the project by copying the `example.env` file and changing the value of `EULA` to `true`.
+
 ## Development
 
 Guide to setup of each part of the project is in it's respective README.md file.
