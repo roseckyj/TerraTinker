@@ -1,0 +1,96 @@
+{
+    "name": "Default layer",
+    "config": {
+        "join": "cartesian"
+    },
+    "flow": {
+        "nodes": [
+            "88bc77cb-f37e-4030-a568-035c9d3e39a4"
+        ],
+        "startLocation": [
+            608.3950335267746,
+            418.5518658169457
+        ]
+    },
+    "nodes": {
+        "1789b5be-a75c-457d-9d5a-14e7bdd147f8": {
+            "type": "rasterize",
+            "location": [
+                101.09402530118129,
+                493.759663596912
+            ],
+            "inputs": {
+                "geometry": {
+                    "kind": "link",
+                    "node": "90bd18ec-f076-4cdb-9dc1-3d0867fff304",
+                    "output": "geometry"
+                },
+                "fill": {
+                    "kind": "value",
+                    "type": "boolean",
+                    "value": true
+                },
+                "strokeWeight": {
+                    "kind": "value",
+                    "type": "float",
+                    "value": 0
+                },
+                "pointSize": {
+                    "kind": "value",
+                    "type": "float",
+                    "value": 0
+                },
+                "ignore": {
+                    "kind": "value",
+                    "type": "boolean",
+                    "value": false
+                }
+            },
+            "nodeData": {}
+        },
+        "90bd18ec-f076-4cdb-9dc1-3d0867fff304": {
+            "type": "selectedRegion",
+            "location": [
+                -360.2393080321519,
+                494.4263302635787
+            ],
+            "inputs": {},
+            "nodeData": {}
+        },
+        "88bc77cb-f37e-4030-a568-035c9d3e39a4": {
+            "type": "setBlock",
+            "location": [
+                608.609244419828,
+                519.7294112692304
+            ],
+            "inputs": {
+                "material": {
+                    "kind": "value",
+                    "type": "material",
+                    "value": "grass_block"
+                },
+                "x": {
+                    "kind": "link",
+                    "node": "1789b5be-a75c-457d-9d5a-14e7bdd147f8",
+                    "output": "x"
+                },
+                "y": {
+                    "kind": "value",
+                    "type": "float",
+                    "value": 0
+                },
+                "z": {
+                    "kind": "link",
+                    "node": "1789b5be-a75c-457d-9d5a-14e7bdd147f8",
+                    "output": "z"
+                },
+                "ignore": {
+                    "kind": "value",
+                    "type": "boolean",
+                    "value": false
+                }
+            },
+            "nodeData": {}
+        }
+    }
+}

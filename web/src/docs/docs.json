@@ -1,0 +1,84 @@
+[
+    {
+        "title": "Getting started",
+        "file": "getting_started/index.md"
+    },
+    {
+        "title": "Map",
+        "file": "map/index.md"
+    },
+    {
+        "title": "Layer creation",
+        "file": "layers/index.md",
+        "children": [
+            {
+                "title": "Node graph",
+                "file": "layers/node_graph.md"
+            },
+            {
+                "title": "Variables",
+                "file": "layers/variables.md"
+            },
+            {
+                "title": "Node types",
+                "file": "layers/node_types.md"
+            }
+        ]
+    },
+    {
+        "title": "Nodes",
+        "file": "nodes/index.md",
+        "children": [
+            {
+                "title": "Boolean nodes",
+                "file": "nodes/boolean/index.md",
+                "children": []
+            },
+            {
+                "title": "Conditional nodes",
+                "file": "nodes/conditional/index.md",
+                "children": []
+            },
+            {
+                "title": "Geometry nodes",
+                "file": "nodes/geometry/index.md",
+                "children": []
+            },
+            {
+                "title": "Loader nodes",
+                "file": "nodes/loader/index.md",
+                "children": []
+            },
+            {
+                "title": "Material nodes",
+                "file": "nodes/material/index.md",
+                "children": []
+            },
+            {
+                "title": "Minecraft nodes",
+                "file": "nodes/minecraft/index.md",
+                "children": []
+            },
+            {
+                "title": "Miscellaneous nodes",
+                "file": "nodes/misc/index.md",
+                "children": []
+            },
+            {
+                "title": "Number nodes",
+                "file": "nodes/number/index.md",
+                "children": []
+            },
+            {
+                "title": "Raster nodes",
+                "file": "nodes/raster/index.md",
+                "children": []
+            },
+            {
+                "title": "String nodes",
+                "file": "nodes/string/index.md",
+                "children": []
+            }
+        ]
+    }
+]
