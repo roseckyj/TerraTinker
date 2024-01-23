@@ -7,8 +7,6 @@ services:
             dockerfile: Dockerfile
         expose:
             - 7070
-        ports:
-            - 25565:25565
         networks:
             default:
         restart: always

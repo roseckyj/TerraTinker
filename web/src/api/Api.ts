@@ -29,6 +29,12 @@ export class Api {
             this.apiURL = url.toString();
             return;
         }
+
+        // Fallback to the default
+        url = new URL(window.location.href);
+        url.port = "80";
+        url.pathname = "/api";
+        this.apiURL = url.toString();
     }
 
     private async testApiEndpoint(url: URL) {
