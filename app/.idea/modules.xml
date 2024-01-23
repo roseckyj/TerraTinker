@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TerraTinker.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TerraTinker.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TerraTinker.test.iml" filepath="$PROJECT_DIR$/.idea/modules/TerraTinker.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cz.xrosecky.TerraTinker.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cz.xrosecky.TerraTinker.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cz.xrosecky.TerraTinker.test.iml" filepath="$PROJECT_DIR$/.idea/modules/cz.xrosecky.TerraTinker.test.iml" />
     </modules>
   </component>
 </project>

@@ -1,4 +1,0 @@
-name: TerraTinker
-version: '${version}'
-main: cz.xrosecky.terratinker.TerraTinker
-api-version: '1.20'
