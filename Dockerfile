@@ -5,8 +5,8 @@ ENV APP_HOME=/app
 ENV SERVER_HOME=${APP_HOME}/server
 ENV PLUGIN_HOME=${APP_HOME}/plugin
 
-# Expose the server port
-EXPOSE 25565
+# Expose the server api port
+EXPOSE 7070
 
 # Install dependencies
 RUN apk --no-cache add curl java-gdal jq

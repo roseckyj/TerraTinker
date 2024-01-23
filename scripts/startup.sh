@@ -10,5 +10,9 @@ if [ "$EULA" != "true" ]; then
     exit 1
 fi
 
+# Set environment variables for plugin directory and world directory
+export PAPERMC_PLUGIN_DIR=$SERVER_HOME/plugins
+export PAPERMC_WORLD_DIR=$SERVER_HOME/world
+
 # Download and run Minecraft server
 ./papermc.sh --mojang-eula-agree --version 1.20 --start-memory 1G --max-memory 10G --auto-restart
