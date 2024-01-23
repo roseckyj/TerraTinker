@@ -1,5 +1,6 @@
 import {
     Box,
+    Code,
     Flex,
     Heading,
     Link,
@@ -102,6 +103,7 @@ export function RenderMarkdown({ children }: IRenderMarkdownProps) {
                             children={props.children}
                         />
                     ),
+                    code: (props) => <Code {...props} />,
                 },
             }}
         />

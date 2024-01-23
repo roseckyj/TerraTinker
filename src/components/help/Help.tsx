@@ -28,16 +28,16 @@ Rasterize node is a [fork node](/nodes/fork) that converts a region into a raste
 
 ## Inputs
 
-- **Geometry:** Geometry to rasterize.
-- **Fill:** Whether to fill the geometry.
-- **Stroke weight:** Stroke weight. If 0, no stroke will be drawn.
-- **Point size:** Point size. If 0, no points will be drawn.
-- **Clip to region:** Whether to clip the rasterized image to the selected region and ignore blocks outside.
-- **Ignore:** Whether to ignore the node.
+- \`Geometry\`: Geometry to rasterize.
+- \`Fill\`: Whether to fill the geometry.
+- \`Stroke Weight\`:** Stroke weight. If 0, no stroke will be drawn.
+- \`Point Size\`:** Point size. If 0, no points will be drawn.
+- \`Clip to region\`:** Whether to clip the rasterized image to the selected region and ignore blocks outside.
+- \`Ignore\`: Whether to ignore the node.
 
 ## Outputs
 
-X and Z coordinates of each pixel in the rasterized image.
+\`X\` and \`Z\` coordinates of each pixel in the rasterized image.
 
 ## Example
 
@@ -72,7 +72,12 @@ export const Help = observer(() => {
                             icon={<BiChevronLeft />}
                             onClick={() => help.onBack()}
                         />
-                        <VStack flexGrow={1} alignItems="start" ml={6}>
+                        <VStack
+                            flexGrow={1}
+                            alignItems="start"
+                            ml={6}
+                            spacing={1}
+                        >
                             <Heading as="h2" fontSize="xl">
                                 Rasterize node
                             </Heading>
