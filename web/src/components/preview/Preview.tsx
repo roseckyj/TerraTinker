@@ -106,7 +106,9 @@ export function Preview(props: IPreviewProps) {
                             }
 
                             setPreviewSession(response.data.id);
-                            setPreviewData(props.data);
+                            setPreviewData(
+                                JSON.parse(JSON.stringify(props.data))
+                            );
                         }}
                     >
                         Generate preview

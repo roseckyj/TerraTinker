@@ -91,7 +91,9 @@ export function Publish(props: IPublishProps) {
                             }
 
                             setPublishSession(response.data.id);
-                            setPublishData(props.data);
+                            setPublishData(
+                                JSON.parse(JSON.stringify(props.data))
+                            );
                         }}
                     >
                         Generate the map
