@@ -232,3 +232,5 @@ gradle-app.setting
 
 run/
 bin/
+
+Dockerfile

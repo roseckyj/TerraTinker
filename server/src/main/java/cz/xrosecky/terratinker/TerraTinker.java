@@ -23,6 +23,7 @@ public final class TerraTinker extends JavaPlugin {
 
         // Register gdal native library
         gdal.AllRegister();
+        gdal.SetConfigOption("GDAL_FILENAME_IS_UTF8","YES");
     }
 
     @Override

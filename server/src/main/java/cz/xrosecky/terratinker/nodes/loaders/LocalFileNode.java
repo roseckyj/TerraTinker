@@ -39,7 +39,7 @@ public class LocalFileNode extends AbstractNode {
                 return;
             }
 
-            output.addValue("path", new StringType(meta.getString("filename")));
+            output.addValue("path", new StringType(meta.getString("uuid") + meta.getString("extension")));
         });
     }
 }

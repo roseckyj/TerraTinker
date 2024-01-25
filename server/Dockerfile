@@ -9,7 +9,7 @@ ENV PLUGIN_HOME=${APP_HOME}/plugin
 EXPOSE 7070
 
 # Install dependencies
-RUN apk --no-cache add curl java-gdal jq
+RUN apk update && apk --no-cache add curl java-gdal proj proj-dev jq bash
 
 # Build the plugin
 RUN mkdir -p ${PLUGIN_HOME}
@@ -36,4 +36,4 @@ RUN chmod +x papermc.sh
 # Run the startup script
 WORKDIR ${APP_HOME}
 RUN chmod +x startup.sh
-ENTRYPOINT ["sh", "startup.sh"]
+ENTRYPOINT ["bash", "startup.sh"]

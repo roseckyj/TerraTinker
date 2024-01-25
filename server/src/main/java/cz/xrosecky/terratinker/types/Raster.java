@@ -3,22 +3,15 @@ package cz.xrosecky.terratinker.types;
 import cz.xrosecky.terratinker.geometry.CoordsTranslator;
 import cz.xrosecky.terratinker.geometry.Vector2D;
 import cz.xrosecky.terratinker.geometry.Vector2DInt;
-import kotlin.Pair;
 import org.gdal.gdal.Band;
 import org.gdal.gdal.Dataset;
 import org.gdal.gdal.gdal;
+import org.gdal.gdalconst.gdalconst;
 import org.gdal.osr.CoordinateTransformation;
 import org.gdal.osr.SpatialReference;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Arrays;
-import java.util.Base64;
 
 public class Raster {
     private final Dataset dataset;
@@ -31,7 +24,8 @@ public class Raster {
     }
 
     public Raster(File file) {
-        Dataset dataset = gdal.Open(file.getAbsolutePath());
+        Dataset dataset = gdal.Open(file.getAbsolutePath(), gdalconst.GA_ReadOnly);
+
         if (dataset == null) {
             throw new RuntimeException("Could not open raster file " + file.getName());
         }
@@ -147,8 +141,8 @@ public class Raster {
             return null;
 
         // Read the pixel value
-        double[] ff = new double[4];
-        getRasterBand().ReadRaster((int)Math.floor(x), (int)Math.floor(y), 2, 2, ff);
+        int[] ff = new int[4];
+        getRasterBand().ReadRaster((int)Math.floor(x), (int)Math.floor(y), 2, 2, gdalconst.GDT_Int32, ff);
         if (bilinear) {
             double x1 = x - Math.floor(x);
             double y1 = y - Math.floor(y);

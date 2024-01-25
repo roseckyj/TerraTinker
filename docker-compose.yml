@@ -12,6 +12,8 @@ services:
         restart: always
         environment:
             - EULA=${EULA}
+        volumes:
+            - fileUpload:/app/plugins/TerraTinker
 
     web:
         build:
@@ -24,3 +26,7 @@ services:
         restart: always
         links:
             - server
+
+volumes:
+    fileUpload:
+        driver: local
