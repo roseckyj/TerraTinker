@@ -30,6 +30,7 @@ dependencies {
     // Utility dependencies
     implementation("org.json:json:20231013")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
+    implementation("commons-io:commons-io:2.15.1")
 
     // Javalin dependencies
     implementation("io.javalin:javalin:5.6.3")

@@ -32,6 +32,7 @@ export function AppWindow({ steps, data, onDataChange }: IAppWindowProps) {
                 borderRightStyle="solid"
                 borderRightWidth={2}
                 borderRightColor="gray.800"
+                flexShrink={0}
             >
                 <VStack w="full" alignItems="stretch" spacing={0}>
                     {applied.map((step) => step.menuItem)}

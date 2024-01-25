@@ -42,9 +42,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--max-old-space-size=8192 react-app-rewired start",
-    "build": "react-app-rewired build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "build": "react-app-rewired build"
   },
   "eslintConfig": {
     "extends": [
@@ -69,7 +67,6 @@
     "@types/leaflet": "^1.9.7",
     "@types/uuid": "^9.0.6",
     "cross-env": "^7.0.3",
-    "gh-pages": "^6.0.0",
     "react-app-rewired": "^2.2.1"
   }
 }

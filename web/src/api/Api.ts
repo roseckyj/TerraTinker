@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 
 export class Api {
     private apiURL: string = "";
@@ -38,8 +38,15 @@ export class Api {
     }
 
     private async testApiEndpoint(url: URL) {
-        const response = await axios.get(url.toString() + "/status");
-        return response.status === 200;
+        try {
+            const response = await axios.get(url.toString() + "/status", {
+                validateStatus: () => true,
+            });
+
+            return response.status === 200;
+        } catch (e) {
+            return false;
+        }
     }
 
     public async get(path: string) {
@@ -56,6 +63,23 @@ export class Api {
 
     public async delete(path: string) {
         return await this.request("DELETE", path);
+    }
+
+    public async uploadFile(
+        file: File,
+        path: string,
+        onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
+    ) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await axios.post(this.apiURL + path, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            validateStatus: () => true,
+            onUploadProgress,
+        });
+        return response;
     }
 
     public getUrl(path: string) {
