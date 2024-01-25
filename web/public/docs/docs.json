@@ -27,7 +27,6 @@
     },
     {
         "title": "Nodes",
-        "file": "nodes/index.md",
         "children": [
             {
                 "title": "Boolean nodes",

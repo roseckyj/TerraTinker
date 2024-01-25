@@ -10,6 +10,7 @@ class HelpContext {
     public onOpen(path: string) {
         this.path = resolvePath(path, this.path, true);
         this.history.push(this.path);
+        console.log(this.path);
     }
 
     public onClose() {
@@ -19,13 +20,15 @@ class HelpContext {
     public onBack() {
         this.history.pop();
         this.path = this.history[this.history.length - 1] ?? null;
+        console.log(this.path);
     }
 
     public onReopen() {
         if (this.history.length === 0) {
-            this.history.push("");
+            this.history.push("0");
         }
         this.path = this.history[this.history.length - 1]!;
+        console.log(this.path);
     }
 
     public get isOpen() {

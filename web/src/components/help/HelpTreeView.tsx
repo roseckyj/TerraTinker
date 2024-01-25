@@ -17,9 +17,10 @@ export type HelpNode = {
 
 export interface IHelpTreeProps {
     tree: HelpNode[];
+    path: number[];
 }
 
-export function HelpTreeView({ tree }: IHelpTreeProps) {
+export function HelpTreeView({ tree, path }: IHelpTreeProps) {
     const help = useOpenHelp();
 
     return (
@@ -34,7 +35,7 @@ export function HelpTreeView({ tree }: IHelpTreeProps) {
                                         (!isExpanded || !node.children) &&
                                         node.file
                                     ) {
-                                        help(node.file);
+                                        help("/" + [...path, i].join("/"));
                                     }
                                 }}
                             >
@@ -53,7 +54,10 @@ export function HelpTreeView({ tree }: IHelpTreeProps) {
                             </AccordionButton>
                             {node.children && (
                                 <AccordionPanel pb={4} pr={0}>
-                                    <HelpTreeView tree={node.children} />
+                                    <HelpTreeView
+                                        tree={node.children}
+                                        path={[...path, i]}
+                                    />
                                 </AccordionPanel>
                             )}
                         </>
