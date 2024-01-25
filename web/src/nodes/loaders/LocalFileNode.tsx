@@ -118,7 +118,13 @@ export class LocalFileNode extends AbstractNode {
                         px={4}
                         onFile={onFile}
                     >
-                        <Box w="full" textAlign="left">
+                        <Box
+                            w="full"
+                            textAlign="left"
+                            overflow="hidden"
+                            whiteSpace="nowrap"
+                            textOverflow="ellipsis"
+                        >
                             <Await
                                 for={fileInfo!}
                                 loading={<Spinner />}
