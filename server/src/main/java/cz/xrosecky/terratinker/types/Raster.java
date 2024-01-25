@@ -141,6 +141,7 @@ public class Raster {
             return null;
 
         // Read the pixel value
+        // Note: Floatd and doubles have problems in Docker on Alpine, so using ints for now
         int[] ff = new int[4];
         getRasterBand().ReadRaster((int)Math.floor(x), (int)Math.floor(y), 2, 2, gdalconst.GDT_Int32, ff);
         if (bilinear) {
