@@ -17,7 +17,7 @@ export function ServerStatus() {
         const checkConnection = async () => {
             const response = await api.get("/status");
 
-            if (response.status !== 200) {
+            if (!response || response.status !== 200) {
                 setServerStatus({
                     connected: false,
                     queued: 0,

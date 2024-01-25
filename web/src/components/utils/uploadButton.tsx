@@ -5,7 +5,7 @@ export type IUploadButtonProps = {
     onFile: (file: File) => void;
 } & ButtonProps;
 
-export function UploadButton({ ...rest }: IUploadButtonProps) {
+export function UploadButton({ onFile, ...rest }: IUploadButtonProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -16,7 +16,7 @@ export function UploadButton({ ...rest }: IUploadButtonProps) {
                 style={{ display: "none" }}
                 onChange={(e) => {
                     if (e.target.files) {
-                        rest.onFile(e.target.files[0]);
+                        onFile(e.target.files[0]);
                     }
                 }}
             />

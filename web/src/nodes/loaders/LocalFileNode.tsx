@@ -99,8 +99,6 @@ export class LocalFileNode extends AbstractNode {
             return api.get("/files/" + localFileNode.fileId);
         }, [localFileNode.fileId, api]);
 
-        console.log(status, localFileNode.fileId);
-
         return (
             <GenericNode
                 title={ctor.title}
@@ -135,11 +133,14 @@ export class LocalFileNode extends AbstractNode {
                                 )}
                             >
                                 {(response) =>
+                                    response &&
                                     response.data.status === "ok" ? (
                                         response.data.data.filename
                                     ) : (
                                         <Text color="red.500">
-                                            {response.data.message}
+                                            {response
+                                                ? response.data.message
+                                                : "Network error"}
                                         </Text>
                                     )
                                 }

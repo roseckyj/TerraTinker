@@ -29,7 +29,18 @@ root.render(
     <ChakraProvider
         theme={extendTheme({
             config,
-        } as Theme)}
+            components: {
+                Drawer: {
+                    sizes: {
+                        help: {
+                            dialog: {
+                                maxWidth: "1500px",
+                            },
+                        },
+                    },
+                },
+            },
+        } as any as Theme)}
     >
         <DarkMode>
             <ApiProvider api={api}>

@@ -6,6 +6,6 @@ export type Step = (
     isSelected: boolean,
     onSelected: () => void
 ) => {
-    menuItem: JSX.Element;
-    window: JSX.Element;
+    menuItem: (key: number) => JSX.Element;
+    window: (key: number) => JSX.Element;
 };

@@ -35,12 +35,12 @@ export function AppWindow({ steps, data, onDataChange }: IAppWindowProps) {
                 flexShrink={0}
             >
                 <VStack w="full" alignItems="stretch" spacing={0}>
-                    {applied.map((step) => step.menuItem)}
+                    {applied.map((step, key) => step.menuItem(key))}
                 </VStack>
             </Box>
 
             <Box flexGrow={1} bg="gray.800">
-                {applied.map((step) => step.window)}
+                {applied.map((step, key) => step.window(key))}
             </Box>
         </Flex>
     );

@@ -47,6 +47,7 @@ export function NodeGraphMenuItem({
             <>
                 {data.layers.map((layer, i) => (
                     <HStack
+                        key={i}
                         mx={-6}
                         pl={6}
                         pr={3}

@@ -1,4 +1,4 @@
-import { BiSearch } from "react-icons/bi";
+import { BiShow } from "react-icons/bi";
 import { Step } from "../Step";
 import { MenuItem } from "../menu/MenuItem";
 import { Preview } from "./Preview";
@@ -10,14 +10,15 @@ export const PreviewStep: Step = (
     onSelected
 ) => {
     return {
-        menuItem: (
+        menuItem: (key) => (
             <MenuItem
-                icon={<BiSearch />}
+                key={key}
+                icon={<BiShow />}
                 label="Preview"
                 selected={isSelected}
                 onClick={onSelected}
             />
         ),
-        window: <Preview data={data} hide={!isSelected} />,
+        window: (key) => <Preview key={key} data={data} hide={!isSelected} />,
     };
 };

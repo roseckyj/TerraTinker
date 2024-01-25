@@ -10,14 +10,15 @@ export const PublishStep: Step = (
     onSelected
 ) => {
     return {
-        menuItem: (
+        menuItem: (key) => (
             <MenuItem
+                key={key}
                 icon={<BiRocket />}
                 label="Publish"
                 selected={isSelected}
                 onClick={onSelected}
             />
         ),
-        window: <Publish data={data} hide={!isSelected} />,
+        window: (key) => <Publish key={key} data={data} hide={!isSelected} />,
     };
 };

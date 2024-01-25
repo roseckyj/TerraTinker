@@ -88,6 +88,7 @@ export function LogSlider({
             <SliderThumb />
             {marks.map((mark) => (
                 <SliderMark
+                    key={mark}
                     value={Math.log10(mark)}
                     {...labelStyles}
                     opacity={0.5}

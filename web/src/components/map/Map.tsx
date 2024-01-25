@@ -44,7 +44,7 @@ export function Map(props: IMapProps) {
         () =>
             new DivIcon({
                 html: renderToString(
-                    <BiSolidMap size="xl" style={{ color: iconColor }} />
+                    <BiSolidMap size="50px" style={{ color: iconColor }} />
                 ),
                 iconSize: [50, 50],
                 iconAnchor: [25, 50],

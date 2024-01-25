@@ -31,6 +31,7 @@ export function Publish(props: IPublishProps) {
             if (publishSession) {
                 const response = await api.get(`/session/${publishSession}`);
                 if (
+                    response &&
                     response.status === 200 &&
                     response.data.state === "finished"
                 ) {
@@ -80,7 +81,7 @@ export function Publish(props: IPublishProps) {
                                 JSON.stringify(props.data)
                             );
 
-                            if (response.status !== 200) {
+                            if (!response || response.status !== 200) {
                                 toast({
                                     title: "Network error",
                                     description:

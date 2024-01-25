@@ -1,4 +1,5 @@
 import {
+    Box,
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -14,7 +15,9 @@ import {
 } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import docsSpecs from "../../docs/docs.json";
 import { useHelp } from "./HelpProvider";
+import { HelpTreeView } from "./HelpTreeView";
 import { RenderMarkdown } from "./RenderMarkdown";
 
 const text = `
@@ -53,67 +56,91 @@ export const Help = observer(() => {
         <Drawer
             onClose={() => help.onClose()}
             isOpen={help.isOpen}
-            size="xl"
+            size="help"
             placement="right"
         >
             <DrawerOverlay />
             <DrawerContent color="whiteAlpha.900">
                 <DrawerCloseButton />
-                <DrawerBody>
-                    <Flex
-                        direction="row"
-                        mt={4}
-                        mb={8}
-                        alignItems="center"
-                        justifyContent="left"
-                    >
-                        <IconButton
-                            aria-label="Back"
-                            icon={<BiChevronLeft />}
-                            onClick={() => help.onBack()}
-                        />
-                        <VStack
-                            flexGrow={1}
-                            alignItems="start"
-                            ml={6}
-                            spacing={1}
+                <DrawerBody p={0}>
+                    <Flex direction="row" h="full">
+                        <Flex
+                            direction="column"
+                            w={96}
+                            bg="gray.800"
+                            px={6}
+                            py={6}
+                            shadow="md"
                         >
-                            <Heading as="h2" fontSize="xl">
-                                Rasterize node
+                            <Heading as="h2" fontSize="xl" mb={6}>
+                                Browse chapters
                             </Heading>
-                            <Breadcrumb
-                                fontSize="sm"
-                                spacing={2}
-                                separator={<BiChevronRight opacity={0.5} />}
-                                opacity={0.5}
+                            <Box flexGrow={1} overflowY="auto" mx={-2}>
+                                <HelpTreeView tree={docsSpecs as any} />
+                            </Box>
+                        </Flex>
+                        <Flex direction="column" flexGrow={1} h="full">
+                            <Flex
+                                direction="row"
+                                mt={4}
+                                mb={2}
+                                mx={6}
+                                alignItems="center"
+                                justifyContent="left"
                             >
-                                <BreadcrumbItem>
-                                    <BreadcrumbLink href="#">
-                                        Home
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-
-                                <BreadcrumbItem>
-                                    <BreadcrumbLink href="#">
-                                        Nodes
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-
-                                <BreadcrumbItem>
-                                    <BreadcrumbLink href="#">
-                                        Geometry
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-
-                                <BreadcrumbItem isCurrentPage>
-                                    <BreadcrumbLink href="#">
+                                <IconButton
+                                    aria-label="Back"
+                                    icon={<BiChevronLeft />}
+                                    onClick={() => help.onBack()}
+                                />
+                                <VStack
+                                    flexGrow={1}
+                                    alignItems="start"
+                                    ml={6}
+                                    spacing={1}
+                                >
+                                    <Heading as="h2" fontSize="xl">
                                         Rasterize node
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                            </Breadcrumb>
-                        </VStack>
+                                    </Heading>
+                                    <Breadcrumb
+                                        fontSize="sm"
+                                        spacing={2}
+                                        separator={
+                                            <BiChevronRight opacity={0.5} />
+                                        }
+                                        opacity={0.5}
+                                    >
+                                        <BreadcrumbItem>
+                                            <BreadcrumbLink href="#">
+                                                Home
+                                            </BreadcrumbLink>
+                                        </BreadcrumbItem>
+
+                                        <BreadcrumbItem>
+                                            <BreadcrumbLink href="#">
+                                                Nodes
+                                            </BreadcrumbLink>
+                                        </BreadcrumbItem>
+
+                                        <BreadcrumbItem>
+                                            <BreadcrumbLink href="#">
+                                                Geometry
+                                            </BreadcrumbLink>
+                                        </BreadcrumbItem>
+
+                                        <BreadcrumbItem isCurrentPage>
+                                            <BreadcrumbLink href="#">
+                                                Rasterize node
+                                            </BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                    </Breadcrumb>
+                                </VStack>
+                            </Flex>
+                            <Box flexGrow={1} overflowY="auto" px={6} pb={4}>
+                                <RenderMarkdown>{text}</RenderMarkdown>
+                            </Box>
+                        </Flex>
                     </Flex>
-                    <RenderMarkdown>{text}</RenderMarkdown>
                 </DrawerBody>
             </DrawerContent>
         </Drawer>

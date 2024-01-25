@@ -2,13 +2,14 @@ import {
     Box,
     Button,
     Center,
+    HStack,
     Spinner,
     Text,
     VStack,
     useToast,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { BiRocket } from "react-icons/bi";
+import { BiError, BiShow } from "react-icons/bi";
 import { MinecraftViewer } from "react-minecraft-viewer";
 import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
@@ -32,6 +33,7 @@ export function Preview(props: IPreviewProps) {
             if (previewSession) {
                 const response = await api.get(`/session/${previewSession}`);
                 if (
+                    response &&
                     response.status === 200 &&
                     response.data.state === "finished"
                 ) {
@@ -85,9 +87,16 @@ export function Preview(props: IPreviewProps) {
                         This will generate a preview of the map. This can take a
                         while, so please be patient.
                     </Text>
+                    <HStack color="yellow.500">
+                        <BiError />{" "}
+                        <Text>
+                            This feature is experimental and may not work as
+                            expected.
+                        </Text>
+                    </HStack>
                     <Button
                         colorScheme="blue"
-                        leftIcon={<BiRocket />}
+                        leftIcon={<BiShow />}
                         mt={6}
                         onClick={async () => {
                             const response = await api.post(
@@ -95,7 +104,7 @@ export function Preview(props: IPreviewProps) {
                                 JSON.stringify(props.data)
                             );
 
-                            if (response.status !== 200) {
+                            if (!response || response.status !== 200) {
                                 toast({
                                     title: "Network error",
                                     description:

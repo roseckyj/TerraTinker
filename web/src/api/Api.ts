@@ -1,4 +1,4 @@
-import axios, { AxiosProgressEvent } from "axios";
+import axios, { AxiosProgressEvent, AxiosResponse } from "axios";
 
 export class Api {
     private apiURL: string = "";
@@ -86,13 +86,20 @@ export class Api {
         return this.apiURL + path;
     }
 
-    private async request(method: string, path: string, body?: any) {
-        const response = await axios.request({
-            method: method,
-            url: this.apiURL + path,
-            data: body,
-            validateStatus: () => true,
-        });
-        return response;
+    private async request(
+        method: string,
+        path: string,
+        body?: any
+    ): Promise<AxiosResponse<any, any> | null> {
+        try {
+            return await axios.request({
+                method: method,
+                url: this.apiURL + path,
+                data: body,
+                validateStatus: () => true,
+            });
+        } catch (e) {
+            return null;
+        }
     }
 }
