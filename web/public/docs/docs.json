@@ -1,118 +1,123 @@
-[
-    {
-        "title": "Getting started",
-        "file": "getting_started/index.md"
-    },
-    {
-        "title": "Map",
-        "file": "map/index.md"
-    },
-    {
-        "title": "Layer creation",
-        "file": "layers/index.md",
-        "children": [
-            {
-                "title": "Node graph",
-                "file": "layers/node_graph.md"
-            },
-            {
-                "title": "Variables",
-                "file": "layers/variables.md"
-            },
-            {
-                "title": "Node types",
-                "file": "layers/node_types/index.md",
-                "children": [
-                    {
-                        "title": "Fork node",
-                        "file": "layers/node_types/fork.md"
+{
+    "title": "Root",
+    "file": "index.md",
+    "children": {
+        "getting_started": {
+            "title": "Getting started",
+            "file": "getting_started/index.md"
+        },
+        "map": {
+            "title": "Map",
+            "file": "map/index.md"
+        },
+        "layers": {
+            "title": "Layer creation",
+            "file": "layers/index.md",
+            "children": {
+                "node_graph": {
+                    "title": "Node graph",
+                    "file": "layers/node_graph.md"
+                },
+                "variables": {
+                    "title": "Variables",
+                    "file": "layers/variables.md"
+                },
+                "node_types": {
+                    "title": "Node types",
+                    "file": "layers/node_types/index.md",
+                    "children": {
+                        "fork": {
+                            "title": "Fork node",
+                            "file": "layers/node_types/fork.md"
+                        }
                     }
-                ]
+                }
             }
-        ]
-    },
-    {
-        "title": "Nodes",
-        "children": [
-            {
-                "title": "Boolean nodes",
-                "file": "nodes/boolean/index.md",
-                "children": []
-            },
-            {
-                "title": "Conditional nodes",
-                "file": "nodes/conditional/index.md",
-                "children": []
-            },
-            {
-                "title": "Geometry nodes",
-                "file": "nodes/geometry/index.md",
-                "children": [
-                    {
-                        "title": "Rasterize",
-                        "file": "nodes/geometry/rasterize.md"
-                    },
-                    {
-                        "title": "Create point",
-                        "file": "nodes/geometry/createPoint.md"
-                    },
-                    {
-                        "title": "Create rectangle",
-                        "file": "nodes/geometry/createRectangle.md"
-                    },
-                    {
-                        "title": "Bounding box",
-                        "file": "nodes/geometry/boundingBox.md"
-                    },
-                    {
-                        "title": "Geometry overlap",
-                        "file": "nodes/geometry/geometryOverlap.md"
-                    },
-                    {
-                        "title": "Selected region",
-                        "file": "nodes/geometry/selectedRegion.md"
-                    },
-                    {
-                        "title": "Transformation nodes (X to Y)",
-                        "file": "nodes/geometry/transformations.md"
+        },
+        "nodes": {
+            "title": "Nodes",
+            "file": "nodes/index.md",
+            "children": {
+                "boolean": {
+                    "title": "Boolean nodes",
+                    "file": "nodes/boolean/index.md",
+                    "children": {}
+                },
+                "conditional": {
+                    "title": "Conditional nodes",
+                    "file": "nodes/conditional/index.md",
+                    "children": {}
+                },
+                "geometry": {
+                    "title": "Geometry nodes",
+                    "file": "nodes/geometry/index.md",
+                    "children": {
+                        "rasterize": {
+                            "title": "Rasterize",
+                            "file": "nodes/geometry/rasterize.md"
+                        },
+                        "createPoint": {
+                            "title": "Create point",
+                            "file": "nodes/geometry/createPoint.md"
+                        },
+                        "createRectangle": {
+                            "title": "Create rectangle",
+                            "file": "nodes/geometry/createRectangle.md"
+                        },
+                        "boundingBox": {
+                            "title": "Bounding box",
+                            "file": "nodes/geometry/boundingBox.md"
+                        },
+                        "geometryOverlap": {
+                            "title": "Geometry overlap",
+                            "file": "nodes/geometry/geometryOverlap.md"
+                        },
+                        "selectedRegion": {
+                            "title": "Selected region",
+                            "file": "nodes/geometry/selectedRegion.md"
+                        },
+                        "transformations": {
+                            "title": "Transformation nodes (X to Y)",
+                            "file": "nodes/geometry/transformations.md"
+                        }
                     }
-                ]
-            },
-            {
-                "title": "Loader nodes",
-                "file": "nodes/loader/index.md",
-                "children": []
-            },
-            {
-                "title": "Material nodes",
-                "file": "nodes/material/index.md",
-                "children": []
-            },
-            {
-                "title": "Minecraft nodes",
-                "file": "nodes/minecraft/index.md",
-                "children": []
-            },
-            {
-                "title": "Miscellaneous nodes",
-                "file": "nodes/misc/index.md",
-                "children": []
-            },
-            {
-                "title": "Number nodes",
-                "file": "nodes/number/index.md",
-                "children": []
-            },
-            {
-                "title": "Raster nodes",
-                "file": "nodes/raster/index.md",
-                "children": []
-            },
-            {
-                "title": "String nodes",
-                "file": "nodes/string/index.md",
-                "children": []
+                },
+                "loader": {
+                    "title": "Loader nodes",
+                    "file": "nodes/loader/index.md",
+                    "children": {}
+                },
+                "material": {
+                    "title": "Material nodes",
+                    "file": "nodes/material/index.md",
+                    "children": {}
+                },
+                "minecraft": {
+                    "title": "Minecraft nodes",
+                    "file": "nodes/minecraft/index.md",
+                    "children": {}
+                },
+                "misc": {
+                    "title": "Miscellaneous nodes",
+                    "file": "nodes/misc/index.md",
+                    "children": {}
+                },
+                "number": {
+                    "title": "Number nodes",
+                    "file": "nodes/number/index.md",
+                    "children": {}
+                },
+                "raster": {
+                    "title": "Raster nodes",
+                    "file": "nodes/raster/index.md",
+                    "children": {}
+                },
+                "string": {
+                    "title": "String nodes",
+                    "file": "nodes/string/index.md",
+                    "children": {}
+                }
             }
-        ]
+        }
     }
-]
+}

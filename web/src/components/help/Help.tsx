@@ -73,7 +73,10 @@ export const Help = observer(() => {
                                         pb={6}
                                     >
                                         <HelpTreeView
-                                            tree={docsSpecs as HelpNode[]}
+                                            tree={
+                                                (docsSpecs as HelpNode)
+                                                    .children || {}
+                                            }
                                             path={[]}
                                         />
                                     </Box>
@@ -100,21 +103,13 @@ export const Help = observer(() => {
                                         >
                                             <Heading as="h2" fontSize="xl">
                                                 {
-                                                    path
-                                                        .map((str) =>
-                                                            parseInt(str)
-                                                        )
-                                                        .reduce(
-                                                            (prev, index) =>
-                                                                prev.children![
-                                                                    index
-                                                                ],
-                                                            {
-                                                                title: "Root",
-                                                                children:
-                                                                    docsSpecs,
-                                                            } as HelpNode
-                                                        ).title
+                                                    path.reduce(
+                                                        (prev, index) =>
+                                                            prev.children![
+                                                                index
+                                                            ],
+                                                        docsSpecs as HelpNode
+                                                    ).title
                                                 }
                                             </Heading>
                                             <Breadcrumb
@@ -144,12 +139,6 @@ export const Help = observer(() => {
                                                                         0,
                                                                         i + 1
                                                                     )
-                                                                    .map(
-                                                                        (str) =>
-                                                                            parseInt(
-                                                                                str
-                                                                            )
-                                                                    )
                                                                     .reduce(
                                                                         (
                                                                             prev,
@@ -158,11 +147,7 @@ export const Help = observer(() => {
                                                                             prev.children![
                                                                                 index
                                                                             ],
-                                                                        {
-                                                                            title: "Root",
-                                                                            children:
-                                                                                docsSpecs,
-                                                                        } as HelpNode
+                                                                        docsSpecs as HelpNode
                                                                     ).file
                                                                     ? () =>
                                                                           help.onOpen(
@@ -186,12 +171,6 @@ export const Help = observer(() => {
                                                                         0,
                                                                         i + 1
                                                                     )
-                                                                    .map(
-                                                                        (str) =>
-                                                                            parseInt(
-                                                                                str
-                                                                            )
-                                                                    )
                                                                     .reduce(
                                                                         (
                                                                             prev,
@@ -200,11 +179,7 @@ export const Help = observer(() => {
                                                                             prev.children![
                                                                                 index
                                                                             ],
-                                                                        {
-                                                                            title: "Root",
-                                                                            children:
-                                                                                docsSpecs,
-                                                                        } as HelpNode
+                                                                        docsSpecs as HelpNode
                                                                     ).title
                                                             }
                                                         </BreadcrumbLink>
@@ -222,18 +197,11 @@ export const Help = observer(() => {
                                         <Await
                                             key={path.join("/")}
                                             for={axios.get(
-                                                `docs/${path
-                                                    .map((str) => parseInt(str))
-                                                    .reduce(
-                                                        (prev, index) =>
-                                                            prev.children![
-                                                                index
-                                                            ],
-                                                        {
-                                                            title: "Root",
-                                                            children: docsSpecs,
-                                                        } as HelpNode
-                                                    ).file!}`
+                                                `docs/${path.reduce(
+                                                    (prev, index) =>
+                                                        prev.children![index],
+                                                    docsSpecs as HelpNode
+                                                ).file!}`
                                             )}
                                             loading={
                                                 <Center>

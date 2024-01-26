@@ -9,23 +9,27 @@ import {
 import { BiMinus, BiPlus, BiRadioCircle } from "react-icons/bi";
 import { useOpenHelp } from "./HelpProvider";
 
+export type HelpTree = { [key: string]: HelpNode };
+
 export type HelpNode = {
     title: string;
     file?: string;
-    children?: HelpNode[];
+    children?: HelpTree;
 };
 
 export interface IHelpTreeProps {
-    tree: HelpNode[];
-    path: number[];
+    tree: HelpTree;
+    path: string[];
 }
 
 export function HelpTreeView({ tree, path }: IHelpTreeProps) {
     const help = useOpenHelp();
 
+    console.log(tree);
+
     return (
         <Accordion allowToggle>
-            {tree.map((node, i) => (
+            {Object.entries(tree).map(([i, node]) => (
                 <AccordionItem border="none" key={i}>
                     {({ isExpanded }) => (
                         <>

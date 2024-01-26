@@ -25,7 +25,7 @@ class HelpContext {
 
     public onReopen() {
         if (this.history.length === 0) {
-            this.history.push("0");
+            this.history.push("");
         }
         this.path = this.history[this.history.length - 1]!;
         console.log(this.path);
