@@ -27,6 +27,12 @@ export const Help = observer(() => {
     const help = useHelp();
 
     const path = help.currentPath;
+    const nodeFromPath = (root: HelpNode, givenPath: string[]) =>
+        givenPath.reduce(
+            (prev, index) => (prev ? prev.children![index] || null : null),
+            root as HelpNode | null
+        );
+    const currentNode = (root: HelpNode) => nodeFromPath(root, path);
 
     return (
         <Drawer
@@ -102,15 +108,7 @@ export const Help = observer(() => {
                                             spacing={1}
                                         >
                                             <Heading as="h2" fontSize="xl">
-                                                {
-                                                    path.reduce(
-                                                        (prev, index) =>
-                                                            prev.children![
-                                                                index
-                                                            ],
-                                                        docsSpecs as HelpNode
-                                                    ).title
-                                                }
+                                                {currentNode(docsSpecs)?.title}
                                             </Heading>
                                             <Breadcrumb
                                                 fontSize="sm"
@@ -134,21 +132,13 @@ export const Help = observer(() => {
                                                                 i !==
                                                                     path.length -
                                                                         1 &&
-                                                                path
-                                                                    .slice(
+                                                                nodeFromPath(
+                                                                    docsSpecs as HelpNode,
+                                                                    path.slice(
                                                                         0,
                                                                         i + 1
                                                                     )
-                                                                    .reduce(
-                                                                        (
-                                                                            prev,
-                                                                            index
-                                                                        ) =>
-                                                                            prev.children![
-                                                                                index
-                                                                            ],
-                                                                        docsSpecs as HelpNode
-                                                                    ).file
+                                                                )?.file
                                                                     ? () =>
                                                                           help.onOpen(
                                                                               "/" +
@@ -197,11 +187,8 @@ export const Help = observer(() => {
                                         <Await
                                             key={path.join("/")}
                                             for={axios.get(
-                                                `docs/${path.reduce(
-                                                    (prev, index) =>
-                                                        prev.children![index],
-                                                    docsSpecs as HelpNode
-                                                ).file!}`
+                                                `docs/${currentNode(docsSpecs)
+                                                    ?.file!}`
                                             )}
                                             loading={
                                                 <Center>
