@@ -49,20 +49,32 @@
                 "file": "nodes/geometry/index.md",
                 "children": [
                     {
-                        "title": "Rasterize node",
+                        "title": "Rasterize",
                         "file": "nodes/geometry/rasterize.md"
                     },
                     {
-                        "title": "Create point node",
+                        "title": "Create point",
                         "file": "nodes/geometry/createPoint.md"
                     },
                     {
-                        "title": "Create rectangle node",
+                        "title": "Create rectangle",
                         "file": "nodes/geometry/createRectangle.md"
                     },
                     {
-                        "title": "Bounding box node",
+                        "title": "Bounding box",
                         "file": "nodes/geometry/boundingBox.md"
+                    },
+                    {
+                        "title": "Geometry overlap",
+                        "file": "nodes/geometry/geometryOverlap.md"
+                    },
+                    {
+                        "title": "Selected region",
+                        "file": "nodes/geometry/selectedRegion.md"
+                    },
+                    {
+                        "title": "Transformation nodes (X to Y)",
+                        "file": "nodes/geometry/transformations.md"
                     }
                 ]
             },
