@@ -21,7 +21,13 @@
             },
             {
                 "title": "Node types",
-                "file": "layers/node_types.md"
+                "file": "layers/node_types/index.md",
+                "children": [
+                    {
+                        "title": "Fork node",
+                        "file": "layers/node_types/fork.md"
+                    }
+                ]
             }
         ]
     },
@@ -41,7 +47,24 @@
             {
                 "title": "Geometry nodes",
                 "file": "nodes/geometry/index.md",
-                "children": []
+                "children": [
+                    {
+                        "title": "Rasterize node",
+                        "file": "nodes/geometry/rasterize.md"
+                    },
+                    {
+                        "title": "Create point node",
+                        "file": "nodes/geometry/createPoint.md"
+                    },
+                    {
+                        "title": "Create rectangle node",
+                        "file": "nodes/geometry/createRectangle.md"
+                    },
+                    {
+                        "title": "Bounding box node",
+                        "file": "nodes/geometry/boundingBox.md"
+                    }
+                ]
             },
             {
                 "title": "Loader nodes",

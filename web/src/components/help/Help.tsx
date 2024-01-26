@@ -99,7 +99,23 @@ export const Help = observer(() => {
                                             spacing={1}
                                         >
                                             <Heading as="h2" fontSize="xl">
-                                                Rasterize node
+                                                {
+                                                    path
+                                                        .map((str) =>
+                                                            parseInt(str)
+                                                        )
+                                                        .reduce(
+                                                            (prev, index) =>
+                                                                prev.children![
+                                                                    index
+                                                                ],
+                                                            {
+                                                                title: "Root",
+                                                                children:
+                                                                    docsSpecs,
+                                                            } as HelpNode
+                                                        ).title
+                                                }
                                             </Heading>
                                             <Breadcrumb
                                                 fontSize="sm"
