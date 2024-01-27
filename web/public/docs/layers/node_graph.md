@@ -60,7 +60,7 @@ Specific details about each node type are described in [a separate documentation
 
 Links connect inputs and outputs of nodes. They represent the flow of data between nodes.
 
-Links can be connected only between compatible inputs and outputs. For example, a `number` output can be connected to a `number` input, but not to a `boolean` input. Each data type is represented with different color. Different types of inputs and outputs are described in section about [variables](variables).
+Links can be connected only between compatible inputs and outputs. For example, a `number` output can be connected to a `number` input, but not to a `boolean` input. Each data type is represented with different color. Different types of inputs and outputs are described in section about [data types](data_types).
 
 Links must not form cycles. This means that a link cannot be created if it would create a cycle in the graph. For example, if `A` is connected to `B` and `B` is connected to `A`, then connecting `A` to `B` again would create a cycle.
 

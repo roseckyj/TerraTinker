@@ -1,13 +1,13 @@
 {
-    "title": "Root",
-    "file": "index.md",
+    "title": "Getting started",
+    "file": "getting_started/index.md",
     "children": {
         "getting_started": {
             "title": "Getting started",
             "file": "getting_started/index.md"
         },
         "map": {
-            "title": "Map",
+            "title": "Region selection",
             "file": "map/index.md"
         },
         "layers": {
@@ -18,9 +18,9 @@
                     "title": "Node graph",
                     "file": "layers/node_graph.md"
                 },
-                "variables": {
-                    "title": "Variables",
-                    "file": "layers/variables.md"
+                "data_types": {
+                    "title": "Data types",
+                    "file": "layers/data_types.md"
                 },
                 "node_types": {
                     "title": "Node types",
@@ -29,6 +29,10 @@
                         "fork": {
                             "title": "Fork node",
                             "file": "layers/node_types/fork.md"
+                        },
+                        "action": {
+                            "title": "Action node",
+                            "file": "layers/node_types/action.md"
                         }
                     }
                 }

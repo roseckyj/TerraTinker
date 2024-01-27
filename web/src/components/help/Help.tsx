@@ -122,6 +122,7 @@ export const Help = observer(() => {
                                             >
                                                 {path.map((str, i) => (
                                                     <BreadcrumbItem
+                                                        key={i}
                                                         isCurrentPage={
                                                             i ===
                                                             path.length - 1
