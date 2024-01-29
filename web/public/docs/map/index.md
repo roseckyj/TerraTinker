@@ -4,7 +4,7 @@ The region selection tab is used to define the transformation from the real worl
 
 ## Map area
 
-The map is used to visualize the selected region of a real-world map. The marker depicts the center of the region (will correspond to [0, 0] in the minecraft world). The marker can be freely dragged around the map or moved to different location with the button next to Map center (see bellow). The blue are represents the selected region. The dashed smaller area is the area of a preview, that can be generated on the Preview tab.
+The map is used to visualize the selected region of a real-world map. The marker depicts the center of the region (will correspond to [0, 0] in the minecraft world). The marker can be freely dragged around the map or moved to different location with the button next to Map center (see bellow). The blue are represents the selected region. The dashed smaller area is the area of a preview, that can be generated on the [Preview tab](/preview).
 
 The map area has a search bar that can be used to search for a location. The search bar supports searching for addresses, coordinates and landmarks.
 

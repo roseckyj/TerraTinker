@@ -233,7 +233,12 @@
                 "string": {
                     "title": "String nodes",
                     "file": "nodes/string/index.md",
-                    "children": {}
+                    "children": {
+                        "toString": {
+                            "title": "To string",
+                            "file": "nodes/string/toString.md"
+                        }
+                    }
                 },
                 "misc": {
                     "title": "Miscellaneous nodes",
@@ -244,8 +249,20 @@
                             "file": "nodes/misc/comment.md"
                         }
                     }
+                },
+                "constant": {
+                    "title": "Constant nodes",
+                    "file": "nodes/constant.md"
                 }
             }
+        },
+        "preview": {
+            "title": "Preview",
+            "file": "preview.md"
+        },
+        "publish": {
+            "title": "Publish",
+            "file": "publish.md"
         }
     }
 }
