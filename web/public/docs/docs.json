@@ -123,12 +123,42 @@
                 "loader": {
                     "title": "Loader nodes",
                     "file": "nodes/loader/index.md",
-                    "children": {}
+                    "children": {
+                        "esriLoader": {
+                            "title": "ESRI Shapefile Loader",
+                            "file": "nodes/loader/esriLoader.md"
+                        },
+                        "geoJsonLoader": {
+                            "title": "GeoJSON Loader",
+                            "file": "nodes/loader/geoJsonLoader.md"
+                        },
+                        "geoTiffLoader": {
+                            "title": "GeoTIFF Loader",
+                            "file": "nodes/loader/geoTiffLoader.md"
+                        },
+                        "osmLoader": {
+                            "title": "OpenStreetMap Overpass API",
+                            "file": "nodes/loader/osmLoader.md"
+                        },
+                        "localFile": {
+                            "title": "Local file",
+                            "file": "nodes/loader/localFile.md"
+                        }
+                    }
                 },
                 "material": {
                     "title": "Material nodes",
                     "file": "nodes/material/index.md",
-                    "children": {}
+                    "children": {
+                        "materialScale": {
+                            "title": "Material scale",
+                            "file": "nodes/material/materialScale.md"
+                        },
+                        "materialByName": {
+                            "title": "Material by name",
+                            "file": "nodes/material/materialByName.md"
+                        }
+                    }
                 },
                 "minecraft": {
                     "title": "Minecraft nodes",
