@@ -2,24 +2,23 @@ import {
     Button,
     Flex,
     HStack,
-    IconButton,
     Spacer,
     Text,
     useDisclosure,
     useToast,
 } from "@chakra-ui/react";
 import {
-    BiCloudUpload,
     BiDownArrowAlt,
+    BiImport,
     BiLayer,
     BiPlus,
-    BiStoreAlt,
     BiTrash,
     BiUpArrowAlt,
 } from "react-icons/bi";
 import { getDefaultLayer } from "../../data/getDefaultGeneratorData";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
+import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 import { Store } from "./store/Store";
 
 export interface INodeGraphMenuItemProps extends IAbstractMenuItemProps {
@@ -74,7 +73,7 @@ export function NodeGraphMenuItem({
                                 <Text>{layer.name}</Text>
                                 <Spacer />
                             </HStack>
-                            <IconButton
+                            <IconButtonTooltip
                                 aria-label="Move layer up"
                                 icon={<BiUpArrowAlt />}
                                 isDisabled={i === 0}
@@ -86,7 +85,7 @@ export function NodeGraphMenuItem({
                                 }}
                                 borderRightRadius={0}
                             />
-                            <IconButton
+                            <IconButtonTooltip
                                 aria-label="Move layer down"
                                 icon={<BiDownArrowAlt />}
                                 isDisabled={i === data.layers.length - 1}
@@ -99,7 +98,7 @@ export function NodeGraphMenuItem({
                                 borderLeftRadius={0}
                                 mr={2}
                             />
-                            <IconButton
+                            <IconButtonTooltip
                                 aria-label="Remove layer"
                                 icon={<BiTrash />}
                                 onClick={() => {
@@ -126,15 +125,15 @@ export function NodeGraphMenuItem({
                         justifyContent="center"
                         gap={2}
                     >
-                        <IconButton
+                        {/* <IconButton
                             icon={<BiStoreAlt />}
                             aria-label="Browse templates"
                             flexShrink={0}
                             onClick={onOpen}
-                        />
-                        <IconButton
-                            icon={<BiCloudUpload />}
-                            aria-label="Import"
+                        /> */}
+                        <IconButtonTooltip
+                            icon={<BiImport />}
+                            aria-label="Import layer"
                             flexShrink={0}
                             onClick={() => {
                                 const input = document.createElement("input");

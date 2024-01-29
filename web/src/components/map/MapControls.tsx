@@ -17,6 +17,7 @@ import { useMemo, useState } from "react";
 import { BiCrosshair, BiMinus, BiPlus, BiSearch, BiX } from "react-icons/bi";
 import { useMap } from "react-leaflet";
 import { Await } from "../utils/Await";
+import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 import { IMapProps } from "./Map";
 
 export function MapControls(props: IMapProps) {
@@ -54,7 +55,7 @@ export function MapControls(props: IMapProps) {
                         borderTopRadius={0}
                         mb={2}
                     />
-                    <IconButton
+                    <IconButtonTooltip
                         aria-label="Fit view"
                         icon={<BiCrosshair />}
                         onClick={() => {

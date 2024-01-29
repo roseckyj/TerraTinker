@@ -4,7 +4,6 @@ import {
     Flex,
     HStack,
     Icon,
-    IconButton,
     Portal,
     Spacer,
     Text,
@@ -20,6 +19,7 @@ import { MapStep } from "./map/_MapStep";
 import { NodeGraphStep } from "./nodeGraph/_NodeGraphStep";
 import { PreviewStep } from "./preview/_PreviewStep";
 import { PublishStep } from "./publish/_PublishStep";
+import { IconButtonTooltip } from "./utils/IconButtonTooltip";
 import { ServerStatus } from "./utils/ServerStatus";
 
 const localStorageKey = "generatorData";
@@ -80,7 +80,7 @@ export function App() {
                     >
                         Help
                     </Button>
-                    <IconButton
+                    <IconButtonTooltip
                         aria-label="Open documentation"
                         icon={<BiBookOpen />}
                         onClick={() => help.onReopen()}

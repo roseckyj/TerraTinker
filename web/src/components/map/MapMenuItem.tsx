@@ -1,4 +1,4 @@
-import { Box, HStack, IconButton, Input, Text } from "@chakra-ui/react";
+import { Box, HStack, Input, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { BiCloudDownload, BiMap } from "react-icons/bi";
 import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
@@ -6,6 +6,7 @@ import { Position } from "../../types/genericTypes";
 import { insertMiddlePoints } from "../../utils/insertMidPoints";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
+import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 import { LogSlider } from "../utils/LogSlider";
 
 export interface IMapMenuProps extends IAbstractMenuItemProps {
@@ -43,7 +44,7 @@ export function MapMenuItem({
                             )} ${data.mapCenter[1].toFixed(5)}`}
                             isDisabled
                         />
-                        <IconButton
+                        <IconButtonTooltip
                             aria-label="Select map center"
                             icon={<BiMap />}
                             colorScheme={isSelecting ? "blue" : "gray"}
@@ -66,8 +67,8 @@ export function MapMenuItem({
                                 onChange(data);
                             }}
                         />
-                        <IconButton
-                            aria-label="Select map center"
+                        <IconButtonTooltip
+                            aria-label="Estimate minimum altitude"
                             icon={<BiCloudDownload />}
                             onClick={async () => {
                                 let points: Position[] = [

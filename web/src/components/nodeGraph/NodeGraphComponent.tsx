@@ -1,12 +1,6 @@
 import { Box, Flex, IconButton, Input } from "@chakra-ui/react";
 import { RefObject, useEffect, useMemo, useState } from "react";
-import {
-    BiCrosshair,
-    BiDownload,
-    BiMinus,
-    BiPlus,
-    BiSave,
-} from "react-icons/bi";
+import { BiCrosshair, BiExport, BiMinus, BiPlus, BiSave } from "react-icons/bi";
 import ReactFlow, {
     Background,
     BackgroundVariant,
@@ -19,6 +13,7 @@ import { nodes as nodeDefs } from "../../nodes/_nodes";
 import { Layer } from "../../types/layerTypes";
 import { useUpdateConnections } from "../../useUpdateConnections";
 import { downloadFile } from "../../utils/downloadFile";
+import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 import { FlowEdge } from "./FlowEdge";
 import { FlowStart } from "./FlowStartNode";
 import { TypedEdge } from "./TypedEdge";
@@ -125,7 +120,7 @@ export function NodeGraphComponent({
                                         mr={2}
                                     />
                                     {onSave && (
-                                        <IconButton
+                                        <IconButtonTooltip
                                             aria-label="Save"
                                             icon={<BiSave />}
                                             colorScheme="blue"
@@ -139,9 +134,10 @@ export function NodeGraphComponent({
                                             }}
                                         />
                                     )}
-                                    <IconButton
-                                        aria-label="Save"
-                                        icon={<BiDownload />}
+
+                                    <IconButtonTooltip
+                                        aria-label="Export layer"
+                                        icon={<BiExport />}
                                         onClick={() => {
                                             downloadFile(
                                                 new File(
@@ -179,7 +175,7 @@ export function NodeGraphComponent({
                                     borderTopRadius={0}
                                     mb={2}
                                 />
-                                <IconButton
+                                <IconButtonTooltip
                                     aria-label="Fit view"
                                     icon={<BiCrosshair />}
                                     onClick={() => {
