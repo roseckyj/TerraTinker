@@ -1,25 +1,30 @@
-# Material Scale node
+# Sample Raster node
 
-This node allows you to select a material from a value scale. You can create the scale yourself or use one of the presets.
+Fetches a value from raster at given coordinates.
 
 <Node>
     {
-        "type": "materialScale",
+        "type": "sampleRaster",
         "location": [0, 0],
         "inputs": {},
-        "nodeData": {"scale":[{"from":0.1,"material":"white_wool"},{"from":0.25,"material":"white_concrete"},{"from":0.4,"material":"light_blue_wool"},{"from":0.55,"material":"light_blue_concrete"},{"from":0.7,"material":"blue_wool"},{"from":0.85,"material":"blue_concrete"}],"defaultMaterial":"snow_block"}
+        "nodeData": {}
     }
 </Node>
 
+## Configuration
+
+-   `Interpolation`: Interpolation method to use when fetching the value. `Nearest` will return the value of the nearest pixel. `Bilinear` will interpolate the value from the four nearest pixels to smooth the value.
+
 ## Inputs
 
--   `Minimum value`: Value, that 0% maps to.
--   `Maximum value`: Value, that 100% maps to.
--   `Value`: Sampling value.
+-   `Raster`: Raster to sample.
+-   `X`: X location.
+-   `Y`: Y location.
 
 ## Outputs
 
--   `Material`: Material selected from the scale.
+-   `Value`: Raw value at given location.
+-   `Y`: Value translated from altitude to Y. This is a shorthand for using [transformations](/nodes/geometry/transformation) to convert the value.
 
 ## Example
 

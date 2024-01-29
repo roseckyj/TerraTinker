@@ -1,25 +1,27 @@
-# Material Scale node
+# Raster Info node
 
-This node allows you to select a material from a value scale. You can create the scale yourself or use one of the presets.
+This node provides information about a raster.
 
 <Node>
     {
-        "type": "materialScale",
+        "type": "rasterInfo",
         "location": [0, 0],
         "inputs": {},
-        "nodeData": {"scale":[{"from":0.1,"material":"white_wool"},{"from":0.25,"material":"white_concrete"},{"from":0.4,"material":"light_blue_wool"},{"from":0.55,"material":"light_blue_concrete"},{"from":0.7,"material":"blue_wool"},{"from":0.85,"material":"blue_concrete"}],"defaultMaterial":"snow_block"}
+        "nodeData": {}
     }
 </Node>
 
 ## Inputs
 
--   `Minimum value`: Value, that 0% maps to.
--   `Maximum value`: Value, that 100% maps to.
--   `Value`: Sampling value.
+-   `Raster`: Raster to get information about.
 
 ## Outputs
 
--   `Material`: Material selected from the scale.
+-   `Region`: Geometry of the raster.
+-   `Minimum value`: Minimum raw value in the raster.
+-   `Maximum value`: Maximum raw value in the raster.
+-   `Minimum Y`: Minimum value in raster translated from altitude to Y. This is a shorthand for using [transformations](/nodes/geometry/transformation) to convert the values.
+-   `Maximum Y`: Maximum value in raster translated from altitude to Y.
 
 ## Example
 

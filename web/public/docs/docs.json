@@ -163,27 +163,87 @@
                 "minecraft": {
                     "title": "Minecraft nodes",
                     "file": "nodes/minecraft/index.md",
-                    "children": {}
-                },
-                "misc": {
-                    "title": "Miscellaneous nodes",
-                    "file": "nodes/misc/index.md",
-                    "children": {}
+                    "children": {
+                        "setBlock": {
+                            "title": "Set block",
+                            "file": "nodes/minecraft/setBlock.md"
+                        },
+                        "fill": {
+                            "title": "Fill",
+                            "file": "nodes/minecraft/fill.md"
+                        },
+                        "replace": {
+                            "title": "Replace",
+                            "file": "nodes/minecraft/replace.md"
+                        },
+                        "placeTree": {
+                            "title": "Place tree",
+                            "file": "nodes/minecraft/placeTree.md"
+                        },
+                        "worldInfo": {
+                            "title": "World info",
+                            "file": "nodes/minecraft/worldInfo.md"
+                        },
+                        "highestBlockAt": {
+                            "title": "Highest block at",
+                            "file": "nodes/minecraft/highestBlockAt.md"
+                        }
+                    }
                 },
                 "number": {
                     "title": "Number nodes",
                     "file": "nodes/number/index.md",
-                    "children": {}
+                    "children": {
+                        "math": {
+                            "title": "Math",
+                            "file": "nodes/number/math.md"
+                        },
+                        "comparison": {
+                            "title": "Comparison",
+                            "file": "nodes/number/comparison.md"
+                        },
+                        "randomNumber": {
+                            "title": "Random number",
+                            "file": "nodes/number/randomNumber.md"
+                        },
+                        "sequence": {
+                            "title": "Sequence",
+                            "file": "nodes/number/sequence.md"
+                        }
+                    }
                 },
                 "raster": {
                     "title": "Raster nodes",
                     "file": "nodes/raster/index.md",
-                    "children": {}
+                    "children": {
+                        "sampleRaster": {
+                            "title": "Sample raster",
+                            "file": "nodes/raster/sampleRaster.md"
+                        },
+                        "aggregateRaster": {
+                            "title": "Aggregate raster",
+                            "file": "nodes/raster/aggregateRaster.md"
+                        },
+                        "rasterInfo": {
+                            "title": "Raster info",
+                            "file": "nodes/raster/rasterInfo.md"
+                        }
+                    }
                 },
                 "string": {
                     "title": "String nodes",
                     "file": "nodes/string/index.md",
                     "children": {}
+                },
+                "misc": {
+                    "title": "Miscellaneous nodes",
+                    "file": "nodes/misc/index.md",
+                    "children": {
+                        "comment": {
+                            "title": "Comment",
+                            "file": "nodes/misc/comment.md"
+                        }
+                    }
                 }
             }
         }
