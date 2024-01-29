@@ -44,7 +44,7 @@ export const WithHelp = observer(({ children, path }: IWithHelpProps) => {
                             icon={<BiBookOpen />}
                             onClick={() => {
                                 help.onOpen(path);
-                                help.helpOverlay = false;
+                                help.toggleHelpOverlay();
                             }}
                             colorScheme="blue"
                             cursor="help"

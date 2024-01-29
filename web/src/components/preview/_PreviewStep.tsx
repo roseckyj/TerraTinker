@@ -12,9 +12,8 @@ export const PreviewStep: Step = (
 ) => {
     return {
         menuItem: (key) => (
-            <WithHelp path={`/preview`}>
+            <WithHelp path={`/preview`} key={key}>
                 <MenuItem
-                    key={key}
                     icon={<BiShow />}
                     label="Preview"
                     selected={isSelected}

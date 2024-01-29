@@ -12,9 +12,8 @@ export const PublishStep: Step = (
 ) => {
     return {
         menuItem: (key) => (
-            <WithHelp path={`/publish`}>
+            <WithHelp path={`/publish`} key={key}>
                 <MenuItem
-                    key={key}
                     icon={<BiRocket />}
                     label="Publish"
                     selected={isSelected}

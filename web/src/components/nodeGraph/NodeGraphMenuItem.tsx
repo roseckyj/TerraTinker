@@ -1,12 +1,4 @@
-import {
-    Button,
-    Flex,
-    HStack,
-    Spacer,
-    Text,
-    useDisclosure,
-    useToast,
-} from "@chakra-ui/react";
+import { Button, Flex, HStack, Spacer, Text, useToast } from "@chakra-ui/react";
 import {
     BiDownArrowAlt,
     BiImport,
@@ -19,7 +11,6 @@ import { getDefaultLayer } from "../../data/getDefaultGeneratorData";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
 import { IconButtonTooltip } from "../utils/IconButtonTooltip";
-import { Store } from "./store/Store";
 
 export interface INodeGraphMenuItemProps extends IAbstractMenuItemProps {
     layerId: string;
@@ -35,7 +26,7 @@ export function NodeGraphMenuItem({
     layerId,
 }: INodeGraphMenuItemProps) {
     const toast = useToast();
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <WithHelp path={`/layers`}>
@@ -188,7 +179,7 @@ export function NodeGraphMenuItem({
                         </Button>
                     </Flex>
                 </>
-                <Store
+                {/* <Store
                     onCancel={onClose}
                     onCreate={(layer) => {
                         data.layers.push(layer);
@@ -197,7 +188,7 @@ export function NodeGraphMenuItem({
                         onClose();
                     }}
                     isOpen={isOpen}
-                />
+                /> */}
             </MenuItem>
         </WithHelp>
     );
