@@ -121,5 +121,5 @@ unsupported-settings:
     allow-piston-duplication: false
     perform-username-validation: true
 watchdog:
-    early-warning-delay: 10000000000
-    early-warning-every: 5000000000
+    early-warning-delay: 10000000
+    early-warning-every: 5000000

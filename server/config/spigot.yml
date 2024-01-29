@@ -20,7 +20,7 @@ messages:
 settings:
     debug: false
     save-user-cache-on-stop-only: false
-    timeout-time: 6000000000
+    timeout-time: 60000000
     restart-on-crash: true
     restart-script: ./start.sh
     sample-count: 12
