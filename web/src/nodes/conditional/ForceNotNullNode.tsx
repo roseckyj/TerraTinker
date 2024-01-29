@@ -91,6 +91,7 @@ export class ForceNotNullNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/conditional/forceNotNull"
             >
                 <Select
                     {...nodeInputStyle}

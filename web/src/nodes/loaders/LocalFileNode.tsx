@@ -106,6 +106,7 @@ export class LocalFileNode extends AbstractNode {
                 selected={selected}
                 locked={locked}
                 w={64}
+                helpPath="/nodes/loader/localFile"
             >
                 {!!localFileNode.fileId ? (
                     <UploadButton

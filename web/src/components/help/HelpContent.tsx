@@ -4,6 +4,7 @@ import {
     BreadcrumbItem,
     BreadcrumbLink,
     Center,
+    Code,
     Flex,
     Heading,
     IconButton,
@@ -80,15 +81,15 @@ export const HelpContent = observer(({ docsSpecs }: IHelpContentProps) => {
                                             : undefined
                                     }
                                 >
-                                    {
-                                        path
-                                            .slice(0, i + 1)
-                                            .reduce(
-                                                (prev, index) =>
-                                                    prev.children![index],
-                                                docsSpecs as HelpNode
-                                            ).title
-                                    }
+                                    {path
+                                        .slice(0, i + 1)
+                                        .reduce(
+                                            (prev, index) =>
+                                                prev && prev.children
+                                                    ? prev.children[index]
+                                                    : null,
+                                            docsSpecs as HelpNode | null
+                                        )?.title || "Not found"}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                         ))}
@@ -104,7 +105,12 @@ export const HelpContent = observer(({ docsSpecs }: IHelpContentProps) => {
                             <Spinner />
                         </Center>
                     }
-                    error={(error) => <>{JSON.stringify(error)}</>}
+                    error={(error) => (
+                        <>
+                            Documentation page with path{" "}
+                            <Code>{path.join("/")}</Code> not found!
+                        </>
+                    )}
                 >
                     {(response) => (
                         <RenderMarkdown>{response.data}</RenderMarkdown>

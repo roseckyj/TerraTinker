@@ -222,6 +222,7 @@ export class SwitchNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/conditional/switch"
             >
                 <Text {...nodeDescriptionStype}>Number of cases</Text>
                 <NumberInput

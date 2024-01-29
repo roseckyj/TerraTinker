@@ -105,6 +105,7 @@ export class AggregateRasterNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/raster/aggregateRaster"
             >
                 <Select
                     {...nodeInputStyle}

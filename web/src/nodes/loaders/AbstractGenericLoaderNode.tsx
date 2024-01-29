@@ -123,6 +123,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                 selected={selected}
                 tags={["fork"]}
                 locked={locked}
+                helpPath={ctor.helpPath || undefined}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable

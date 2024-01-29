@@ -8,6 +8,7 @@ export class NotNode extends AbstractNode {
     static title = "Not";
     static category = "Boolean";
     static type = "not";
+    static helpPath = "/nodes/boolean/not";
 
     public constructor(params: NodeConstructorParams) {
         super(

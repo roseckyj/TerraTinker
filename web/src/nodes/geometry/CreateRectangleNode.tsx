@@ -8,6 +8,7 @@ export class CreateRectangleNode extends AbstractNode {
     static title = "Create Rectangle";
     static category = "Geometry";
     static type = "createRectangle";
+    static helpPath = "/nodes/geometry/createRectangle";
 
     public constructor(params: NodeConstructorParams) {
         super(

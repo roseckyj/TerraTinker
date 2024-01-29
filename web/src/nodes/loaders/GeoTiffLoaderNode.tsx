@@ -8,6 +8,7 @@ export class GeoTiffLoaderNode extends AbstractNode {
     static title = "GeoTIFF";
     static category = "Loaders";
     static type = "geoTiffLoader";
+    static helpPath = "/nodes/loader/geoTiffLoader";
 
     public constructor(params: NodeConstructorParams) {
         super(

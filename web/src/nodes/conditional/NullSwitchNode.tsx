@@ -180,6 +180,7 @@ export class NullSwitchNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/conditional/nullSwitch"
             >
                 <Text {...nodeDescriptionStype}>Number of cases</Text>
                 <NumberInput

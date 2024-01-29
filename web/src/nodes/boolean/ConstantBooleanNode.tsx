@@ -8,6 +8,7 @@ export class ConstantBooleanNode extends AbstractNode {
     static title = "Constant Boolean";
     static category = "Boolean";
     static type = "constantBoolean";
+    static helpPath = "/nodes/constant";
 
     public constructor(params: NodeConstructorParams) {
         super(

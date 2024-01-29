@@ -8,6 +8,7 @@ export class GeometryOverlapNode extends AbstractNode {
     static title = "Geometry Overlaps";
     static category = "Geometry";
     static type = "geometryOverlap";
+    static helpPath = "/nodes/geometry/geometryOverlap";
 
     public constructor(params: NodeConstructorParams) {
         super(

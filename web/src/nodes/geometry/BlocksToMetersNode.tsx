@@ -8,6 +8,7 @@ export class BlocksToMetersNode extends AbstractNode {
     static title = "Blocks to Meters";
     static category = "Geometry";
     static type = "blocksToMeters";
+    static helpPath = "/nodes/geometry/tranformations";
 
     public constructor(params: NodeConstructorParams) {
         super(

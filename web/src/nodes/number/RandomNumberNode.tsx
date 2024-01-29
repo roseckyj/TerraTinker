@@ -85,6 +85,7 @@ export class RandomNumberNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/number/randomNumber"
             >
                 <Checkbox
                     isChecked={thisNode.randomSeed}

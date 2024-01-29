@@ -1,6 +1,17 @@
-import { Button, Flex, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    HStack,
+    Icon,
+    IconButton,
+    Portal,
+    Spacer,
+    Text,
+} from "@chakra-ui/react";
+import { observer } from "mobx-react-lite";
 import { useReducer, useState } from "react";
-import { BiQuestionMark, BiSolidCube } from "react-icons/bi";
+import { BiBookOpen, BiQuestionMark, BiSolidCube } from "react-icons/bi";
 import { getDefaultGeneratorData } from "../data/getDefaultGeneratorData";
 import { GeneratorData } from "../types/generatorTypes";
 import { AppWindow } from "./AppWindow";
@@ -39,41 +50,70 @@ export function App() {
     const help = useHelp();
 
     return (
-        <Flex
-            position="fixed"
-            inset="0"
-            direction="column"
-            alignItems="stretch"
-            bg="gray.900"
-            color="white"
-        >
-            <HStack
-                h={20}
-                borderBottomStyle="solid"
-                borderBottomWidth={2}
-                borderBottomColor="gray.800"
-                px={6}
-                flexShrink={0}
+        <>
+            <Flex
+                position="fixed"
+                inset="0"
+                direction="column"
+                alignItems="stretch"
+                bg="gray.900"
+                color="white"
             >
-                <Icon as={BiSolidCube} mr={4} fontSize="3xl" />
-                <Text fontSize="2xl" fontWeight="bold">
-                    TerraTinker
-                </Text>
-                <Spacer />
-                <ServerStatus />
-                <Button
-                    ml={4}
-                    leftIcon={<BiQuestionMark />}
-                    onClick={() => help.onReopen()}
+                <HStack
+                    h={20}
+                    borderBottomStyle="solid"
+                    borderBottomWidth={2}
+                    borderBottomColor="gray.800"
+                    px={6}
+                    flexShrink={0}
                 >
-                    Help
-                </Button>
-            </HStack>
-            <AppWindow
-                data={data}
-                onDataChange={setDataAndSave}
-                steps={[MapStep, NodeGraphStep, PreviewStep, PublishStep]}
-            />
-        </Flex>
+                    <Icon as={BiSolidCube} mr={4} fontSize="3xl" />
+                    <Text fontSize="2xl" fontWeight="bold">
+                        TerraTinker
+                    </Text>
+                    <Spacer />
+                    <ServerStatus />
+                    <Button
+                        ml={4}
+                        leftIcon={<BiQuestionMark />}
+                        onClick={() => help.toggleHelpOverlay()}
+                    >
+                        Help
+                    </Button>
+                    <IconButton
+                        aria-label="Open documentation"
+                        icon={<BiBookOpen />}
+                        onClick={() => help.onReopen()}
+                    />
+                </HStack>
+                <AppWindow
+                    data={data}
+                    onDataChange={setDataAndSave}
+                    steps={[MapStep, NodeGraphStep, PreviewStep, PublishStep]}
+                />
+            </Flex>
+            <HelpOverlay />
+        </>
     );
 }
+
+const HelpOverlay = observer(() => {
+    const help = useHelp();
+
+    if (help.helpOverlay) {
+        return (
+            <Portal>
+                <Box
+                    position="fixed"
+                    inset={0}
+                    bg="blackAlpha.400"
+                    backdropFilter="auto"
+                    backdropSaturate={0.2}
+                    onClick={() => help.toggleHelpOverlay()}
+                ></Box>
+            </Portal>
+        );
+    }
+
+    return <></>;
+});

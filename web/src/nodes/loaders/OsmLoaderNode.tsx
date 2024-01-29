@@ -163,6 +163,7 @@ out geom;`;
                 selected={selected}
                 tags={["fork"]}
                 locked={locked}
+                helpPath="/nodes/loader/osmLoader"
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable

@@ -90,6 +90,7 @@ export class ComparisonNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/number/comparison"
             >
                 <Select
                     {...nodeInputStyle}

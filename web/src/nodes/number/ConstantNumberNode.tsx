@@ -8,6 +8,7 @@ export class ConstantNumberNode extends AbstractNode {
     static title = "Constant Number";
     static category = "Number";
     static type = "constantNumber";
+    static helpPath = "/nodes/constant";
 
     public constructor(params: NodeConstructorParams) {
         super(

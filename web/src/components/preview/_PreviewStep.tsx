@@ -1,5 +1,6 @@
 import { BiShow } from "react-icons/bi";
 import { Step } from "../Step";
+import { WithHelp } from "../help/WithHelp";
 import { MenuItem } from "../menu/MenuItem";
 import { Preview } from "./Preview";
 
@@ -11,13 +12,15 @@ export const PreviewStep: Step = (
 ) => {
     return {
         menuItem: (key) => (
-            <MenuItem
-                key={key}
-                icon={<BiShow />}
-                label="Preview"
-                selected={isSelected}
-                onClick={onSelected}
-            />
+            <WithHelp path={`/preview`}>
+                <MenuItem
+                    key={key}
+                    icon={<BiShow />}
+                    label="Preview"
+                    selected={isSelected}
+                    onClick={onSelected}
+                />
+            </WithHelp>
         ),
         window: (key) => <Preview key={key} data={data} hide={!isSelected} />,
     };

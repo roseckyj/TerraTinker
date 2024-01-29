@@ -8,6 +8,7 @@ export class MaterialByNameNode extends AbstractNode {
     static title = "Material by Name";
     static category = "Material";
     static type = "materialByName";
+    static helpPath = "/nodes/material/materialByName";
 
     public constructor(params: NodeConstructorParams) {
         super(

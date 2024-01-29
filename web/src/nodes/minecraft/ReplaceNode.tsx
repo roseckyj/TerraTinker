@@ -9,6 +9,7 @@ export class ReplaceNode extends AbstractNode {
     static category = "Minecraft";
     static type = "replace";
     static isAction = true;
+    static helpPath = "/nodes/minecraft/replace";
 
     public constructor(params: NodeConstructorParams) {
         super(

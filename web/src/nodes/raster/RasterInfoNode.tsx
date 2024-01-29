@@ -8,6 +8,7 @@ export class RasterInfoNode extends AbstractNode {
     static title = "Raster Info";
     static category = "Raster";
     static type = "rasterInfo";
+    static helpPath = "/nodes/raster/rasterInfo";
 
     public constructor(params: NodeConstructorParams) {
         super(

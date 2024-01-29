@@ -45,6 +45,7 @@ export abstract class AbstractNode {
     static title: string;
     static category: string;
     static type: string;
+    static helpPath: string | null = null;
     static isAction: boolean = false;
     static isFork: boolean = false;
 
@@ -219,6 +220,7 @@ export abstract class AbstractNode {
                     ] as any
                 }
                 locked={locked}
+                helpPath={ctor.helpPath ? ctor.helpPath : undefined}
             >
                 {Object.entries(node.inputs).map(([id, input]) => (
                     <Variable

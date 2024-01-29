@@ -5,4 +5,5 @@ export class EsriLoaderNode extends AbstractGenericLoaderNode {
     static category = "Loaders";
     static type = "esriLoader";
     static isFork = true;
+    static helpPath = "/nodes/loader/esriLoader";
 }

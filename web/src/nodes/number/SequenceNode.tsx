@@ -9,6 +9,7 @@ export class SequenceNode extends AbstractNode {
     static category = "Number";
     static type = "sequence";
     static isFork = true;
+    static helpPath = "/nodes/number/sequence";
 
     public constructor(params: NodeConstructorParams) {
         super(

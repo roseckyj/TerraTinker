@@ -7,6 +7,10 @@ export function resolvePath(
         base = "";
     }
 
+    if (path === null || path === undefined) {
+        path = "";
+    }
+
     if (path.startsWith("/")) {
         base = "";
     }

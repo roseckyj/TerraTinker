@@ -8,6 +8,7 @@ export class WorldInfoNode extends AbstractNode {
     static title = "World Info";
     static category = "Minecraft";
     static type = "worldInfo";
+    static helpPath = "/nodes/minecraft/worldInfo";
 
     public constructor(params: NodeConstructorParams) {
         super(

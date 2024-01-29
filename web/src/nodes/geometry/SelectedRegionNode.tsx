@@ -8,6 +8,7 @@ export class SelectedRegionNode extends AbstractNode {
     static title = "Selected Region";
     static category = "Geometry";
     static type = "selectedRegion";
+    static helpPath = "/nodes/geometry/selectRegion";
 
     public constructor(params: NodeConstructorParams) {
         super(

@@ -9,6 +9,7 @@ export class FillNode extends AbstractNode {
     static category = "Minecraft";
     static type = "fill";
     static isAction = true;
+    static helpPath = "/nodes/minecraft/fill";
 
     public constructor(params: NodeConstructorParams) {
         super(

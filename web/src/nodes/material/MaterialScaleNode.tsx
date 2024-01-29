@@ -233,6 +233,7 @@ export class MaterialScaleNode extends AbstractNode {
                 selected={selected}
                 w={96}
                 locked={locked}
+                helpPath="/nodes/material/materialScale"
             >
                 <Select
                     {...nodeInputStyle}

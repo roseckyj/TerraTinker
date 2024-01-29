@@ -9,6 +9,7 @@ export class SetBlockNode extends AbstractNode {
     static category = "Minecraft";
     static type = "setBlock";
     static isAction = true;
+    static helpPath = "/nodes/minecraft/setBlock";
 
     public constructor(params: NodeConstructorParams) {
         super(

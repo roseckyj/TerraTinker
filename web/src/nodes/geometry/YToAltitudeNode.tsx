@@ -8,6 +8,7 @@ export class YToAltitudeNode extends AbstractNode {
     static title = "Y to Altitude";
     static category = "Geometry";
     static type = "yToAltitude";
+    static helpPath = "/nodes/geometry/tranformations";
 
     public constructor(params: NodeConstructorParams) {
         super(

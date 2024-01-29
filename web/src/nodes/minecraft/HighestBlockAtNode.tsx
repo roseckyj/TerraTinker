@@ -8,6 +8,7 @@ export class HighestBlockAtNode extends AbstractNode {
     static title = "Highest Block At";
     static category = "Minecraft";
     static type = "highestBlockAt";
+    static helpPath = "/nodes/minecraft/highestBlockAt";
 
     public constructor(params: NodeConstructorParams) {
         super(

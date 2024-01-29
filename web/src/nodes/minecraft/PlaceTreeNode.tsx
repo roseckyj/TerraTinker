@@ -103,6 +103,7 @@ export class PlaceTreeNode extends AbstractNode {
                 selected={selected}
                 tags={["action"]}
                 locked={locked}
+                helpPath="/nodes/minecraft/placeTree"
             >
                 <Select
                     {...nodeInputStyle}

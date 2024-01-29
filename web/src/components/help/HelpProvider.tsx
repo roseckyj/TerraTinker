@@ -6,6 +6,7 @@ import { Help } from "./Help";
 class HelpContext {
     public path: string | null = null;
     public history: string[] = [];
+    public helpOverlay: boolean = false;
 
     public onOpen(path: string) {
         this.path = resolvePath(path, this.path, true);
@@ -31,6 +32,10 @@ class HelpContext {
         console.log(this.path);
     }
 
+    public toggleHelpOverlay() {
+        this.helpOverlay = !this.helpOverlay;
+    }
+
     public get isOpen() {
         return this.path !== null;
     }
@@ -45,12 +50,14 @@ class HelpContext {
         makeObservable(this, {
             path: observable,
             history: observable,
+            helpOverlay: observable,
             isOpen: computed,
             currentPath: computed,
             onOpen: action,
             onClose: action,
             onBack: action,
             onReopen: action,
+            toggleHelpOverlay: action,
         });
     }
 }

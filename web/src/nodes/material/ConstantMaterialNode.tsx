@@ -8,6 +8,7 @@ export class ConstantMaterialNode extends AbstractNode {
     static title = "Constant Material";
     static category = "Material";
     static type = "constantMaterial";
+    static helpPath = "/nodes/constant";
 
     public constructor(params: NodeConstructorParams) {
         super(

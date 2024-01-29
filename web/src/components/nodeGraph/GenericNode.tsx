@@ -1,9 +1,11 @@
 import { Box, Flex, FlexProps } from "@chakra-ui/react";
 import { BiGitRepoForked, BiRocket } from "react-icons/bi";
+import { WithHelp } from "../help/WithHelp";
 
 export interface IGenericNodeProps extends FlexProps {
     title: string;
     category: string;
+    helpPath?: string;
     children: React.ReactNode;
     locked: boolean;
     selected?: boolean;
@@ -17,12 +19,13 @@ export function GenericNode({
     selected,
     tags,
     locked,
+    helpPath,
     ...rest
 }: IGenericNodeProps) {
     const tagSet = new Set(tags || []);
     // const nodeId = useNodeId();
 
-    return (
+    const content = (
         <Flex
             bg={"gray.700"}
             borderRadius="md"
@@ -48,9 +51,11 @@ export function GenericNode({
             <Flex my={2} direction="column" alignItems="stretch" mx={2}>
                 {children}
                 {/* <Box opacity={0.5} fontSize="xs" mt={2} textAlign="center">
-                    {nodeId?.split("-")[0]}
-                </Box> */}
+            {nodeId?.split("-")[0]}
+        </Box> */}
             </Flex>
         </Flex>
     );
+
+    return helpPath ? <WithHelp path={helpPath}>{content}</WithHelp> : content;
 }

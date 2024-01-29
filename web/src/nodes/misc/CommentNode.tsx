@@ -18,6 +18,7 @@ export class CommentNode extends AbstractNode {
     static title = "Comment";
     static category = "Misc";
     static type = "comment";
+    static helpPath = "/nodes/misc/comment";
 
     private content: string = "Comment";
 

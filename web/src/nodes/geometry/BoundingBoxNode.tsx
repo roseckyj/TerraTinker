@@ -8,6 +8,7 @@ export class BoundingBoxNode extends AbstractNode {
     static title = "Bounding Box";
     static category = "Geometry";
     static type = "boundingBox";
+    static helpPath = "/nodes/geometry/boundingBox";
 
     public constructor(params: NodeConstructorParams) {
         super(

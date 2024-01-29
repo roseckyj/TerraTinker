@@ -83,6 +83,7 @@ export class BooleanOperatorNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/boolean/booleanOperator"
             >
                 <Select
                     {...nodeInputStyle}

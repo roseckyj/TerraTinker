@@ -8,6 +8,7 @@ export class ConstantStringNode extends AbstractNode {
     static title = "Constant String";
     static category = "String";
     static type = "constantString";
+    static helpPath = "/nodes/constant";
 
     public constructor(params: NodeConstructorParams) {
         super(

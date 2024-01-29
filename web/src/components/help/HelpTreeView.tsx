@@ -27,7 +27,7 @@ export const HelpTreeView = observer(({ tree, path }: IHelpTreeProps) => {
     const help = useHelp();
 
     return (
-        <Accordion allowToggle allowMultiple>
+        <Accordion allowMultiple>
             {Object.entries(tree).map(([i, node]) => (
                 <AccordionItem border="none" key={i}>
                     {({ isExpanded }) => (

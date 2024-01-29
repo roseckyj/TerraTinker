@@ -8,6 +8,7 @@ export class CreatePointNode extends AbstractNode {
     static title = "Create Point";
     static category = "Geometry";
     static type = "createPoint";
+    static helpPath = "/nodes/geometry/createPoint";
 
     public constructor(params: NodeConstructorParams) {
         super(

@@ -87,6 +87,7 @@ export class IsNullNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/conditional/isNull"
             >
                 <Select
                     {...nodeInputStyle}

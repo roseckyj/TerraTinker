@@ -106,6 +106,7 @@ export class MathNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/number/math"
             >
                 <Select
                     {...nodeInputStyle}

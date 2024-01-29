@@ -93,6 +93,7 @@ export class ToStringNode extends AbstractNode {
                 category={ctor.category}
                 selected={selected}
                 locked={locked}
+                helpPath="/nodes/string/toString"
             >
                 <Select
                     {...nodeInputStyle}
