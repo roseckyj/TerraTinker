@@ -64,6 +64,8 @@ Links can be connected only between compatible inputs and outputs. For example, 
 
 Links must not form cycles. This means that a link cannot be created if it would create a cycle in the graph. For example, if `A` is connected to `B` and `B` is connected to `A`, then connecting `A` to `B` again would create a cycle.
 
+Links can appear dashed. In case a link goes from an output with a black dot, that means, that the value can possibly be null. For more information about dealing with null values, see [dedicated section](null).
+
 ## Execution flow
 
 Execution flow is a special type of node graph that is used to define the order of execution of action nodes. Unlike generic or fork nodes, it has additional input and output at the top and bottom respectively. The top-most node is guaranted to be executed first, and the bottom-most node is guaranted to be executed last. Do not forget to connect all action nodes to the execution flow, otherwise they will not be executed.

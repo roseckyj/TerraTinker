@@ -6,8 +6,9 @@ import {
     Box,
     Icon,
 } from "@chakra-ui/react";
+import { observer } from "mobx-react-lite";
 import { BiMinus, BiPlus, BiRadioCircle } from "react-icons/bi";
-import { useOpenHelp } from "./HelpProvider";
+import { useHelp } from "./HelpProvider";
 
 export type HelpTree = { [key: string]: HelpNode };
 
@@ -22,24 +23,21 @@ export interface IHelpTreeProps {
     path: string[];
 }
 
-export function HelpTreeView({ tree, path }: IHelpTreeProps) {
-    const help = useOpenHelp();
-
-    console.log(tree);
+export const HelpTreeView = observer(({ tree, path }: IHelpTreeProps) => {
+    const help = useHelp();
 
     return (
-        <Accordion allowToggle>
+        <Accordion allowToggle allowMultiple>
             {Object.entries(tree).map(([i, node]) => (
                 <AccordionItem border="none" key={i}>
                     {({ isExpanded }) => (
                         <>
                             <AccordionButton
                                 onClick={() => {
-                                    if (
-                                        (!isExpanded || !node.children) &&
-                                        node.file
-                                    ) {
-                                        help("/" + [...path, i].join("/"));
+                                    if (node.file) {
+                                        help.onOpen(
+                                            "/" + [...path, i].join("/")
+                                        );
                                     }
                                 }}
                             >
@@ -57,7 +55,12 @@ export function HelpTreeView({ tree, path }: IHelpTreeProps) {
                                 </Box>
                             </AccordionButton>
                             {node.children && (
-                                <AccordionPanel pb={4} pr={0}>
+                                <AccordionPanel
+                                    p={0}
+                                    ml={6}
+                                    borderLeftColor="gray.700"
+                                    borderLeftWidth={1}
+                                >
                                     <HelpTreeView
                                         tree={node.children}
                                         path={[...path, i]}
@@ -70,4 +73,4 @@ export function HelpTreeView({ tree, path }: IHelpTreeProps) {
             ))}
         </Accordion>
     );
-}
+});

@@ -141,10 +141,10 @@ export class SwitchNode extends AbstractNode {
         const created = super.deserialize(id, node) as SwitchNode;
 
         if (node.nodeData.inputType) {
-            created.setInputTypes(created.inputType, false);
+            created.setInputTypes(node.nodeData.inputType, false);
         }
         if (node.nodeData.switchType) {
-            created.setSwitchTypes(created.switchType, false);
+            created.setSwitchTypes(node.nodeData.switchType, false);
         }
         if (node.nodeData.cases) {
             created.cases = node.nodeData.cases;

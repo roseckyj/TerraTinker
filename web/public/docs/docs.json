@@ -22,6 +22,10 @@
                     "title": "Data types",
                     "file": "layers/data_types.md"
                 },
+                "null": {
+                    "title": "Null value",
+                    "file": "layers/null.md"
+                },
                 "node_types": {
                     "title": "Node types",
                     "file": "layers/node_types/index.md",
@@ -45,12 +49,42 @@
                 "boolean": {
                     "title": "Boolean nodes",
                     "file": "nodes/boolean/index.md",
-                    "children": {}
+                    "children": {
+                        "boolean": {
+                            "title": "Boolean Operator",
+                            "file": "nodes/boolean/booleanOperator.md"
+                        },
+                        "not": {
+                            "title": "Not",
+                            "file": "nodes/boolean/not.md"
+                        }
+                    }
                 },
                 "conditional": {
                     "title": "Conditional nodes",
                     "file": "nodes/conditional/index.md",
-                    "children": {}
+                    "children": {
+                        "null": {
+                            "title": "Null",
+                            "file": "nodes/conditional/null.md"
+                        },
+                        "nullSwitch": {
+                            "title": "Null Switch",
+                            "file": "nodes/conditional/nullSwitch.md"
+                        },
+                        "isNull": {
+                            "title": "Is Null",
+                            "file": "nodes/conditional/isNull.md"
+                        },
+                        "forceNotNull": {
+                            "title": "Force Not Null",
+                            "file": "nodes/conditional/forceNotNull.md"
+                        },
+                        "switch": {
+                            "title": "Switch",
+                            "file": "nodes/conditional/switch.md"
+                        }
+                    }
                 },
                 "geometry": {
                     "title": "Geometry nodes",
@@ -81,7 +115,7 @@
                             "file": "nodes/geometry/selectedRegion.md"
                         },
                         "transformations": {
-                            "title": "Transformation nodes (X to Y)",
+                            "title": "Transformation nodes (A to B)",
                             "file": "nodes/geometry/transformations.md"
                         }
                     }
