@@ -47,6 +47,7 @@ export const WithHelp = observer(({ children, path }: IWithHelpProps) => {
                                 help.helpOverlay = false;
                             }}
                             colorScheme="blue"
+                            cursor="help"
                         />
                     </Flex>
                 </Portal>

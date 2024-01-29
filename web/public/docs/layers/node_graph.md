@@ -6,6 +6,8 @@ Node graph provides advanced options for transforming input geospatial data into
 
 A single node represents a basic operation on data. It has inputs and outputs. Inputs can be either values or links to other nodes. Outputs can be linked to inputs of other nodes.
 
+Nodes can be created by right-clicking on the canvas and selecting a node type from the menu. You can type to filter the nodes by name or category. Nodes can be moved by dragging them with the mouse. Nodes can be deleted by selecting them and pressing `Backspace` key.
+
 <Node>
     {
         "type": "rasterize",
