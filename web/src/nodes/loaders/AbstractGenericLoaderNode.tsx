@@ -16,6 +16,7 @@ import {
 import { GenericNode } from "../../components/nodeGraph/GenericNode";
 import { Variable } from "../../components/nodeGraph/Variable";
 import { varTypes } from "../../components/nodeGraph/_varTypes";
+import { UpdateNodeDimensionTrigger } from "../../components/utils/UpdateNodeDimensionTrigger";
 import { GraphState } from "../../graphState/graphState";
 import { Node, VarType } from "../../types/layerTypes";
 import { nodeInputStyle } from "../../utils/styles";
@@ -110,7 +111,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
     }
 
     public static Component({
-        data: { node, forceUpdate, updateConnections, locked },
+        data: { node, forceUpdate, updateConnections, locked, version },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -239,6 +240,7 @@ export abstract class AbstractGenericLoaderNode extends AbstractNode {
                         Add attribute
                     </Button>
                 </Flex>
+                <UpdateNodeDimensionTrigger version={version} />
             </GenericNode>
         );
     }

@@ -6,6 +6,8 @@ import {
     NodeChange,
     Edge as ReactFlowEdge,
     Node as ReactFlowNode,
+    useStoreApi,
+    useUpdateNodeInternals,
 } from "reactflow";
 import { NodeData } from "../components/nodeGraph/AbstractNode";
 import {
@@ -33,6 +35,8 @@ export function useGraphState(data: Layer, locked: boolean) {
         // Data removed from next line in order to prevent reloading (acts as defaultValue now)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toast]);
+    const updateNodeInternals = useUpdateNodeInternals();
+    const store = useStoreApi();
 
     useEffect(() => {
         // On load
@@ -47,6 +51,7 @@ export function useGraphState(data: Layer, locked: boolean) {
         // On force update
         if (version > 0) {
             setDirty();
+            updateNodeInternals(nodes.map((node) => node.id));
             reloadNodes();
             reloadEdges();
         }

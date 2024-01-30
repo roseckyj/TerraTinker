@@ -17,6 +17,8 @@ import {
 import { GenericNode } from "../../components/nodeGraph/GenericNode";
 import { Variable } from "../../components/nodeGraph/Variable";
 import { varTypes } from "../../components/nodeGraph/_varTypes";
+import { IconButtonTooltip } from "../../components/utils/IconButtonTooltip";
+import { UpdateNodeDimensionTrigger } from "../../components/utils/UpdateNodeDimensionTrigger";
 import { GraphState } from "../../graphState/graphState";
 import { Node, VarType } from "../../types/layerTypes";
 import { nodeInputEnabledStyle, nodeInputStyle } from "../../utils/styles";
@@ -128,15 +130,13 @@ export class OsmLoaderNode extends AbstractNode {
     }
 
     public setAttribute(index: number, type: VarType, path: string) {
-        this.attributes[index] = {
-            type,
-            path,
-        };
+        this.attributes[index].type = type;
+        this.attributes[index].path = path;
         this.generateOutputs();
     }
 
     public static Component({
-        data: { node, forceUpdate, updateConnections, locked },
+        data: { node, forceUpdate, updateConnections, locked, version },
         selected,
     }: NodeProps<NodeData>) {
         const ctor = node.constructor as typeof AbstractNode;
@@ -319,6 +319,7 @@ out geom;`;
                                         thisNode.attributes[i].type,
                                         e.target.value
                                     );
+
                                     forceUpdate();
                                     updateConnections();
                                 }}
@@ -333,6 +334,7 @@ out geom;`;
                                         e.target.value as any,
                                         thisNode.attributes[i].path
                                     );
+
                                     forceUpdate();
                                     updateConnections();
                                 }}
@@ -343,7 +345,7 @@ out geom;`;
                                     </option>
                                 ))}
                             </Select>
-                            <IconButton
+                            <IconButtonTooltip
                                 {...nodeInputStyle}
                                 aria-label="Remove attribute"
                                 icon={<BiTrash />}
@@ -388,6 +390,7 @@ out geom;`;
                         Add attribute
                     </Button>
                 </Flex>
+                <UpdateNodeDimensionTrigger version={version} />
             </GenericNode>
         );
     }
