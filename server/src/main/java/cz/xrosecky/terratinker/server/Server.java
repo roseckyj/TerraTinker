@@ -215,6 +215,7 @@ public class Server implements Runnable {
             meta.put("mimetype", uploadedFile.contentType());
             meta.put("uuid", uuid);
             meta.put("timestamp", new java.util.Date().toString());
+            meta.put("additionalFiles", new JSONObject());
 
             try {
                 FileUtils.writeStringToFile(cz.xrosecky.terratinker.utils.FileUtils.pathToFile(metaFilename, plugin.getDataFolder()), meta.toString(4), "UTF-8");
@@ -246,6 +247,56 @@ public class Server implements Runnable {
 
             ctx.status(200);
             ctx.result(response.toString(4));
+        });
+
+        app.get("/api/files/{id}/upload", ctx -> {
+            String id = ctx.pathParam("id");
+            File metaFile = cz.xrosecky.terratinker.utils.FileUtils.pathToFile(id + ".meta", plugin.getDataFolder());
+
+            if (!metaFile.exists()) {
+                error("File not found", ctx);
+                return;
+            }
+
+            var meta = new JSONObject(FileUtils.readFileToString(metaFile, "UTF-8"));
+
+            var uploadedFile = Objects.requireNonNull(ctx.uploadedFile("file"));
+
+            String uuid = meta.getString("uuid");
+            String extension = uploadedFile.extension();
+            String filename = uuid + extension;
+
+            uploadedFile.contentAndClose(file -> {
+                try {
+                    FileUtils.copyInputStreamToFile(file
+                            , cz.xrosecky.terratinker.utils.FileUtils.pathToFile(filename, plugin.getDataFolder()));
+                    return true;
+                } catch (IOException e) {
+                    error("Failed to save file", ctx);
+                    return false;
+                }
+            });
+
+            if (!meta.has("additionalFiles"))
+                meta.put("additionalFiles", new JSONObject());
+
+            if (meta.getJSONObject("additionalFiles").has(extension)) {
+                error("File with this extension already uploaded", ctx);
+                return;
+            }
+
+            meta.getJSONObject("additionalFiles").put(extension, filename);
+
+            try {
+                FileUtils.writeStringToFile(metaFile, meta.toString(4), "UTF-8");
+            } catch (IOException e) {
+                error("Failed to save meta file", ctx);
+                return;
+            }
+
+            JSONObject response = new JSONObject();
+            response.put("status", "ok");
+            response.put("data", meta);
         });
     }
 
