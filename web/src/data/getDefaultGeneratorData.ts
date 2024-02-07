@@ -19,8 +19,11 @@ export function getDefaultGeneratorData(): GeneratorData {
     };
 }
 
-export function getDefaultLayer(): Layer {
-    const layer = defaultLayer as any as Layer;
+export function getDefaultLayer(name?: string): Layer {
+    const layer = JSON.parse(JSON.stringify(defaultLayer)) as Layer;
     layer.id = uuidv4();
+    if (name) {
+        layer.name = name;
+    }
     return layer;
 }

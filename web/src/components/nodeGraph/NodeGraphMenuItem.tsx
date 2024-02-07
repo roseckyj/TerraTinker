@@ -170,11 +170,13 @@ export function NodeGraphMenuItem({
                             leftIcon={<BiPlus />}
                             flexShrink={0}
                             onClick={() => {
-                                data.layers.push(getDefaultLayer());
-                                onChange(data);
-                                onLayerIdChange(
-                                    data.layers[data.layers.length - 1].id
+                                data.layers.unshift(
+                                    getDefaultLayer(
+                                        `Layer ${data.layers.length + 1}`
+                                    )
                                 );
+                                onChange(data);
+                                onLayerIdChange(data.layers[0].id);
                             }}
                         >
                             Create new layer

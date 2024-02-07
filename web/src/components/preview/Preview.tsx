@@ -11,6 +11,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { BiError, BiShow } from "react-icons/bi";
 import { MinecraftViewer } from "react-minecraft-viewer";
+import { forTime } from "waitasecond";
 import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
 
@@ -114,6 +115,7 @@ export function Preview(props: IPreviewProps) {
                                 return;
                             }
 
+                            await forTime(200); // Wait for the server to start the preview (it's not instant)
                             setPreviewSession(response.data.id);
                             setPreviewData(
                                 JSON.parse(JSON.stringify(props.data))
@@ -145,6 +147,33 @@ export function Preview(props: IPreviewProps) {
                 regionPath={api.getUrl(`/session/${previewSession}/region/0/0`)}
                 assetsPath="/assets.zip"
                 backgroundColor={[26 / 255, 32 / 255, 44 / 255]}
+                onError={(e) => {
+                    if (e.message === "Empty structure loaded") {
+                        toast({
+                            title: "The preview is empty",
+                            description:
+                                "The structure is empty and cannot be displayed in the preview.",
+                            status: "warning",
+                        });
+                    } else if (
+                        e.message === "Invalid compression mode undefined"
+                    ) {
+                        toast({
+                            title: "Failed to load the preview",
+                            description:
+                                "The preview is empty or the server failed to generate it.",
+                            status: "error",
+                        });
+                    } else {
+                        toast({
+                            title: "Failed to load the preview",
+                            description: e.message,
+                            status: "error",
+                        });
+                    }
+
+                    setPreviewSession(null);
+                }}
                 spinner={
                     <Center w="100%" h="100%">
                         <VStack>

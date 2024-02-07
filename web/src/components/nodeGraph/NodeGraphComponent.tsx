@@ -104,6 +104,19 @@ export function NodeGraphComponent({
                         fitView
                         minZoom={minZoom}
                         maxZoom={maxZoom}
+                        onKeyDown={(e) => {
+                            if (e.key === "Delete") {
+                                flow.deleteElements({
+                                    nodes: flow
+                                        .getNodes()
+                                        .filter((node) => node.selected),
+                                    edges: flow
+                                        .getEdges()
+                                        .filter((edge) => edge.selected),
+                                });
+                                forceUpdate();
+                            }
+                        }}
                     >
                         {!readonly && (
                             <Panel position="top-right">
