@@ -65,7 +65,7 @@ export function useGraphState(data: Layer, locked: boolean) {
 
     // Rebuild the nodes
     const reloadNodes = () => {
-        const nodes = graphState.nodes.map((node) => ({
+        const newNodes = graphState.nodes.map((node) => ({
             id: node.id,
             type: (node.constructor as any).type,
             position: node.position,
@@ -80,8 +80,9 @@ export function useGraphState(data: Layer, locked: boolean) {
                 },
             } as NodeData,
         }));
-        setNodes([
-            ...nodes,
+
+        const allNodes = [
+            ...newNodes,
             {
                 id: flowStartNodeId,
                 type: "flowStart",
@@ -93,7 +94,17 @@ export function useGraphState(data: Layer, locked: boolean) {
                     locked,
                 },
             },
-        ]);
+        ] as ReactFlowNode[];
+
+        allNodes.forEach((node, i) => {
+            const found = nodes.find((n) => n.id === node.id);
+
+            if (found) {
+                allNodes[i].selected = found.selected;
+            }
+        });
+
+        setNodes(allNodes);
     };
 
     // Rebuild the edges
@@ -169,7 +180,17 @@ export function useGraphState(data: Layer, locked: boolean) {
             })
             .filter((x) => x !== null) as ReactFlowEdge[];
 
-        setEdges([...typedEdges, ...flowEdges]);
+        const allEdges = [...typedEdges, ...flowEdges];
+
+        allEdges.forEach((edge, i) => {
+            const found = edges.find((e) => e.id === edge.id);
+
+            if (found) {
+                allEdges[i].selected = found.selected;
+            }
+        });
+
+        setEdges(allEdges);
     };
 
     // Soft update, do not rebuild the data
@@ -187,8 +208,8 @@ export function useGraphState(data: Layer, locked: boolean) {
         version,
         nodes,
         edges,
-        onNodesChange: (changes: NodeChange[]) => {
-            changes.forEach((change) => {
+        onNodesChange: async (changes: NodeChange[]) => {
+            changes.forEach(async (change) => {
                 switch (change.type) {
                     case "position":
                         if (change.position) {
@@ -211,6 +232,11 @@ export function useGraphState(data: Layer, locked: boolean) {
                             setDirty(); // Soft update does not trigger a save
                         } else {
                             forceUpdate(); // Full update needed
+                            // await forAnimationFrame();
+                            // nodes.find(
+                            //     (node) => node.id === change.id
+                            // )!.selected = true;
+                            // updateNodes();
                         }
                         break;
                     case "remove":
@@ -238,6 +264,7 @@ export function useGraphState(data: Layer, locked: boolean) {
                     default:
                     // console.log(change);
                 }
+                // console.log(change);
             });
         },
         onEdgesChange: (changes: EdgeChange[]) => {

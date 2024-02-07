@@ -6,7 +6,7 @@ import {
     MenuProps,
     Portal,
 } from "@chakra-ui/react";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 export interface IContextMenuProps {
     renderMenu: (
@@ -58,6 +58,13 @@ export function ContextMenu(props: IContextMenuProps) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ref, ref.current]);
 
+    const openContextMenu = useCallback(
+        (x: number, y: number) => {
+            onOpen({ x, y });
+        },
+        [onOpen]
+    );
+
     return (
         <>
             <Portal>
@@ -102,7 +109,7 @@ export function ContextMenu(props: IContextMenuProps) {
                     </Menu>
                 </Box>
             </Portal>
-            {props.children(ref, (x, y) => onOpen({ x, y }))}
+            {props.children(ref, openContextMenu)}
         </>
     );
 }
