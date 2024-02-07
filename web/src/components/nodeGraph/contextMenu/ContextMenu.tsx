@@ -15,7 +15,10 @@ export interface IContextMenuProps {
     ) => JSX.Element;
     onContextMenu?: (e: React.MouseEvent) => void;
     onClose?: () => void;
-    children: (ref: RefObject<HTMLElement>) => JSX.Element;
+    children: (
+        ref: RefObject<HTMLElement>,
+        onOpen: (x: number, y: number) => void
+    ) => JSX.Element;
     darken?: boolean;
     menuProps?: Partial<MenuProps>;
     menuListProps?: Partial<MenuListProps>;
@@ -99,7 +102,7 @@ export function ContextMenu(props: IContextMenuProps) {
                     </Menu>
                 </Box>
             </Portal>
-            {props.children(ref)}
+            {props.children(ref, (x, y) => onOpen({ x, y }))}
         </>
     );
 }

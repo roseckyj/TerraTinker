@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import { Layer } from "../../types/layerTypes";
 import { Step } from "../Step";
 import { NodeGraph } from "./NodeGraph";
 import { NodeGraphMenuItem } from "./NodeGraphMenuItem";
@@ -10,6 +11,15 @@ export const NodeGraphStep: Step = (
     onSelected
 ) => {
     const [layerId, setLayerId] = useState<string>(data.layers[0].id);
+    const onChange = useCallback(
+        (layer: Layer) => {
+            data.layers = data.layers.map((x) =>
+                x.id === layer.id ? layer : x
+            );
+            onDataChange(data);
+        },
+        [data, onDataChange]
+    );
 
     return {
         menuItem: (key) => (
@@ -28,12 +38,7 @@ export const NodeGraphStep: Step = (
                 <NodeGraph
                     key={layerId}
                     data={data.layers.find((x) => x.id === layerId)!}
-                    onChange={(layer) => {
-                        data.layers = data.layers.map((x) =>
-                            x.id === layer.id ? layer : x
-                        );
-                        onDataChange(data);
-                    }}
+                    onChange={onChange}
                 />
             ) : (
                 React.createElement(React.Fragment, { key })

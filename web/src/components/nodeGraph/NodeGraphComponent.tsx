@@ -1,6 +1,6 @@
 import { Box, Flex, IconButton, Input } from "@chakra-ui/react";
-import { RefObject, useEffect, useMemo, useState } from "react";
-import { BiCrosshair, BiExport, BiMinus, BiPlus, BiSave } from "react-icons/bi";
+import { RefObject, useEffect, useMemo } from "react";
+import { BiCrosshair, BiExport, BiMinus, BiPlus } from "react-icons/bi";
 import ReactFlow, {
     Background,
     BackgroundVariant,
@@ -21,7 +21,6 @@ import { NewNodeContextMenu } from "./contextMenu/NewNodeContextMenu";
 
 export interface INodeGraphProps {
     data: Layer;
-    onSave?: (data: Layer) => void;
     onChange?: (data: Layer) => void;
     readonly?: boolean;
     bg?: string;
@@ -29,7 +28,6 @@ export interface INodeGraphProps {
 
 export function NodeGraphComponent({
     data,
-    onSave,
     onChange,
     readonly,
     bg,
@@ -42,9 +40,8 @@ export function NodeGraphComponent({
         onNodesChange,
         graphState,
         forceUpdate,
-        lastChange,
+        version,
     } = useGraphState(data, !!readonly);
-    const [savedAt, setSavedAt] = useState(lastChange);
     const flow = useReactFlow();
     const updateConnections = useUpdateConnections();
 
@@ -71,9 +68,11 @@ export function NodeGraphComponent({
     );
 
     useEffect(
-        () => onChange && onChange(graphState.serialize()),
+        () => {
+            version > 0 && onChange && onChange(graphState.serialize());
+        },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [lastChange, onChange]
+        [version, onChange]
     );
 
     const noop = () => {};
@@ -88,7 +87,7 @@ export function NodeGraphComponent({
                 graphState={{ graphState, updateConnections, forceUpdate }}
                 disabled={readonly}
             >
-                {(ref) => (
+                {(ref, openContextMenu) => (
                     <Box
                         ref={ref as RefObject<HTMLDivElement>}
                         as={ReactFlow}
@@ -97,6 +96,34 @@ export function NodeGraphComponent({
                         onNodesChange={readonly ? noop : onNodesChange}
                         onEdgesChange={readonly ? noop : onEdgesChange}
                         onConnect={readonly ? noop : onConnect}
+                        onConnectEnd={(event: MouseEvent | TouchEvent) => {
+                            const targetIsPane = (
+                                event.target as null | HTMLElement
+                            )?.classList.contains("react-flow__pane");
+                            if (!targetIsPane) return;
+
+                            const mouseEvent = event as MouseEvent;
+                            if (mouseEvent.clientX || mouseEvent.clientY) {
+                                openContextMenu(
+                                    mouseEvent.clientX,
+                                    mouseEvent.clientY
+                                );
+                                return;
+                            }
+
+                            const touchEvent = event as TouchEvent;
+                            if (
+                                touchEvent.touches[0] &&
+                                (touchEvent.touches[0].clientX ||
+                                    touchEvent.touches[0].clientY)
+                            ) {
+                                openContextMenu(
+                                    touchEvent.touches[0].clientX,
+                                    touchEvent.touches[0].clientY
+                                );
+                                return;
+                            }
+                        }}
                         bg={bg || "gray.800"}
                         color="#ffffff"
                         nodeTypes={nodeTypes}
@@ -132,21 +159,6 @@ export function NodeGraphComponent({
                                         variant="filled"
                                         mr={2}
                                     />
-                                    {onSave && (
-                                        <IconButtonTooltip
-                                            aria-label="Save"
-                                            icon={<BiSave />}
-                                            colorScheme="blue"
-                                            isDisabled={lastChange === savedAt}
-                                            mr="2"
-                                            onClick={() => {
-                                                onSave?.(
-                                                    graphState.serialize()
-                                                );
-                                                setSavedAt(lastChange);
-                                            }}
-                                        />
-                                    )}
 
                                     <IconButtonTooltip
                                         aria-label="Export layer"

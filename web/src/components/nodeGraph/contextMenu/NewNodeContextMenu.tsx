@@ -19,7 +19,10 @@ import { AbstractNode, NodeConstructor } from "../AbstractNode";
 import { ContextMenu } from "./ContextMenu";
 
 export interface INewNodeContextMenuProps {
-    children: (ref: RefObject<HTMLElement> | undefined) => JSX.Element;
+    children: (
+        ref: RefObject<HTMLElement> | undefined,
+        onOpen: (x: number, y: number) => void
+    ) => JSX.Element;
     reactFlow: ReactFlowInstance;
     graphState: {
         graphState: GraphState;
@@ -84,7 +87,7 @@ export function NewNodeContextMenu({
     };
 
     if (disabled) {
-        return <>{children(undefined)}</>;
+        return <>{children(undefined, () => {})}</>;
     }
 
     return (

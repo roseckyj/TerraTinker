@@ -206,8 +206,12 @@ export function useGraphState(data: Layer, locked: boolean) {
                                 (node) => node.id === change.id
                             )!.position = change.position;
                         }
-                        updateNodes(); // Only soft update needed
-                        setDirty(); // Soft update does not trigger a save
+                        if (change.dragging) {
+                            updateNodes(); // Only soft update needed
+                            setDirty(); // Soft update does not trigger a save
+                        } else {
+                            forceUpdate(); // Full update needed
+                        }
                         break;
                     case "remove":
                         if (change.id === flowStartNodeId) {
