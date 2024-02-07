@@ -7,6 +7,7 @@ import {
     BiTrash,
     BiUpArrowAlt,
 } from "react-icons/bi";
+import { v4 } from "uuid";
 import { getDefaultLayer } from "../../data/getDefaultGeneratorData";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
@@ -140,6 +141,7 @@ export function NodeGraphMenuItem({
                                             const text = e.target!
                                                 .result as string;
                                             const parsed = JSON.parse(text);
+                                            parsed.id = v4();
 
                                             data.layers.push(parsed);
                                             onChange(data);
