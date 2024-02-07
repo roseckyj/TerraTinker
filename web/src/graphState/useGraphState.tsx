@@ -242,10 +242,10 @@ export function useGraphState(data: Layer, locked: boolean) {
                     case "remove":
                         if (change.id === flowStartNodeId) {
                             toast({
-                                title: "Invalid action",
+                                title: "Flow cleared",
                                 description:
-                                    "The flow start node cannot be removed.",
-                                status: "warning",
+                                    "All the flow connections have been removed",
+                                status: "success",
                             });
                         } else {
                             graphState.nodes = graphState.nodes.filter(
