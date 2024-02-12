@@ -23,7 +23,7 @@ import { IconButtonTooltip } from "./utils/IconButtonTooltip";
 import { ServerStatus } from "./utils/ServerStatus";
 
 const localStorageKey = "generatorData";
-const HISTORY = 50;
+// const HISTORY = 50;
 
 export interface IAppProps {}
 

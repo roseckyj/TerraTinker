@@ -1,6 +1,14 @@
-import { Box, Flex, IconButton, Input } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    HStack,
+    IconButton,
+    Input,
+    Text,
+} from "@chakra-ui/react";
 import { RefObject, useEffect, useMemo } from "react";
-import { BiCrosshair, BiExport, BiMinus, BiPlus } from "react-icons/bi";
+import { BiCrosshair, BiExport, BiHide, BiMinus, BiPlus } from "react-icons/bi";
 import ReactFlow, {
     Background,
     BackgroundVariant,
@@ -147,7 +155,39 @@ export function NodeGraphComponent({
                     >
                         {!readonly && (
                             <Panel position="top-right">
-                                <Flex direction="row" alignItems="center">
+                                <Flex
+                                    direction="row"
+                                    justifyItems="center"
+                                    bg="gray.800"
+                                    m={-4}
+                                    p={4}
+                                >
+                                    {graphState.disabled && (
+                                        <>
+                                            <HStack
+                                                whiteSpace="nowrap"
+                                                py={2}
+                                                px={4}
+                                                color="red.500"
+                                                fontWeight="bold"
+                                            >
+                                                <BiHide />
+                                                <Text>
+                                                    This layer is disabled
+                                                </Text>
+                                            </HStack>
+                                            <Button
+                                                mr={8}
+                                                flexShrink={0}
+                                                onClick={() => {
+                                                    graphState.disabled = false;
+                                                    forceUpdate();
+                                                }}
+                                            >
+                                                Enable
+                                            </Button>
+                                        </>
+                                    )}
                                     <Input
                                         type="text"
                                         value={graphState.layerName}
@@ -159,7 +199,6 @@ export function NodeGraphComponent({
                                         variant="filled"
                                         mr={2}
                                     />
-
                                     <IconButtonTooltip
                                         aria-label="Export layer"
                                         icon={<BiExport />}

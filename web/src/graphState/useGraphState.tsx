@@ -6,7 +6,6 @@ import {
     NodeChange,
     Edge as ReactFlowEdge,
     Node as ReactFlowNode,
-    useStoreApi,
     useUpdateNodeInternals,
 } from "reactflow";
 import { NodeData } from "../components/nodeGraph/AbstractNode";
@@ -36,7 +35,7 @@ export function useGraphState(data: Layer, locked: boolean) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toast]);
     const updateNodeInternals = useUpdateNodeInternals();
-    const store = useStoreApi();
+    // const store = useStoreApi();
 
     useEffect(() => {
         // On load

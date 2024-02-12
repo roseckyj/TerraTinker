@@ -11,6 +11,7 @@ import { Layer, Node } from "../types/layerTypes";
 export class GraphState {
     public layerName: string = "New layer";
     public id: string = uuidv4();
+    public disabled: boolean = false;
     public nodes: Array<AbstractNode> = [];
     public flowStartLocation: Position = [0, 0];
 
@@ -18,6 +19,7 @@ export class GraphState {
         return {
             name: this.layerName,
             id: this.id,
+            disabled: this.disabled,
             config: {
                 join: "cartesian", // TBAL
             },
@@ -70,6 +72,7 @@ export class GraphState {
 
         this.layerName = data.name;
         this.id = data.id;
+        this.disabled = data.disabled;
     }
 
     public static deserializeNode(

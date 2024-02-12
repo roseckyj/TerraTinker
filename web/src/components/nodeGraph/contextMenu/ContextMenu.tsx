@@ -31,11 +31,14 @@ export function ContextMenu(props: IContextMenuProps) {
     );
     const ref = useRef<HTMLElement>(null);
 
-    const onOpen = (position: { x: number; y: number }) => {
-        setOpen(true);
-        setPosition(position);
-        props.onContextMenu?.(position as any);
-    };
+    const onOpen = useCallback(
+        (position: { x: number; y: number }) => {
+            setOpen(true);
+            setPosition(position);
+            props.onContextMenu?.(position as any);
+        },
+        [props]
+    );
 
     const onClose = () => {
         setOpen(false);

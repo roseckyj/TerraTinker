@@ -49,6 +49,11 @@ public class Evaluator {
             // We want to parse the layers in reverse order (top should be last)
             for (int i = layers.length() - 1; i >= 0; i--) {
                 JSONObject layer = layers.getJSONObject(i);
+
+                if (layer.has("disabled") && layer.getBoolean("disabled")) {
+                    continue;
+                }
+
                 Program tree = Program.fromJson(layer);
 
                 LayerEvaluator layerEvaluator = new LayerEvaluator(tree);

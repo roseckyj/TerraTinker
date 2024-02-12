@@ -161,7 +161,7 @@ export function Preview(props: IPreviewProps) {
                         toast({
                             title: "Failed to load the preview",
                             description:
-                                "The preview is empty or the server failed to generate it.",
+                                "The preview is empty or the server failed to generate it. Try again, sometimes the preview does not work.",
                             status: "error",
                         });
                     } else {

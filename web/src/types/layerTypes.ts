@@ -14,6 +14,7 @@ export type VarType =
 export type Layer = {
     name: string;
     id: string;
+    disabled: boolean;
     config: {
         join: "cartesian" | "primaryOuter";
         /* ... */

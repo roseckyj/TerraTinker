@@ -1,9 +1,11 @@
 import { Button, Flex, HStack, Spacer, Text, useToast } from "@chakra-ui/react";
 import {
     BiDownArrowAlt,
+    BiHide,
     BiImport,
     BiLayer,
     BiPlus,
+    BiShow,
     BiTrash,
     BiUpArrowAlt,
 } from "react-icons/bi";
@@ -53,20 +55,31 @@ export function NodeGraphMenuItem({
                                         : "blue.700",
                             }}
                             spacing={0}
+                            opacity={layer.disabled ? 0.5 : 1}
                         >
                             <HStack
                                 mr={2}
                                 py={4}
                                 h="full"
-                                flexGrow={1}
+                                flex={1}
+                                minW={0}
                                 cursor="pointer"
                                 onClick={() => onLayerIdChange(layer.id)}
                             >
-                                <Text>{layer.name}</Text>
+                                <Text
+                                    maxW="full"
+                                    overflow="hidden"
+                                    textOverflow="ellipsis"
+                                    whiteSpace="nowrap"
+                                    opacity={layer.disabled ? 0.5 : 1}
+                                >
+                                    {layer.name}
+                                </Text>
                                 <Spacer />
                             </HStack>
                             <IconButtonTooltip
                                 aria-label="Move layer up"
+                                size="sm"
                                 icon={<BiUpArrowAlt />}
                                 isDisabled={i === 0}
                                 onClick={() => {
@@ -79,6 +92,7 @@ export function NodeGraphMenuItem({
                             />
                             <IconButtonTooltip
                                 aria-label="Move layer down"
+                                size="sm"
                                 icon={<BiDownArrowAlt />}
                                 isDisabled={i === data.layers.length - 1}
                                 onClick={() => {
@@ -91,7 +105,24 @@ export function NodeGraphMenuItem({
                                 mr={2}
                             />
                             <IconButtonTooltip
+                                aria-label={
+                                    layer.disabled
+                                        ? "Enable layer"
+                                        : "Disable layer"
+                                }
+                                size="sm"
+                                icon={layer.disabled ? <BiHide /> : <BiShow />}
+                                onClick={() => {
+                                    layer.disabled = !layer.disabled;
+                                    layer.id = v4();
+                                    onChange(data);
+                                    onLayerIdChange(layer.id);
+                                }}
+                                mr={2}
+                            />
+                            <IconButtonTooltip
                                 aria-label="Remove layer"
+                                size="sm"
                                 icon={<BiTrash />}
                                 onClick={() => {
                                     data.layers = data.layers.filter(
