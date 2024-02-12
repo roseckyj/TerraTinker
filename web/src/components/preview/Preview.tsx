@@ -27,6 +27,10 @@ export function Preview(props: IPreviewProps) {
     const [previewState, setPreviewState] = useState<"running" | "ready">(
         "running"
     );
+    const [error, setError] = useState<{
+        title: string;
+        subtitle: string;
+    } | null>(null);
     const toast = useToast();
     const api = useApi();
 
@@ -71,6 +75,8 @@ export function Preview(props: IPreviewProps) {
     ) {
         setPreviewSession(null);
         setPreviewData(null);
+        setPreviewState("running");
+        setError(null);
         return <></>;
     }
 
@@ -120,6 +126,7 @@ export function Preview(props: IPreviewProps) {
                             setPreviewSession(response.data.id);
                             setPreviewData(deepCopy(props.data));
                             setPreviewState("running");
+                            setError(null);
                         }}
                     >
                         Generate preview
@@ -140,6 +147,19 @@ export function Preview(props: IPreviewProps) {
         );
     }
 
+    if (error !== null) {
+        return (
+            <Center w="100%" h="100%">
+                <VStack color="gray.500">
+                    <Text as="h1" fontSize="2xl" fontWeight="bold">
+                        {error.title}
+                    </Text>
+                    <Text>{error.subtitle}</Text>
+                </VStack>
+            </Center>
+        );
+    }
+
     return (
         <Box w="100%" h="100%">
             <MinecraftViewer
@@ -149,20 +169,18 @@ export function Preview(props: IPreviewProps) {
                 backgroundColor={[26 / 255, 32 / 255, 44 / 255]}
                 onError={(e) => {
                     if (e.message === "Empty structure loaded") {
-                        toast({
+                        setError({
                             title: "The preview is empty",
-                            description:
-                                "The structure is empty and cannot be displayed in the preview.",
-                            status: "warning",
+                            subtitle:
+                                "Empty map was generated, but some regions were touched (eg. by placing Air blocks).",
                         });
                     } else if (
                         e.message === "Invalid compression mode undefined"
                     ) {
-                        toast({
-                            title: "Failed to load the preview",
-                            description:
-                                "The preview is empty or the server failed to generate it. Try again, sometimes the preview does not work.",
-                            status: "error",
+                        setError({
+                            title: "The preview is empty",
+                            subtitle:
+                                "Empty map was generated, and no regions were touched. The program did not attempt to place any blocks.",
                         });
                     } else {
                         toast({
@@ -170,9 +188,8 @@ export function Preview(props: IPreviewProps) {
                             description: e.message,
                             status: "error",
                         });
+                        setPreviewSession(null);
                     }
-
-                    setPreviewSession(null);
                 }}
                 spinner={
                     <Center w="100%" h="100%">
