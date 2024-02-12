@@ -119,6 +119,7 @@ export function Preview(props: IPreviewProps) {
                             await forTime(200); // Wait for the server to start the preview (it's not instant)
                             setPreviewSession(response.data.id);
                             setPreviewData(deepCopy(props.data));
+                            setPreviewState("running");
                         }}
                     >
                         Generate preview

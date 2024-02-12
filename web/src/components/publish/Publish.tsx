@@ -94,6 +94,7 @@ export function Publish(props: IPublishProps) {
 
                             setPublishSession(response.data.id);
                             setPublishData(deepCopy(props.data));
+                            setPublishState("running");
                         }}
                     >
                         Generate the map

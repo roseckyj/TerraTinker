@@ -68,5 +68,6 @@
     "@types/uuid": "^9.0.6",
     "cross-env": "^7.0.3",
     "react-app-rewired": "^2.2.1"
-  }
+  },
+  "packageManager": "pnpm@8.15.1+sha256.245fe901f8e7fa8782d7f17d32b6a83995e2ae03984cb5b62b8949bfdc27c7b5"
 }

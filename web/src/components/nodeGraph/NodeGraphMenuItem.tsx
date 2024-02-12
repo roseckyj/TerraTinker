@@ -11,8 +11,10 @@ import {
 } from "react-icons/bi";
 import { v4 } from "uuid";
 import { getDefaultLayer } from "../../data/getDefaultGeneratorData";
+import { openFile } from "../../utils/openFile";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
+import { ConfirmButton } from "../utils/ConfirmButton";
 import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 
 export interface INodeGraphMenuItemProps extends IAbstractMenuItemProps {
@@ -120,11 +122,14 @@ export function NodeGraphMenuItem({
                                 }}
                                 mr={2}
                             />
-                            <IconButtonTooltip
-                                aria-label="Remove layer"
+                            <ConfirmButton
+                                type="IconButton"
+                                label="Remove layer"
+                                modalTitle="Do you want to remove this layer?"
+                                modalSubtitle="This will remove the layer and all its contents."
                                 size="sm"
                                 icon={<BiTrash />}
-                                onClick={() => {
+                                onConfirm={() => {
                                     data.layers = data.layers.filter(
                                         (l) => l.id !== layer.id
                                     );
@@ -158,43 +163,26 @@ export function NodeGraphMenuItem({
                             icon={<BiImport />}
                             aria-label="Import layer"
                             flexShrink={0}
-                            onClick={() => {
-                                const input = document.createElement("input");
-                                input.type = "file";
-                                input.accept = ".json";
+                            onClick={async () => {
+                                try {
+                                    const text = (await openFile(
+                                        ".json"
+                                    )) as string;
+                                    const parsed = JSON.parse(text);
+                                    parsed.id = v4();
 
-                                input.onchange = (e) => {
-                                    const file = (e.target as HTMLInputElement)
-                                        .files![0];
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        try {
-                                            const text = e.target!
-                                                .result as string;
-                                            const parsed = JSON.parse(text);
-                                            parsed.id = v4();
-
-                                            data.layers.push(parsed);
-                                            onChange(data);
-                                            onLayerIdChange(
-                                                data.layers[
-                                                    data.layers.length - 1
-                                                ].id
-                                            );
-                                        } catch (e) {
-                                            toast({
-                                                title: "Failed to import",
-                                                description: (e as any).message,
-                                                status: "error",
-                                            });
-                                        }
-
-                                        input.remove();
-                                    };
-                                    reader.readAsText(file);
-                                };
-
-                                input.click();
+                                    data.layers.push(parsed);
+                                    onChange(data);
+                                    onLayerIdChange(
+                                        data.layers[data.layers.length - 1].id
+                                    );
+                                } catch (e) {
+                                    toast({
+                                        title: "Failed to import",
+                                        description: (e as any).message,
+                                        status: "error",
+                                    });
+                                }
                             }}
                         />
                         <Button
