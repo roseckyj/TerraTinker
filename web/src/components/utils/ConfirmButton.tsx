@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     ButtonGroup,
     ButtonProps,
@@ -12,6 +13,7 @@ import {
     PopoverHeader,
     PopoverTrigger,
     Portal,
+    Tooltip,
     useDisclosure,
 } from "@chakra-ui/react";
 
@@ -50,6 +52,12 @@ export const ConfirmButton = ({
         onClose();
     };
 
+    const handleOpen = () => {
+        if (!isOpen) {
+            onOpen();
+        }
+    };
+
     return (
         <>
             <Popover
@@ -58,20 +66,26 @@ export const ConfirmButton = ({
                 onClose={handleCancel}
                 closeOnBlur={true}
             >
-                <PopoverTrigger>
-                    {type === "IconButton" ? (
-                        <IconButton
-                            {...props}
-                            icon={icon}
-                            onClick={onOpen}
-                            aria-label={label}
-                        />
-                    ) : (
-                        <Button {...props} leftIcon={icon} onClick={onOpen}>
+                {type === "IconButton" ? (
+                    <Tooltip label={label} hasArrow>
+                        <Box display="inline-block">
+                            <PopoverTrigger>
+                                <IconButton
+                                    {...props}
+                                    icon={icon}
+                                    onClick={handleOpen}
+                                    aria-label={label}
+                                />
+                            </PopoverTrigger>
+                        </Box>
+                    </Tooltip>
+                ) : (
+                    <PopoverTrigger>
+                        <Button {...props} leftIcon={icon} onClick={handleOpen}>
                             {label}
                         </Button>
-                    )}
-                </PopoverTrigger>
+                    </PopoverTrigger>
+                )}
                 <Portal>
                     <PopoverContent color="gray.100">
                         <PopoverHeader fontWeight="semibold">

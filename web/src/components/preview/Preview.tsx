@@ -9,7 +9,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { BiError, BiShow } from "react-icons/bi";
+import { BiCube, BiError, BiShow } from "react-icons/bi";
 import { MinecraftViewer } from "react-minecraft-viewer";
 import { forTime } from "waitasecond";
 import { useApi } from "../../api/ApiProvider";
@@ -151,6 +151,7 @@ export function Preview(props: IPreviewProps) {
         return (
             <Center w="100%" h="100%">
                 <VStack color="gray.500">
+                    <BiCube size={64} />
                     <Text as="h1" fontSize="2xl" fontWeight="bold">
                         {error.title}
                     </Text>
