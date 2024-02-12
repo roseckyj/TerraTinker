@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { BiDownload, BiRocket } from "react-icons/bi";
 import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
+import { deepCopy } from "../../utils/deepCopy";
 import { downloadFileFromUrl } from "../../utils/downloadFile";
 
 export interface IPublishProps {
@@ -92,9 +93,7 @@ export function Publish(props: IPublishProps) {
                             }
 
                             setPublishSession(response.data.id);
-                            setPublishData(
-                                JSON.parse(JSON.stringify(props.data))
-                            );
+                            setPublishData(deepCopy(props.data));
                         }}
                     >
                         Generate the map

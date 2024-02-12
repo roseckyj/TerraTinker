@@ -11,6 +11,7 @@ import "reactflow/dist/style.css";
 import { Api } from "./api/Api";
 import { ApiProvider } from "./api/ApiProvider";
 import { App } from "./components/App";
+import { AppDataProvider } from "./components/DataProvider";
 import { HelpProvider } from "./components/help/HelpProvider";
 import "./index.css";
 
@@ -43,11 +44,13 @@ root.render(
         } as any as Theme)}
     >
         <DarkMode>
-            <ApiProvider api={api}>
-                <HelpProvider>
-                    <App />
-                </HelpProvider>
-            </ApiProvider>
+            <AppDataProvider>
+                <ApiProvider api={api}>
+                    <HelpProvider>
+                        <App />
+                    </HelpProvider>
+                </ApiProvider>
+            </AppDataProvider>
         </DarkMode>
     </ChakraProvider>
 );

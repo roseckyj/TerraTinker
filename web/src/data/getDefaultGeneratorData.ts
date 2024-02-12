@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { GeneratorData } from "../types/generatorTypes";
 import { Layer } from "../types/layerTypes";
+import { deepCopy } from "../utils/deepCopy";
 import defaultLayer from "./layers/default.json";
 
 export function getDefaultGeneratorData(): GeneratorData {
@@ -20,7 +21,7 @@ export function getDefaultGeneratorData(): GeneratorData {
 }
 
 export function getDefaultLayer(name?: string): Layer {
-    const layer = JSON.parse(JSON.stringify(defaultLayer)) as Layer;
+    const layer = deepCopy(defaultLayer) as any as Layer;
     layer.id = uuidv4();
     if (name) {
         layer.name = name;

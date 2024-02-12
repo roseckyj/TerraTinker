@@ -8,7 +8,14 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { RefObject, useEffect, useMemo } from "react";
-import { BiCrosshair, BiExport, BiHide, BiMinus, BiPlus } from "react-icons/bi";
+import {
+    BiCopyAlt,
+    BiCrosshair,
+    BiExport,
+    BiHide,
+    BiMinus,
+    BiPlus,
+} from "react-icons/bi";
 import ReactFlow, {
     Background,
     BackgroundVariant,
@@ -16,11 +23,14 @@ import ReactFlow, {
     Panel,
     useReactFlow,
 } from "reactflow";
+import { v4 } from "uuid";
 import { useGraphState } from "../../graphState/useGraphState";
 import { nodes as nodeDefs } from "../../nodes/_nodes";
 import { Layer } from "../../types/layerTypes";
 import { useUpdateConnections } from "../../useUpdateConnections";
+import { deepCopy } from "../../utils/deepCopy";
 import { downloadFile } from "../../utils/downloadFile";
+import { useAppData } from "../DataProvider";
 import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 import { FlowEdge } from "./FlowEdge";
 import { FlowStart } from "./FlowStartNode";
@@ -84,6 +94,7 @@ export function NodeGraphComponent({
     );
 
     const noop = () => {};
+    const { data: appData, setData: setAppData } = useAppData();
 
     const minZoom = 0.1;
     const maxZoom = 1.5;
@@ -153,72 +164,85 @@ export function NodeGraphComponent({
                             }
                         }}
                     >
-                        {!readonly && (
-                            <Panel position="top-right">
-                                <Flex
-                                    direction="row"
-                                    justifyItems="center"
-                                    bg="gray.800"
-                                    m={-4}
-                                    p={4}
-                                >
-                                    {graphState.disabled && (
-                                        <>
-                                            <HStack
-                                                whiteSpace="nowrap"
-                                                py={2}
-                                                px={4}
-                                                color="red.500"
-                                                fontWeight="bold"
-                                            >
-                                                <BiHide />
-                                                <Text>
-                                                    This layer is disabled
-                                                </Text>
-                                            </HStack>
-                                            <Button
-                                                mr={8}
-                                                flexShrink={0}
-                                                onClick={() => {
-                                                    graphState.disabled = false;
-                                                    forceUpdate();
-                                                }}
-                                            >
-                                                Enable
-                                            </Button>
-                                        </>
-                                    )}
-                                    <Input
-                                        type="text"
-                                        value={graphState.layerName}
-                                        onChange={(e) => {
-                                            graphState.layerName =
-                                                e.target.value;
-                                            forceUpdate();
-                                        }}
-                                        variant="filled"
-                                        mr={2}
-                                    />
-                                    <IconButtonTooltip
-                                        aria-label="Export layer"
-                                        icon={<BiExport />}
-                                        onClick={() => {
-                                            downloadFile(
-                                                new File(
-                                                    [
-                                                        JSON.stringify(
-                                                            graphState.serialize()
-                                                        ),
-                                                    ],
-                                                    `${graphState.layerName}.json`,
-                                                    { type: "text/plain" }
-                                                )
-                                            );
-                                        }}
-                                    />
-                                </Flex>
-                            </Panel>
-                        )}
+                        <Panel position="top-right">
+                            <Flex
+                                direction="row"
+                                justifyItems="center"
+                                bg="gray.800"
+                                m={-4}
+                                p={4}
+                            >
+                                {!readonly && (
+                                    <>
+                                        {graphState.disabled && (
+                                            <>
+                                                <HStack
+                                                    whiteSpace="nowrap"
+                                                    py={2}
+                                                    px={4}
+                                                    color="red.500"
+                                                    fontWeight="bold"
+                                                >
+                                                    <BiHide />
+                                                    <Text>
+                                                        This layer is disabled
+                                                    </Text>
+                                                </HStack>
+                                                <Button
+                                                    mr={8}
+                                                    flexShrink={0}
+                                                    onClick={() => {
+                                                        graphState.disabled =
+                                                            false;
+                                                        forceUpdate();
+                                                    }}
+                                                >
+                                                    Enable
+                                                </Button>
+                                            </>
+                                        )}
+                                        <Input
+                                            type="text"
+                                            value={graphState.layerName}
+                                            onChange={(e) => {
+                                                graphState.layerName =
+                                                    e.target.value;
+                                                forceUpdate();
+                                            }}
+                                            variant="filled"
+                                            mr={2}
+                                        />
+                                    </>
+                                )}
+                                <IconButtonTooltip
+                                    aria-label="Duplicate this layer to your project"
+                                    icon={<BiCopyAlt />}
+                                    onClick={() => {
+                                        appData.layers.unshift(deepCopy(data));
+                                        appData.layers[0].id = v4();
+                                        setAppData(appData);
+                                    }}
+                                    mr={2}
+                                />
+                                <IconButtonTooltip
+                                    aria-label="Export layer"
+                                    icon={<BiExport />}
+                                    onClick={() => {
+                                        downloadFile(
+                                            new File(
+                                                [
+                                                    JSON.stringify(
+                                                        graphState.serialize()
+                                                    ),
+                                                ],
+                                                `${graphState.layerName}.json`,
+                                                { type: "text/plain" }
+                                            )
+                                        );
+                                    }}
+                                />
+                            </Flex>
+                        </Panel>
                         <Panel position="top-left">
                             <Flex direction="column" alignItems="center">
                                 <IconButton

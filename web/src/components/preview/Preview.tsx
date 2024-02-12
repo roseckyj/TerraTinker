@@ -14,6 +14,7 @@ import { MinecraftViewer } from "react-minecraft-viewer";
 import { forTime } from "waitasecond";
 import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
+import { deepCopy } from "../../utils/deepCopy";
 
 export interface IPreviewProps {
     data: GeneratorData;
@@ -117,9 +118,7 @@ export function Preview(props: IPreviewProps) {
 
                             await forTime(200); // Wait for the server to start the preview (it's not instant)
                             setPreviewSession(response.data.id);
-                            setPreviewData(
-                                JSON.parse(JSON.stringify(props.data))
-                            );
+                            setPreviewData(deepCopy(props.data));
                         }}
                     >
                         Generate preview
