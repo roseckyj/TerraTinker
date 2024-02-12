@@ -90,8 +90,8 @@ dependencies:
     specifier: ^4.2.1
     version: 4.2.1(leaflet@1.9.4)(react-dom@18.2.0)(react@18.2.0)
   react-minecraft-viewer:
-    specifier: ^1.4.0
-    version: 1.4.0(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
+    specifier: ^1.4.2
+    version: 1.4.2(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)
   react-scripts:
     specifier: 5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.23.3)(@babel/plugin-transform-react-jsx@7.23.4)(eslint@8.56.0)(react@18.2.0)(typescript@4.9.5)
@@ -9946,8 +9946,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-minecraft-viewer@1.4.0(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-O6uoofx1pJ/tMuFbL//1etWKKjvVdT9ONwGjMoNHyefIaSKCvBjG//Z433eQsgydwSraeasIRCk+8XVGT/+v9Q==}
+  /react-minecraft-viewer@1.4.2(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-P5KG/q0EfXsDaWacGXw3EUJw1xdazQMqXuUI5Rf9j/xN3B+373y3LokeViK+glKsDLtnFuXiTvj4DFwchPVppQ==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0

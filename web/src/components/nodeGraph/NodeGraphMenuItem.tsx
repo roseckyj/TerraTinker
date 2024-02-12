@@ -6,12 +6,14 @@ import {
     BiLayer,
     BiPlus,
     BiShow,
+    BiStoreAlt,
     BiTrash,
     BiUpArrowAlt,
 } from "react-icons/bi";
 import { v4 } from "uuid";
 import { getDefaultLayer } from "../../data/getDefaultGeneratorData";
 import { openFile } from "../../utils/openFile";
+import { useHelp } from "../help/HelpProvider";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
 import { ConfirmButton } from "../utils/ConfirmButton";
@@ -31,7 +33,7 @@ export function NodeGraphMenuItem({
     layerId,
 }: INodeGraphMenuItemProps) {
     const toast = useToast();
-    // const { isOpen, onOpen, onClose } = useDisclosure();
+    const help = useHelp();
 
     return (
         <WithHelp path={`/layers`}>
@@ -153,12 +155,12 @@ export function NodeGraphMenuItem({
                         justifyContent="center"
                         gap={2}
                     >
-                        {/* <IconButton
+                        <IconButtonTooltip
                             icon={<BiStoreAlt />}
                             aria-label="Browse templates"
                             flexShrink={0}
-                            onClick={onOpen}
-                        /> */}
+                            onClick={() => help.onOpen("/samples")}
+                        />
                         <IconButtonTooltip
                             icon={<BiImport />}
                             aria-label="Import layer"
@@ -202,16 +204,6 @@ export function NodeGraphMenuItem({
                         </Button>
                     </Flex>
                 </>
-                {/* <Store
-                    onCancel={onClose}
-                    onCreate={(layer) => {
-                        data.layers.push(layer);
-                        onChange(data);
-                        onLayerIdChange(layer.id);
-                        onClose();
-                    }}
-                    isOpen={isOpen}
-                /> */}
             </MenuItem>
         </WithHelp>
     );

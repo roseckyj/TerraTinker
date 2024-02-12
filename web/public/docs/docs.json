@@ -263,6 +263,24 @@
         "publish": {
             "title": "Publish",
             "file": "publish.md"
+        },
+        "samples": {
+            "title": "Sample layers",
+            "file": "samples/index.md",
+            "children": {
+                "terrain": {
+                    "title": "Terrain",
+                    "file": "samples/terrain.md"
+                },
+                "buildings": {
+                    "title": "Buildings",
+                    "file": "samples/buildings.md"
+                },
+                "roads": {
+                    "title": "Roads",
+                    "file": "samples/roads.md"
+                }
+            }
         }
     }
 }
