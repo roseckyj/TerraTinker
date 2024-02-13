@@ -11,7 +11,7 @@ services:
             default:
         restart: always
         environment:
-            - EULA=${EULA}
+            - EULA=${EULA:-false}
         volumes:
             - fileUpload:/app/plugins/TerraTinker
 
@@ -20,7 +20,7 @@ services:
             context: ./web
             dockerfile: Dockerfile
         ports:
-            - 80:80
+            - ${PORT:-80}:80
         networks:
             default:
         restart: always
