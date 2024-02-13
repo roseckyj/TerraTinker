@@ -12,7 +12,6 @@ export class Api {
 
         // https://current-host/api
         url = new URL(window.location.href);
-        url.port = "80";
         url.pathname = "/api";
 
         if (await this.testApiEndpoint(url)) {
@@ -32,7 +31,6 @@ export class Api {
 
         // Fallback to the default
         url = new URL(window.location.href);
-        url.port = "80";
         url.pathname = "/api";
         this.apiURL = url.toString();
     }
