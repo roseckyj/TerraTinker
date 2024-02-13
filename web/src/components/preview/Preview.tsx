@@ -91,13 +91,13 @@ export function Preview(props: IPreviewProps) {
                     <Text as="h1" fontSize="2xl" fontWeight="bold">
                         Preview of the map
                     </Text>
-                    <Text>
+                    <Text align="center">
                         This will generate a preview of the map. This can take a
                         while, so please be patient.
                     </Text>
                     <HStack color="yellow.500">
                         <BiError />{" "}
-                        <Text>
+                        <Text align="center">
                             This feature is experimental and may not work as
                             expected.
                         </Text>
@@ -152,10 +152,15 @@ export function Preview(props: IPreviewProps) {
             <Center w="100%" h="100%">
                 <VStack color="gray.500">
                     <BiCube size={64} />
-                    <Text as="h1" fontSize="2xl" fontWeight="bold">
+                    <Text
+                        as="h1"
+                        fontSize="2xl"
+                        fontWeight="bold"
+                        align="center"
+                    >
                         {error.title}
                     </Text>
-                    <Text>{error.subtitle}</Text>
+                    <Text align="center">{error.subtitle}</Text>
                 </VStack>
             </Center>
         );

@@ -68,7 +68,7 @@ export function Publish(props: IPublishProps) {
                     <Text as="h1" fontSize="2xl" fontWeight="bold">
                         Download the map
                     </Text>
-                    <Text>
+                    <Text align="center">
                         This will generate a map and create a download link for
                         you. This process can take a few minutes.
                     </Text>

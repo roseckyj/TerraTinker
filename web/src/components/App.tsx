@@ -60,7 +60,14 @@ export function App() {
                     flexShrink={0}
                 >
                     <Icon as={BiSolidCube} mr={4} fontSize="3xl" />
-                    <Text fontSize="2xl" fontWeight="bold">
+                    <Text
+                        fontSize="2xl"
+                        fontWeight="bold"
+                        display={{
+                            base: "none",
+                            md: "block",
+                        }}
+                    >
                         TerraTinker
                     </Text>
                     <Spacer />
@@ -113,9 +120,19 @@ export function App() {
                         ml={4}
                         leftIcon={<BiQuestionMark />}
                         onClick={() => help.toggleHelpOverlay()}
+                        display={{
+                            base: "none",
+                            md: "inline-flex",
+                        }}
                     >
                         Help
                     </Button>
+                    <IconButtonTooltip
+                        ml={4}
+                        aria-label="Open help"
+                        icon={<BiQuestionMark />}
+                        onClick={() => help.toggleHelpOverlay()}
+                    />
                     <IconButtonTooltip
                         aria-label="Open documentation"
                         icon={<BiBookOpen />}

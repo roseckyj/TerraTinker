@@ -9,6 +9,7 @@ import {
     InputRightElement,
     Spinner,
     VStack,
+    useToken,
 } from "@chakra-ui/react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { RawResult } from "leaflet-geosearch/dist/providers/openStreetMapProvider";
@@ -29,9 +30,14 @@ export function MapControls(props: IMapProps) {
     const map = useMap();
 
     return (
-        <Box zIndex="overlay" position="absolute" top={4} left={4}>
+        <Box zIndex="overlay" position="absolute" top={4} left={4} maxW="full">
             <Flex direction="row" alignItems="start" fontFamily={"body"}>
-                <Flex direction="column" alignItems="center" zIndex={1000}>
+                <Flex
+                    direction="column"
+                    alignItems="center"
+                    zIndex={1000}
+                    flexShrink={0}
+                >
                     <IconButton
                         aria-label="Zoom in"
                         icon={<BiPlus />}
@@ -68,12 +74,19 @@ export function MapControls(props: IMapProps) {
                         _hover={{ bg: "blackAlpha.900" }}
                     />
                 </Flex>
-                <Flex ml={4} direction="row" alignItems="center">
+                <Flex
+                    ml={4}
+                    direction="row"
+                    alignItems="center"
+                    maxW={`calc(100% - ${useToken("sizes", "24")})`}
+                    flexGrow={1}
+                >
                     <VStack
                         borderRadius="md"
                         bg="blackAlpha.800"
                         alignItems="stretch"
                         w={96}
+                        maxW="full"
                         spacing={0}
                         overflow="hidden"
                     >

@@ -49,7 +49,13 @@ export function ServerStatus() {
                             h="0.5em"
                             bg="yellow.500"
                         />
-                        <Text opacity={0.8}>
+                        <Text
+                            opacity={0.8}
+                            display={{
+                                base: "none",
+                                md: "block",
+                            }}
+                        >
                             Busy ({serverStatus.queued} tasks queued)
                         </Text>
                     </>
@@ -61,13 +67,29 @@ export function ServerStatus() {
                             h="0.5em"
                             bg="green.500"
                         />
-                        <Text opacity={0.8}>Connected</Text>
+                        <Text
+                            opacity={0.8}
+                            display={{
+                                base: "none",
+                                md: "block",
+                            }}
+                        >
+                            Connected
+                        </Text>
                     </>
                 )
             ) : (
                 <>
                     <Box rounded="full" w="0.5em" h="0.5em" bg="red.500" />
-                    <Text opacity={0.8}>Disconnected</Text>
+                    <Text
+                        opacity={0.8}
+                        display={{
+                            base: "none",
+                            md: "block",
+                        }}
+                    >
+                        Disconnected
+                    </Text>
                 </>
             )}
         </HStack>

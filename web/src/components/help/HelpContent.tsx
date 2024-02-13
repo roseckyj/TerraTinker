@@ -35,7 +35,7 @@ export const HelpContent = observer(({ docsSpecs }: IHelpContentProps) => {
     const currentNode = (root: HelpNode) => nodeFromPath(root, path);
 
     return (
-        <Flex direction="column" flexGrow={1} h="full">
+        <Flex direction="column" flexGrow={1} h="full" minW={96}>
             <Flex
                 direction="row"
                 mt={4}

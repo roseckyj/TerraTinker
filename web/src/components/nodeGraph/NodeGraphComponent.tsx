@@ -170,6 +170,7 @@ export function NodeGraphComponent({
                                 justifyItems="center"
                                 bg="gray.800"
                                 m={-4}
+                                ml={12}
                                 p={4}
                             >
                                 {!readonly && (
@@ -182,6 +183,10 @@ export function NodeGraphComponent({
                                                     px={4}
                                                     color="red.500"
                                                     fontWeight="bold"
+                                                    display={{
+                                                        base: "none",
+                                                        md: "flex",
+                                                    }}
                                                 >
                                                     <BiHide />
                                                     <Text>
@@ -195,6 +200,10 @@ export function NodeGraphComponent({
                                                         graphState.disabled =
                                                             false;
                                                         forceUpdate();
+                                                    }}
+                                                    display={{
+                                                        base: "none",
+                                                        md: "flex",
                                                     }}
                                                 >
                                                     Enable

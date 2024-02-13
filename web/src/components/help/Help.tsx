@@ -46,7 +46,10 @@ export const Help = observer(() => {
                                     bg="gray.800"
                                     pt={6}
                                     shadow="md"
-                                    w={96}
+                                    w={{
+                                        base: "64",
+                                        md: "96",
+                                    }}
                                     flexShrink={0}
                                 >
                                     <Heading
