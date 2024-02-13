@@ -31,7 +31,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-leaflet": "^4.2.1",
-    "react-minecraft-viewer": "^1.4.2",
+    "react-minecraft-viewer": "^1.4.3",
     "react-scripts": "5.0.1",
     "react-use-promise": "^0.5.0",
     "reactflow": "^11.9.4",
