@@ -1,4 +1,4 @@
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useApi } from "../../api/ApiProvider";
 
@@ -43,12 +43,6 @@ export function ServerStatus() {
             {serverStatus.connected ? (
                 serverStatus.queued > 0 ? (
                     <>
-                        <Box
-                            rounded="full"
-                            w="0.5em"
-                            h="0.5em"
-                            bg="yellow.500"
-                        />
                         <Text
                             opacity={0.8}
                             display={{
@@ -56,17 +50,12 @@ export function ServerStatus() {
                                 md: "block",
                             }}
                         >
-                            Busy ({serverStatus.queued} tasks queued)
+                            Busy ({serverStatus.queued} tasks running)
                         </Text>
+                        <StatusSymbol status="busy" />
                     </>
                 ) : (
                     <>
-                        <Box
-                            rounded="full"
-                            w="0.5em"
-                            h="0.5em"
-                            bg="green.500"
-                        />
                         <Text
                             opacity={0.8}
                             display={{
@@ -76,11 +65,11 @@ export function ServerStatus() {
                         >
                             Connected
                         </Text>
+                        <StatusSymbol status="connected" />
                     </>
                 )
             ) : (
                 <>
-                    <Box rounded="full" w="0.5em" h="0.5em" bg="red.500" />
                     <Text
                         opacity={0.8}
                         display={{
@@ -90,8 +79,51 @@ export function ServerStatus() {
                     >
                         Disconnected
                     </Text>
+                    <StatusSymbol status="disconnected" />
                 </>
             )}
         </HStack>
+    );
+}
+
+interface IStatusSymbolProps {
+    status: "connected" | "disconnected" | "busy";
+}
+
+function StatusSymbol(props: IStatusSymbolProps) {
+    let color = "gray.500";
+    switch (props.status) {
+        case "connected":
+            color = "green.500";
+            break;
+        case "disconnected":
+            color = "red.500";
+            break;
+        case "busy":
+            color = "yellow.500";
+            break;
+    }
+
+    return (
+        <Box
+            rounded="full"
+            w="0.5em"
+            h="0.5em"
+            position="relative"
+            m={1}
+            bg={props.status === "disconnected" ? undefined : color}
+        >
+            {props.status !== "connected" && (
+                <Spinner
+                    position="absolute"
+                    inset={-1}
+                    size="sm"
+                    color={color}
+                    emptyColor={
+                        props.status === "disconnected" ? color : undefined
+                    }
+                />
+            )}
+        </Box>
     );
 }
