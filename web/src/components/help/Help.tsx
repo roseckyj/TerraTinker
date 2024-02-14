@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { observer } from "mobx-react-lite";
 import { Await } from "../utils/Await";
+import { ErrorBoundary } from "../utils/ErrorBoundaty";
 import { HelpContent } from "./HelpContent";
 import { useHelp } from "./HelpProvider";
 import { HelpNode, HelpTreeView } from "./HelpTreeView";
@@ -76,7 +77,15 @@ export const Help = observer(() => {
                                         />
                                     </Box>
                                 </Flex>
-                                <HelpContent docsSpecs={docsSpecs} />
+                                <ErrorBoundary
+                                    error={(error) => (
+                                        <Center>
+                                            Error loading content...
+                                        </Center>
+                                    )}
+                                >
+                                    <HelpContent docsSpecs={docsSpecs} />
+                                </ErrorBoundary>
                             </Flex>
                         )}
                     </Await>

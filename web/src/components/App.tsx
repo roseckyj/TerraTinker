@@ -7,6 +7,7 @@ import {
     Portal,
     Spacer,
     Text,
+    VStack,
     useToast,
 } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
@@ -28,6 +29,7 @@ import { NodeGraphStep } from "./nodeGraph/_NodeGraphStep";
 import { PreviewStep } from "./preview/_PreviewStep";
 import { PublishStep } from "./publish/_PublishStep";
 import { ConfirmButton } from "./utils/ConfirmButton";
+import { ErrorBoundary } from "./utils/ErrorBoundaty";
 import { IconButtonTooltip } from "./utils/IconButtonTooltip";
 import { ServerStatus } from "./utils/ServerStatus";
 
@@ -35,14 +37,26 @@ export interface IAppProps {}
 
 export function App() {
     // Data
-    console.log(useAppData());
     const { data, setData } = useAppData();
 
     const help = useHelp();
     const toast = useToast();
 
     return (
-        <>
+        <ErrorBoundary
+            error={(error) => (
+                <VStack alignItems="center" justifyItems="center">
+                    <Text fontSize="3xl" textAlign="center">
+                        Something went wrong!
+                    </Text>
+                    <Text textAlign="center">
+                        We are sorry, but the application crashed. The error
+                        log:
+                    </Text>
+                    <Text textAlign="center">{error.message}</Text>
+                </VStack>
+            )}
+        >
             <Flex
                 position="fixed"
                 inset="0"
@@ -132,6 +146,10 @@ export function App() {
                         aria-label="Open help"
                         icon={<BiQuestionMark />}
                         onClick={() => help.toggleHelpOverlay()}
+                        display={{
+                            base: "inline-flex",
+                            md: "none",
+                        }}
                     />
                     <IconButtonTooltip
                         aria-label="Open documentation"
@@ -146,7 +164,7 @@ export function App() {
                 />
             </Flex>
             <HelpOverlay />
-        </>
+        </ErrorBoundary>
     );
 }
 
