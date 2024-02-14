@@ -126,7 +126,7 @@ export const varTypes: Record<
                 value={value === null ? undefined : value}
                 onChange={(e) => onChange(e.target.value)}
             >
-                {mcData.blocksArray
+                {mcData
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
                     .map((block, i) => (
                         <option key={i} value={block.name}>

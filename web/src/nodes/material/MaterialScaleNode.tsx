@@ -490,7 +490,7 @@ function MaterialSelect({ material, value, onChange }: IMaterialSelectProps) {
                     cursor: "pointer",
                 }}
             >
-                {mcData.blocksArray
+                {mcData
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
                     .map((block, i) => (
                         <option
