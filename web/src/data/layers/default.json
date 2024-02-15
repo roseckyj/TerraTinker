@@ -1,8 +1,8 @@
 {
     "name": "Default layer",
-    "config": {
-        "join": "cartesian"
-    },
+    "id": "default",
+    "disabled": false,
+    "config": {},
     "flow": {
         "nodes": [
             "88bc77cb-f37e-4030-a568-035c9d3e39a4"
@@ -39,6 +39,11 @@
                     "kind": "value",
                     "type": "float",
                     "value": 0
+                },
+                "clip": {
+                    "kind": "value",
+                    "type": "boolean",
+                    "value": false
                 },
                 "ignore": {
                     "kind": "value",

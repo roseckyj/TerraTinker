@@ -15,10 +15,7 @@ export type Layer = {
     name: string;
     id: string;
     disabled: boolean;
-    config: {
-        join: "cartesian" | "primaryOuter";
-        /* ... */
-    };
+    config: {};
     flow: {
         nodes: Array<NodeId>;
         startLocation: Position;

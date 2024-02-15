@@ -20,9 +20,7 @@ export class GraphState {
             name: this.layerName,
             id: this.id,
             disabled: this.disabled,
-            config: {
-                join: "cartesian", // TBAL
-            },
+            config: {},
             flow: {
                 nodes: this.nodes
                     .filter((node) => node.flowOrder !== null)
