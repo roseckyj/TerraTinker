@@ -8,6 +8,17 @@ group = "cz.xrosecky"
 version = "0.1.0"
 description = "TerraTinker"
 
+var minecraftMajor = System.getenv().getOrDefault("MINECRAFT_MAJOR", "1").toInt()
+var minecraftMinor = System.getenv().getOrDefault("MINECRAFT_MINOR", "20").toInt()
+var minecraftPatch = System.getenv().getOrDefault("MINECRAFT_PATCH", "0").toInt()
+
+var minecraftVersion = "$minecraftMajor.$minecraftMinor"
+var apiVersion = minecraftVersion
+
+if (minecraftPatch > 0) {
+    minecraftVersion += ".$minecraftPatch"
+}
+
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
@@ -25,7 +36,7 @@ java {
 
 dependencies {
     // Paper dependencies
-    implementation("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
+    implementation("io.papermc.paper:paper-api:$minecraftVersion-R0.1-SNAPSHOT")
 
     // Utility dependencies
     implementation("org.json:json:20231013")
@@ -65,7 +76,8 @@ tasks {
                 "name" to project.name,
                 "version" to project.version,
                 "description" to project.description,
-                "apiVersion" to "1.20"
+                "apiVersion" to apiVersion,
+                "minecraftVersion" to minecraftVersion
         )
         inputs.properties(props)
         filesMatching("plugin.yml") {
@@ -73,7 +85,7 @@ tasks {
         }
     }
     runServer {
-        minecraftVersion("1.20")
+        minecraftVersion(minecraftVersion)
     }
     shadowJar {
         mergeServiceFiles()

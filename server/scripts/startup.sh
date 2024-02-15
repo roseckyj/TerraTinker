@@ -14,5 +14,11 @@ fi
 export PAPERMC_PLUGIN_DIR=$SERVER_HOME/plugins
 export PAPERMC_WORLD_DIR=$SERVER_HOME/world
 
+# Calculate version
+if [ "$MINECRAFT_PATCH" = "0" ]; \
+    then export MINECRAFT_VERSION=${MINECRAFT_MAJOR}.${MINECRAFT_MINOR}; \
+    else export MINECRAFT_VERSION=${MINECRAFT_MAJOR}.${MINECRAFT_MINOR}.${MINECRAFT_PATCH}; \
+fi 
+
 # Download and run Minecraft server
-./papermc.sh --mojang-eula-agree --version 1.20 --start-memory 1G --max-memory 10G --auto-restart
+./papermc.sh --mojang-eula-agree --version $MINECRAFT_VERSION --start-memory 1G --max-memory 10G --auto-restart

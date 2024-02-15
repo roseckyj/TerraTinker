@@ -87,7 +87,7 @@ export const ConfirmButton = ({
                     </PopoverTrigger>
                 )}
                 <Portal>
-                    <PopoverContent color="gray.100">
+                    <PopoverContent color="gray.100" zIndex="2000">
                         <PopoverHeader fontWeight="semibold">
                             {modalTitle}
                         </PopoverHeader>

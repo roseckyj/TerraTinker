@@ -1,14 +1,26 @@
-import { Box, HStack, Spinner, Text } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    Portal,
+    Spinner,
+    Text,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useApi } from "../../api/ApiProvider";
+import { mcVersion } from "../../minecraft/mcData";
 
 export function ServerStatus() {
     const [serverStatus, setServerStatus] = useState<{
         connected: boolean;
         queued: number;
+        version: null | string;
     }>({
         connected: false,
         queued: 0,
+        version: null,
     });
 
     const api = useApi();
@@ -21,15 +33,18 @@ export function ServerStatus() {
                 setServerStatus({
                     connected: false,
                     queued: 0,
+                    version: null,
                 });
                 return;
             }
 
             const status = response.data.status;
             const queued = response.data.queued;
+            const version = response.data.version;
             setServerStatus({
                 connected: status === "ok",
                 queued,
+                version,
             });
         };
 
@@ -39,50 +54,50 @@ export function ServerStatus() {
     }, [api]);
 
     return (
-        <HStack>
-            {serverStatus.connected ? (
-                serverStatus.queued > 0 ? (
-                    <>
-                        <Text
-                            opacity={0.8}
-                            display={{
-                                base: "none",
-                                md: "block",
-                            }}
-                        >
-                            Busy ({serverStatus.queued} tasks running)
+        <Menu>
+            <MenuButton
+                as={Button}
+                variant="ghost"
+                rightIcon={
+                    serverStatus.connected ? (
+                        serverStatus.queued > 0 ? (
+                            <StatusSymbol status="busy" />
+                        ) : (
+                            <StatusSymbol status="connected" />
+                        )
+                    ) : (
+                        <StatusSymbol status="disconnected" />
+                    )
+                }
+            >
+                <Text
+                    display={{
+                        base: "none",
+                        md: "block",
+                    }}
+                >
+                    {serverStatus.connected
+                        ? serverStatus.queued > 0
+                            ? `Busy (${serverStatus.queued} tasks running)`
+                            : `Connected`
+                        : `Disconnected`}
+                </Text>
+            </MenuButton>
+            <Portal>
+                <MenuList color="gray.100" px={4}>
+                    <Box mb={4}>
+                        <Text opacity={0.8}>Client game version:</Text>
+                        <Text fontWeight="bold">{mcVersion}</Text>
+                    </Box>
+                    <Box>
+                        <Text opacity={0.8}>Server game version:</Text>
+                        <Text fontWeight="bold">
+                            {serverStatus.version || "Disconnected"}
                         </Text>
-                        <StatusSymbol status="busy" />
-                    </>
-                ) : (
-                    <>
-                        <Text
-                            opacity={0.8}
-                            display={{
-                                base: "none",
-                                md: "block",
-                            }}
-                        >
-                            Connected
-                        </Text>
-                        <StatusSymbol status="connected" />
-                    </>
-                )
-            ) : (
-                <>
-                    <Text
-                        opacity={0.8}
-                        display={{
-                            base: "none",
-                            md: "block",
-                        }}
-                    >
-                        Disconnected
-                    </Text>
-                    <StatusSymbol status="disconnected" />
-                </>
-            )}
-        </HStack>
+                    </Box>
+                </MenuList>
+            </Portal>
+        </Menu>
     );
 }
 

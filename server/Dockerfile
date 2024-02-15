@@ -11,10 +11,20 @@ EXPOSE 7070
 # Install dependencies
 RUN apk update && apk --no-cache add curl java-gdal proj proj-dev jq bash
 
-# Build the plugin
+# Setup the build environment
 RUN mkdir -p ${PLUGIN_HOME}
 WORKDIR ${PLUGIN_HOME}
 COPY . ${PLUGIN_HOME}
+
+# Set the version of the minecraft server
+ARG MINECRAFT_MAJOR
+ARG MINECRAFT_MINOR
+ARG MINECRAFT_PATCH
+ENV MINECRAFT_MAJOR $MINECRAFT_MAJOR
+ENV MINECRAFT_MINOR $MINECRAFT_MINOR
+ENV MINECRAFT_PATCH $MINECRAFT_PATCH
+
+# Build the plugin
 RUN gradle shadowJar --no-daemon
 
 # Create files for the server

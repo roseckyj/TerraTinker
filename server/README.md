@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a Minecraft 1.18.2 Java plugin for the TerraTinker project.
+This is a Minecraft Java plugin for the TerraTinker project.
 
 ## Prerequisities
 
@@ -90,4 +90,14 @@ For testing purposes you can also run the server directly from Gradle:
 
 ```bash
 gradle runServer
+```
+
+### Environment variables
+
+You can change the server version from the default 1.20 to any other version by setting the `MINECRAFT_*` environment variables.
+
+```bash
+MINECRAFT_MAJOR=1
+MINECRAFT_MINOR=20
+MINECRAFT_PATCH=0
 ```

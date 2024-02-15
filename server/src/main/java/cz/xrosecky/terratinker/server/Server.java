@@ -1,6 +1,5 @@
 package cz.xrosecky.terratinker.server;
 
-import cz.xrosecky.terratinker.Evaluator;
 import cz.xrosecky.terratinker.TerraTinker;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
@@ -8,11 +7,9 @@ import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.ExcludeFileFilter;
 import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.codehaus.plexus.util.io.InputStreamFacade;
 import org.json.JSONObject;
 
+import java.awt.print.Paper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,6 +53,7 @@ public class Server implements Runnable {
             JSONObject response = new JSONObject();
             response.put("status", "ok");
             response.put("queued", queue.size() + (currentSession != null ? 1 : 0));
+            response.put("version", plugin.getServer().getMinecraftVersion());
 
             ctx.status(200);
             ctx.result(response.toString(4));
