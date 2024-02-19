@@ -7,6 +7,7 @@ if [ "$MINECRAFT_PATCH" = "0" ]; \
 fi 
 
 echo "" > "src/minecraft/mcData.ts"
+echo "import mcTexturesFile from 'minecraft-textures/dist/textures/json/$MINECRAFT_MAJOR.$MINECRAFT_MINOR.id.json';" >> "src/minecraft/mcData.ts"
 echo "export { default as mcData } from 'minecraft-data/minecraft-data/data/pc/$MINECRAFT_VERSION/blocks.json';" >> "src/minecraft/mcData.ts"
-echo "export { default as mcTextures } from 'minecraft-textures/dist/textures/json/$MINECRAFT_MAJOR.$MINECRAFT_MINOR.id.json';" >> "src/minecraft/mcData.ts"
+echo "export const mcTextures = mcTexturesFile.items;" >> "src/minecraft/mcData.ts"
 echo "export const mcVersion = '$MINECRAFT_VERSION';" >> "src/minecraft/mcData.ts"

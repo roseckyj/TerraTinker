@@ -7,6 +7,10 @@ export interface ITextureProps extends ImageProps {
 }
 
 export function Texture({ material, showText, ...rest }: ITextureProps) {
+    if (!(mcTextures as any)[`minecraft:${material}`]) {
+        console.warn(`Texture not found: minecraft:${material}`, mcTextures);
+    }
+
     if (showText && !(mcTextures as any)[`minecraft:${material}`]) {
         return (
             <Box
