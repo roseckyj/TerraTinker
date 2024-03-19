@@ -1,6 +1,7 @@
 import { Box, HStack, Input, Text } from "@chakra-ui/react";
 import axios from "axios";
-import { BiCloudDownload, BiMap } from "react-icons/bi";
+import { useState } from "react";
+import { BiCloudDownload, BiLink, BiMap } from "react-icons/bi";
 import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
 import { Position } from "../../types/genericTypes";
 import { insertMiddlePoints } from "../../utils/insertMidPoints";
@@ -22,6 +23,8 @@ export function MapMenuItem({
     isSelecting,
     onSelectionToggle,
 }: IMapMenuProps) {
+    const [isSizeLocked, setIsSizeLocked] = useState(true);
+
     return (
         <WithHelp path={`/map`}>
             <MenuItem
@@ -131,9 +134,28 @@ export function MapMenuItem({
                             type="number"
                             value={data.mapSize.width}
                             onChange={(e) => {
+                                const aspect =
+                                    data.mapSize.height / data.mapSize.width;
                                 data.mapSize.width = parseInt(e.target.value);
+                                if (
+                                    Number.isNaN(data.mapSize.width) ||
+                                    data.mapSize.width < 1
+                                )
+                                    data.mapSize.width = 1;
+                                if (data.mapSize.width > 1000000)
+                                    data.mapSize.width = 1000000;
+                                if (isSizeLocked) {
+                                    data.mapSize.height =
+                                        data.mapSize.width * aspect;
+                                }
                                 onChange(data);
                             }}
+                        />
+                        <IconButtonTooltip
+                            aria-label="Lock aspect ratio"
+                            icon={<BiLink />}
+                            onClick={() => setIsSizeLocked(!isSizeLocked)}
+                            colorScheme={isSizeLocked ? "blue" : "gray"}
                         />
                         <Input
                             flex={1}
@@ -141,7 +163,20 @@ export function MapMenuItem({
                             type="number"
                             value={data.mapSize.height}
                             onChange={(e) => {
+                                const aspect =
+                                    data.mapSize.width / data.mapSize.height;
                                 data.mapSize.height = parseInt(e.target.value);
+                                if (
+                                    Number.isNaN(data.mapSize.height) ||
+                                    data.mapSize.height < 1
+                                )
+                                    data.mapSize.height = 1;
+                                if (data.mapSize.height > 1000000)
+                                    data.mapSize.height = 1000000;
+                                if (isSizeLocked) {
+                                    data.mapSize.width =
+                                        data.mapSize.height * aspect;
+                                }
                                 onChange(data);
                             }}
                         />

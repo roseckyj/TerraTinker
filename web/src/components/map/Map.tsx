@@ -1,6 +1,6 @@
-import { Box, useToken } from "@chakra-ui/react";
+import { Box, useToast, useToken } from "@chakra-ui/react";
 import { DivIcon, Marker as LeafletMarker } from "leaflet";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { BiSolidMap } from "react-icons/bi";
 import {
@@ -25,6 +25,8 @@ export interface IMapProps {
 
 export function Map(props: IMapProps) {
     const { data, isSelecting } = props;
+    const toast = useToast();
+    const [hasError, setHasError] = useState(false);
 
     const translator = useMemo(
         () =>
@@ -64,8 +66,27 @@ export function Map(props: IMapProps) {
             points = insertMiddlePoints(points);
         }
 
-        return points.map((point) => translator.XZToLatLon(point[0], point[1]));
-    }, [translator, data.mapSize.width, data.mapSize.height]);
+        const translated = points.map((point) =>
+            translator.XZToLatLon(point[0], point[1])
+        );
+        if (
+            translated.some(
+                (point) => Number.isNaN(point[0]) || Number.isNaN(point[1])
+            )
+        ) {
+            if (!hasError) {
+                toast({
+                    title: "Invalid map size",
+                    description: "Map size is too large",
+                    status: "error",
+                });
+                setHasError(true);
+            }
+            return [];
+        }
+        setHasError(false);
+        return translated;
+    }, [data.mapSize.width, data.mapSize.height, translator, hasError, toast]);
 
     const previewPoints = useMemo(() => {
         let points: Position[] = [
@@ -78,7 +99,17 @@ export function Map(props: IMapProps) {
             points = insertMiddlePoints(points);
         }
 
-        return points.map((point) => translator.XZToLatLon(point[0], point[1]));
+        const translated = points.map((point) =>
+            translator.XZToLatLon(point[0], point[1])
+        );
+        if (
+            translated.some(
+                (point) => Number.isNaN(point[0]) || Number.isNaN(point[1])
+            )
+        ) {
+            return [];
+        }
+        return translated;
     }, [translator]);
 
     return (
