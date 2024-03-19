@@ -54,18 +54,65 @@ export function Map(props: IMapProps) {
     );
 
     const rectanglePoints = useMemo(() => {
-        let points: Position[] = [
-            [-data.mapSize.width / 2, -data.mapSize.height / 2],
-            [data.mapSize.width / 2, -data.mapSize.height / 2],
-            [data.mapSize.width / 2, data.mapSize.height / 2],
-            [-data.mapSize.width / 2, data.mapSize.height / 2],
-        ];
-        for (let i = 0; i < 4; i++) {
-            points = insertMiddlePoints(points);
+        let points: Position[] = [];
+        for (let i = 0; i < Math.PI * 2; i += (Math.PI * 2) / 1000) {
+            points.push([
+                (Math.sin(i) * data.mapSize.width) / 2,
+                (-Math.cos(i) * data.mapSize.height) / 2,
+            ]);
         }
 
         return points.map((point) => translator.XZToLatLon(point[0], point[1]));
     }, [translator, data.mapSize.width, data.mapSize.height]);
+
+    const realPoints = useMemo(() => {
+        function getDestinationPoint(
+            start: Position,
+            distance: number,
+            bearing: number
+        ): Position {
+            const radius = 6371e3; // Earth's radius in meters
+            const δ = distance / radius; // angular distance in radians
+            const θ = (bearing * Math.PI) / 180; // bearing converted to radians
+
+            const φ1 = (start[0] * Math.PI) / 180; // current lat point converted to radians
+            const λ1 = (start[1] * Math.PI) / 180; // current lon point converted to radians
+
+            const φ2 = Math.asin(
+                Math.sin(φ1) * Math.cos(δ) +
+                    Math.cos(φ1) * Math.sin(δ) * Math.cos(θ)
+            );
+            const λ2 =
+                λ1 +
+                Math.atan2(
+                    Math.sin(θ) * Math.sin(δ) * Math.cos(φ1),
+                    Math.cos(δ) - Math.sin(φ1) * Math.sin(φ2)
+                );
+
+            return [(φ2 * 180) / Math.PI, (λ2 * 180) / Math.PI];
+        }
+
+        function drawCircle(
+            start: Position,
+            distance: number,
+            steps: number = 100
+        ): Position[] {
+            const points: Position[] = [];
+            for (let i = 0; i < steps; i++) {
+                const bearing = (360 / steps) * i;
+                const point = getDestinationPoint(start, distance, bearing);
+                points.push(point);
+            }
+            return points;
+        }
+
+        const points = drawCircle(
+            data.mapCenter,
+            data.mapSize.height / 2,
+            1000
+        );
+        return points;
+    }, [data.mapCenter, data.mapSize.height]);
 
     const previewPoints = useMemo(() => {
         let points: Position[] = [
@@ -81,6 +128,27 @@ export function Map(props: IMapProps) {
         return points.map((point) => translator.XZToLatLon(point[0], point[1]));
     }, [translator]);
 
+    function getDistance(coord1: Position, coord2: Position): number {
+        const radius = 6371e3; // Earth's radius in meters
+        const [lat1, lon1] = coord1.map((degree) => (degree * Math.PI) / 180); // Convert degrees to radians
+        const [lat2, lon2] = coord2.map((degree) => (degree * Math.PI) / 180); // Convert degrees to radians
+
+        const deltaLat = lat2 - lat1;
+        const deltaLon = lon2 - lon1;
+
+        const a =
+            Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+            Math.cos(lat1) *
+                Math.cos(lat2) *
+                Math.sin(deltaLon / 2) *
+                Math.sin(deltaLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return radius * c; // Distance in meters
+    }
+
+    console.log(getDistance(realPoints[0], rectanglePoints[0]));
+
     return (
         <Box
             w="full"
@@ -93,9 +161,22 @@ export function Map(props: IMapProps) {
                 zoom={13}
                 style={{ width: "100%", height: "100%" }}
                 zoomControl={false}
+                minZoom={1}
+                maxZoom={30}
             >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    maxNativeZoom={18}
+                    maxZoom={30}
+                />
                 <MapControls {...props} />
+                <Polygon positions={rectanglePoints} />
+                <Polygon
+                    positions={previewPoints}
+                    dashArray={[6, 10]}
+                    fill={false}
+                />
+                <Polygon positions={realPoints} fillColor="red" color="red" />
                 <Marker
                     position={data.mapCenter}
                     icon={icon}
@@ -109,12 +190,6 @@ export function Map(props: IMapProps) {
                             props.onChange(data);
                         },
                     }}
-                />
-                <Polygon positions={rectanglePoints} />
-                <Polygon
-                    positions={previewPoints}
-                    dashArray={[6, 10]}
-                    fill={false}
                 />
                 <MapEventsHandler {...props} />
             </MapContainer>

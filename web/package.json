@@ -27,6 +27,7 @@
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",
     "moment": "^2.29.4",
+    "proj4leaflet": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
@@ -65,6 +66,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/leaflet": "^1.9.7",
+    "@types/proj4leaflet": "^1.0.10",
     "@types/uuid": "^9.0.6",
     "cross-env": "^7.0.3",
     "react-app-rewired": "^2.2.1"

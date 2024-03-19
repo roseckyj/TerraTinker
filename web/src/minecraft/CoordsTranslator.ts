@@ -1,7 +1,7 @@
 // lat = NS = x = phi
 // lon = WE = z = lambda
 
-const EARTH_RADIUS = 6371 * 1000;
+export const EARTH_RADIUS = 6371 * 1000;
 
 export class CoordsTranslator {
     private altShift = 0;
