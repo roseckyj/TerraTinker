@@ -7,6 +7,9 @@ on:
 env:
     REGISTRY: ghcr.io
     IMAGE_NAME: ${{ github.repository }}
+    MINECRAFT_MAJOR: 1
+    MINECRAFT_MINOR: 20
+    MINECRAFT_PATCH: 0
 
 jobs:
     build-and-push-image:
@@ -17,8 +20,10 @@ jobs:
                 include:
                     - dockerfile: ./server/Dockerfile
                       image: ghcr.io/roseckyj/terratinker_server
+                      context: ./server
                     - dockerfile: ./web/Dockerfile
                       image: ghcr.io/roseckyj/terratinker_web
+                      context: ./web
         permissions:
             contents: read
             packages: write
@@ -43,8 +48,9 @@ jobs:
             - name: Build and push Docker images
               uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
               with:
-                  context: .
+                  context: ${{ matrix.context }}
                   file: ${{ matrix.dockerfile }}
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
+                  build-args: MINECRAFT_MAJOR=${{ env.MINECRAFT_MAJOR }},MINECRAFT_MINOR=${{ env.MINECRAFT_MINOR }},MINECRAFT_PATCH=${{ env.MINECRAFT_PATCH }} |
