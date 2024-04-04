@@ -19,6 +19,12 @@ Guide to setup of each part of the project is in it's respective README.md file.
 -   [Web](./web/README.md)
 -   [Server](./server/README.md)
 
+To run docker-compose in development mode, run the following command:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
