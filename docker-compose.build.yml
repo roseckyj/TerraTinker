@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+            args:
+                - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+                - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+                - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+        expose:
+            - 7070
+        networks:
+            default:
+        restart: always
+        environment:
+            - EULA=${EULA:-false}
+        volumes:
+            - fileUpload:/app/plugins/TerraTinker
+
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile
+            args:
+                - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+                - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+                - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+        ports:
+            - ${PORT:-80}:80
+        networks:
+            default:
+        restart: always
+        links:
+            - server
+
+volumes:
+    fileUpload:
+        driver: local
