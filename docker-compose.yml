@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
     server:
-        image: ghcr.io/roseckyj/terratinker_server:main
+        image: ghcr.io/roseckyj/terratinker_server:latest
         expose:
             - 7070
         networks:
@@ -14,7 +14,7 @@ services:
             - fileUpload:/app/plugins/TerraTinker
 
     web:
-        image: ghcr.io/roseckyj/terratinker_web:main
+        image: ghcr.io/roseckyj/terratinker_web:latest
         ports:
             - ${PORT:-80}:80
         networks:
