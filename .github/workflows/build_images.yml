@@ -53,4 +53,7 @@ jobs:
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
-                  build-args: MINECRAFT_MAJOR=${{ env.MINECRAFT_MAJOR }},MINECRAFT_MINOR=${{ env.MINECRAFT_MINOR }},MINECRAFT_PATCH=${{ env.MINECRAFT_PATCH }} |
+                  build-args: |
+                      MINECRAFT_MAJOR=${{ env.MINECRAFT_MAJOR }}
+                      MINECRAFT_MINOR=${{ env.MINECRAFT_MINOR }}
+                      MINECRAFT_PATCH=${{ env.MINECRAFT_PATCH }}
