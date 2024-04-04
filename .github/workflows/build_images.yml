@@ -1,8 +1,8 @@
 name: Build & publish docker images
 on:
-    release:
-        types: [published]
-    workflow_dispatch:
+    push:
+        tags:
+            - "v*"
 
 env:
     REGISTRY: ghcr.io
