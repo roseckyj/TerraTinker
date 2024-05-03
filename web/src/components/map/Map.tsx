@@ -125,7 +125,7 @@ export function Map(props: IMapProps) {
                 style={{ width: "100%", height: "100%" }}
                 zoomControl={false}
             >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'/>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'/>
                 <MapControls {...props} />
                 <Marker
                     position={data.mapCenter}
