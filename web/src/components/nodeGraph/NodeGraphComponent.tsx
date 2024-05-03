@@ -143,7 +143,7 @@ export function NodeGraphComponent({
                                 return;
                             }
                         }}
-                        bg={bg || "white"}
+                        bg={bg || "gray.800"}
                         color="#ffffff"
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}
