@@ -1,0 +1,46 @@
+version: "3.8"
+name: terratinker
+
+services:
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+            args:
+                - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+                - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+                - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+        expose:
+            - 7070
+        networks:
+            default:
+        restart: always
+        environment:
+            - EULA=${EULA:-false}
+        volumes:
+            - fileUpload:/app/plugins/TerraTinker
+
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile
+            args:
+                - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+                - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+                - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+        expose:
+            - ${PORT:-80}
+        networks:
+            default:
+        restart: always
+        links:
+            - server
+        labels: 
+            - "traefik.http.routers.terratinker.rule=Host(`terratinker.xrosecky.cz`) || Host(`terratinker.fi.muni.cz`)"
+            - "traefik.http.routers.terratinker.tls=true"
+            - "traefik.http.routers.terratinker.tls.certresolver=lets-encrypt"
+            - "traefik.http.services.terratinker.loadbalancer.server.port=${PORT:-80}"
+
+volumes:
+    fileUpload:
+        driver: local
