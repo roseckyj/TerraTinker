@@ -7,7 +7,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BiDownload, BiRocket } from "react-icons/bi";
+import { BiCube, BiDownload, BiRocket, BiStop } from "react-icons/bi";
 import { useApi } from "../../api/ApiProvider";
 import { GeneratorData } from "../../types/generatorTypes";
 import { deepCopy } from "../../utils/deepCopy";
@@ -24,6 +24,10 @@ export function Publish(props: IPublishProps) {
     const [publishState, setPublishState] = useState<"running" | "ready">(
         "running"
     );
+    const [error, setError] = useState<{
+        title: string;
+        subtitle: string;
+    } | null>(null);
     const toast = useToast();
     const api = useApi();
 
@@ -37,6 +41,41 @@ export function Publish(props: IPublishProps) {
                     response.data.state === "finished"
                 ) {
                     setPublishState("ready");
+                } else if (
+                    response &&
+                    response.status === 200 &&
+                    response.data.state === "canceled"
+                ) {
+                    setPublishSession(null);
+                    setPublishState("running");
+                } else if (
+                    response &&
+                    response.status === 200 &&
+                    response.data.state === "error"
+                ) {
+                    toast({
+                        title: "Error",
+                        description: "Generator encountered an error while processing the map. You can try again or contact support if the issue persists.",
+                        status: "error",
+                        duration: null,
+                        isClosable: true,
+                    })
+                    setPublishSession(null);
+                    setPublishState("running");
+                } else if (
+                    response &&
+                    response.status === 200 &&
+                    response.data.state === "timeout"
+                ) {
+                    toast({
+                        title: "Timed out",
+                        description: "Generator took too long to process the map. Map generation was canceled.",
+                        status: "error",
+                        duration: null,
+                        isClosable: true,
+                    })
+                    setPublishSession(null);
+                    setPublishState("running");
                 } else {
                     setPublishState("running");
                 }
@@ -46,7 +85,7 @@ export function Publish(props: IPublishProps) {
         checkStatus();
         const interval = setInterval(checkStatus, 1000);
         return () => clearInterval(interval);
-    }, [api, publishSession]);
+    }, [api, publishSession, toast]);
 
     if (
         publishSession !== null &&
@@ -54,6 +93,9 @@ export function Publish(props: IPublishProps) {
     ) {
         setPublishSession(null);
         setPublishData(null);
+        setPublishState("running");
+        setError(null);
+        api.get(`/session/${publishSession}/cancel`);
         return <></>;
     }
 
@@ -95,6 +137,7 @@ export function Publish(props: IPublishProps) {
                             setPublishSession(response.data.id);
                             setPublishData(deepCopy(props.data));
                             setPublishState("running");
+                            setError(null);
                         }}
                     >
                         Generate the map
@@ -110,6 +153,34 @@ export function Publish(props: IPublishProps) {
                 <VStack>
                     <Spinner />
                     <Text>Server is generating the map...</Text>
+                    <Button mt={6} onClick={() => {
+                        api.get(`/session/${publishSession}/cancel`);
+                        setPublishSession(null);
+                        setPublishState("ready");
+                    }}
+                    leftIcon={<BiStop />}
+                    >
+                        Cancel
+                    </Button>
+                </VStack>
+            </Center>
+        );
+    }
+
+    if (error !== null) {
+        return (
+            <Center w="100%" h="100%">
+                <VStack color="gray.500">
+                    <BiCube size={64} />
+                    <Text
+                        as="h1"
+                        fontSize="2xl"
+                        fontWeight="bold"
+                        align="center"
+                    >
+                        {error.title}
+                    </Text>
+                    <Text align="center">{error.subtitle}</Text>
                 </VStack>
             </Center>
         );

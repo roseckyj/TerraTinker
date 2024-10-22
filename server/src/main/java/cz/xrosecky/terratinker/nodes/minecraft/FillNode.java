@@ -1,6 +1,7 @@
 package cz.xrosecky.terratinker.nodes.minecraft;
 
 import cz.xrosecky.terratinker.Program;
+import cz.xrosecky.terratinker.evaluation.EvaluationCanceledException;
 import cz.xrosecky.terratinker.evaluation.EvaluationState;
 import cz.xrosecky.terratinker.nodes.AbstractActionNode;
 import cz.xrosecky.terratinker.nodes.AbstractNode;

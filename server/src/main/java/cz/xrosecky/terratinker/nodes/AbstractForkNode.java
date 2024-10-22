@@ -1,16 +1,11 @@
 package cz.xrosecky.terratinker.nodes;
 
-import java.util.HashMap;
 import java.util.function.BiFunction;
 
-import cz.xrosecky.terratinker.evaluation.InputMap;
+import cz.xrosecky.terratinker.evaluation.*;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluation.EvaluationState;
-import cz.xrosecky.terratinker.evaluation.NodeOutput;
-import cz.xrosecky.terratinker.evaluation.NodeOutputResolver;
-import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 
 public abstract class AbstractForkNode extends AbstractNode {
     public AbstractForkNode(String id, JSONObject json) {
@@ -43,6 +38,10 @@ public abstract class AbstractForkNode extends AbstractNode {
 
     protected boolean forkRoutine(Program program, EvaluationState tree,
             BiFunction<InputMap, NodeOutput, Boolean> resolver) {
+        if (tree.info().evaluator.shouldStop()) {
+            throw new EvaluationCanceledException();
+        }
+
         InputMap inputs = getInputs(tree);
         NodeOutput output = new NodeOutput();
 

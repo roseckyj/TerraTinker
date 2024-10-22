@@ -4,13 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import cz.xrosecky.terratinker.evaluation.InputMap;
+import cz.xrosecky.terratinker.evaluation.*;
 import org.json.JSONObject;
 
 import cz.xrosecky.terratinker.Program;
-import cz.xrosecky.terratinker.evaluation.EvaluationState;
-import cz.xrosecky.terratinker.evaluation.NodeOutput;
-import cz.xrosecky.terratinker.evaluation.NodeOutputResolver;
 import cz.xrosecky.terratinker.evaluation.outputType.AbstractType;
 import cz.xrosecky.terratinker.nodeInput.AbstractNodeInput;
 import cz.xrosecky.terratinker.nodeInput.LinkNodeInput;
@@ -95,6 +92,9 @@ public abstract class AbstractNode {
 
     protected AbstractNode evaluationRoutine(Program program, EvaluationState tree,
             BiConsumer<InputMap, NodeOutput> resolver) {
+        if (tree.info().evaluator.shouldStop()) {
+            throw new EvaluationCanceledException();
+        }
         AbstractNode fork = evaluatePrerequisites(program, tree);
         if (fork == null) {
             fork = evaluateInputs(program, tree);

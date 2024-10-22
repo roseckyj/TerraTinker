@@ -9,7 +9,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { BiCube, BiError, BiShow } from "react-icons/bi";
+import { BiCube, BiError, BiShow, BiStop } from "react-icons/bi";
 import { MinecraftViewer } from "react-minecraft-viewer";
 import { forTime } from "waitasecond";
 import { useApi } from "../../api/ApiProvider";
@@ -44,6 +44,41 @@ export function Preview(props: IPreviewProps) {
                     response.data.state === "finished"
                 ) {
                     setPreviewState("ready");
+                } else if (
+                    response &&
+                    response.status === 200 &&
+                    response.data.state === "canceled"
+                ) {
+                    setPreviewSession(null);
+                    setPreviewState("running");
+                } else if (
+                    response &&
+                    response.status === 200 &&
+                    response.data.state === "error"
+                ) {
+                    toast({
+                        title: "Error",
+                        description: "Generator encountered an error while processing the map. You can try again or contact support if the issue persists.",
+                        status: "error",
+                        duration: null,
+                        isClosable: true,
+                    })
+                    setPreviewSession(null);
+                    setPreviewState("running");
+                } else if (
+                    response &&
+                    response.status === 200 &&
+                    response.data.state === "timeout"
+                ) {
+                    toast({
+                        title: "Timed out",
+                        description: "Generator took too long to process the map. Map generation was canceled.",
+                        status: "error",
+                        duration: null,
+                        isClosable: true,
+                    })
+                    setPreviewSession(null);
+                    setPreviewState("running");
                 } else {
                     setPreviewState("running");
                 }
@@ -53,7 +88,7 @@ export function Preview(props: IPreviewProps) {
         checkStatus();
         const interval = setInterval(checkStatus, 1000);
         return () => clearInterval(interval);
-    }, [previewSession, api]);
+    }, [previewSession, api, toast]);
 
     const chunks = useMemo(() => {
         const chunks: [number, number][] = [[16, 16]];
@@ -77,6 +112,7 @@ export function Preview(props: IPreviewProps) {
         setPreviewData(null);
         setPreviewState("running");
         setError(null);
+        api.get(`/session/${previewSession}/cancel`);
         return <></>;
     }
 
@@ -142,6 +178,16 @@ export function Preview(props: IPreviewProps) {
                 <VStack>
                     <Spinner />
                     <Text>Server is generating preview...</Text>
+                    <Button mt={6} onClick={() => {
+                        api.get(`/session/${previewSession}/cancel`);
+                        setPreviewSession(null);
+                        setPreviewData(null);
+                        setPreviewState("ready");
+                    }}
+                    leftIcon={<BiStop />}
+                    >
+                        Cancel
+                    </Button>
                 </VStack>
             </Center>
         );
