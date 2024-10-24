@@ -61,7 +61,7 @@ export function ServerStatus() {
         return () => clearInterval(interval);
     }, [api]);
 
-    const isBusy = serverStatus.servers?.every((server) => server.status === "busy") || serverStatus.queue > 0;
+    const isBusy = serverStatus.servers?.every((server) => server.status === "busy" || !server.online) || serverStatus.queue > 0;
 
     return (
         <Menu>

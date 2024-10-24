@@ -26,8 +26,8 @@ services:
         build:
             context: ./manager
             dockerfile: Dockerfile
-        expose:
-            - 8080
+        ports:
+            - 8080:8080
         
         environment:
             - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
