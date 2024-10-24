@@ -1,12 +1,14 @@
 import {
     Box,
     Button,
+    HStack,
     Menu,
     MenuButton,
     MenuList,
     Portal,
     Spinner,
     Text,
+    VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useApi } from "../../api/ApiProvider";
@@ -15,12 +17,19 @@ import { mcVersion } from "../../minecraft/mcData";
 export function ServerStatus() {
     const [serverStatus, setServerStatus] = useState<{
         connected: boolean;
-        queued: number;
+        queue: number;
         version: null | string;
+        servers: {
+            id: string;
+            version: string;
+            online: boolean;
+            status: "busy" | "ready";
+        }[];
     }>({
         connected: false,
-        queued: 0,
+        queue: 0,
         version: null,
+        servers: [],
     });
 
     const api = useApi();
@@ -32,19 +41,18 @@ export function ServerStatus() {
             if (!response || response.status !== 200) {
                 setServerStatus({
                     connected: false,
-                    queued: 0,
+                    queue: 0,
                     version: null,
+                    servers: [],
                 });
                 return;
             }
 
-            const status = response.data.status;
-            const queued = response.data.queued;
-            const version = response.data.version;
             setServerStatus({
-                connected: status === "ok",
-                queued,
-                version,
+                connected: response.data.status === "ok",
+                queue: response.data.queue,
+                version: response.data.version,
+                servers: response.data.servers,
             });
         };
 
@@ -53,6 +61,8 @@ export function ServerStatus() {
         return () => clearInterval(interval);
     }, [api]);
 
+    const isBusy = serverStatus.servers?.every((server) => server.status === "busy") || serverStatus.queue > 0;
+
     return (
         <Menu>
             <MenuButton
@@ -60,7 +70,7 @@ export function ServerStatus() {
                 variant="ghost"
                 rightIcon={
                     serverStatus.connected ? (
-                        serverStatus.queued > 0 ? (
+                        isBusy ? (
                             <StatusSymbol status="busy" />
                         ) : (
                             <StatusSymbol status="connected" />
@@ -77,8 +87,8 @@ export function ServerStatus() {
                     }}
                 >
                     {serverStatus.connected
-                        ? serverStatus.queued > 0
-                            ? `Busy (${serverStatus.queued} tasks running)`
+                        ? isBusy
+                            ? `Busy (${serverStatus.queue} tasks in queue)`
                             : `Connected`
                         : `Disconnected`}
                 </Text>
@@ -90,10 +100,16 @@ export function ServerStatus() {
                         <Text fontWeight="bold">{mcVersion}</Text>
                     </Box>
                     <Box>
-                        <Text opacity={0.8}>Server game version:</Text>
-                        <Text fontWeight="bold">
-                            {serverStatus.version || "Disconnected"}
-                        </Text>
+                        <Text opacity={0.8}>Connected servers:</Text>
+                        <VStack align="stretch" spacing={2}>
+                            {serverStatus.servers.map((server, i) => (
+                                <HStack key={i} align="center">
+                                    <StatusSymbol status={server.status === "busy" ? "busy" : server.online ? "connected" : "disconnected"} />
+                                    <Text fontWeight="bold">Server {i + 1}</Text>
+                                    <Text>({server.version})</Text>
+                                </HStack>
+                            ))}
+                        </VStack>
                     </Box>
                 </MenuList>
             </Portal>

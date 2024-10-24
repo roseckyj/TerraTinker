@@ -122,7 +122,7 @@ public class Server implements Runnable {
             else if (session.getStatus() == EvaluatorStatus.TIMEOUT)
                 response.put("state", "timeout");
             else
-            response.put("state", "finished");
+                response.put("state", "finished");
 
             ctx.status(200);
             ctx.result(response.toString(4));

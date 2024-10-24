@@ -19,9 +19,9 @@ export class Api {
             return;
         }
 
-        // https://current-host:7070/api
+        // https://current-host:8080/api
         url = new URL(window.location.href);
-        url.port = "7070";
+        url.port = "8080";
         url.pathname = "/api";
 
         if (await this.testApiEndpoint(url)) {
