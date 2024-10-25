@@ -58,11 +58,12 @@ export function Preview(props: IPreviewProps) {
                 ) {
                     toast({
                         title: "Error",
-                        description: "Generator encountered an error while processing the map. You can try again or contact support if the issue persists.",
+                        description:
+                            "Generator encountered an error while processing the map. You can try again or contact support if the issue persists.",
                         status: "error",
                         duration: null,
                         isClosable: true,
-                    })
+                    });
                     setPreviewSession(null);
                     setPreviewState("running");
                 } else if (
@@ -72,11 +73,12 @@ export function Preview(props: IPreviewProps) {
                 ) {
                     toast({
                         title: "Timed out",
-                        description: "Generator took too long to process the map. Map generation was canceled.",
+                        description:
+                            "Generator took too long to process the map. Map generation was canceled.",
                         status: "error",
                         duration: null,
                         isClosable: true,
-                    })
+                    });
                     setPreviewSession(null);
                     setPreviewState("running");
                 } else {
@@ -145,7 +147,7 @@ export function Preview(props: IPreviewProps) {
                         onClick={async () => {
                             const response = await api.post(
                                 "/preview",
-                                JSON.stringify(props.data)
+                                props.data
                             );
 
                             if (!response || response.status !== 200) {
@@ -178,13 +180,15 @@ export function Preview(props: IPreviewProps) {
                 <VStack>
                     <Spinner />
                     <Text>Server is generating preview...</Text>
-                    <Button mt={6} onClick={() => {
-                        api.get(`/session/${previewSession}/cancel`);
-                        setPreviewSession(null);
-                        setPreviewData(null);
-                        setPreviewState("ready");
-                    }}
-                    leftIcon={<BiStop />}
+                    <Button
+                        mt={6}
+                        onClick={() => {
+                            api.get(`/session/${previewSession}/cancel`);
+                            setPreviewSession(null);
+                            setPreviewData(null);
+                            setPreviewState("ready");
+                        }}
+                        leftIcon={<BiStop />}
                     >
                         Cancel
                     </Button>

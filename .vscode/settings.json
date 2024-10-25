@@ -1,4 +1,5 @@
 {
     "java.compile.nullAnalysis.mode": "disabled",
-    "npm.packageManager": "pnpm"
+    "npm.packageManager": "pnpm",
+    "editor.formatOnSave": true
 }

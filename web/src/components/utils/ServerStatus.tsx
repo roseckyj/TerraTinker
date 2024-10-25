@@ -6,13 +6,13 @@ import {
     MenuButton,
     MenuList,
     Portal,
-    Spinner,
     Text,
-    VStack,
+    VStack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useApi } from "../../api/ApiProvider";
 import { mcVersion } from "../../minecraft/mcData";
+import { StatusSymbol } from "./StatusSymbol";
 
 export function ServerStatus() {
     const [serverStatus, setServerStatus] = useState<{
@@ -88,7 +88,7 @@ export function ServerStatus() {
                 >
                     {serverStatus.connected
                         ? isBusy
-                            ? `Busy (${serverStatus.queue} tasks in queue)`
+                            ? `Busy${serverStatus.queue > 0 ? `(${serverStatus.queue} tasks in queue)` : ""}`
                             : `Connected`
                         : `Disconnected`}
                 </Text>
@@ -114,47 +114,5 @@ export function ServerStatus() {
                 </MenuList>
             </Portal>
         </Menu>
-    );
-}
-
-interface IStatusSymbolProps {
-    status: "connected" | "disconnected" | "busy";
-}
-
-function StatusSymbol(props: IStatusSymbolProps) {
-    let color = "gray.500";
-    switch (props.status) {
-        case "connected":
-            color = "green.500";
-            break;
-        case "disconnected":
-            color = "red.500";
-            break;
-        case "busy":
-            color = "yellow.500";
-            break;
-    }
-
-    return (
-        <Box
-            rounded="full"
-            w="0.5em"
-            h="0.5em"
-            position="relative"
-            m={1}
-            bg={props.status === "disconnected" ? undefined : color}
-        >
-            {props.status !== "connected" && (
-                <Spinner
-                    position="absolute"
-                    inset={-1}
-                    size="sm"
-                    color={color}
-                    emptyColor={
-                        props.status === "disconnected" ? color : undefined
-                    }
-                />
-            )}
-        </Box>
     );
 }

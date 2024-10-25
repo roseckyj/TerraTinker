@@ -12,6 +12,20 @@ services:
             - EULA=${EULA:-false}
         volumes:
             - fileUpload:/app/plugins/TerraTinker
+        deploy:
+            mode: replicated
+            replicas: 3
+
+    manager:
+        image: ghcr.io/roseckyj/terratinker_manager:latest
+        expose:
+            - 8080
+        networks:
+            default:
+        restart: always
+        environment:
+            - PORT=8080
+            - SERVER_URL=server:7070
 
     web:
         image: ghcr.io/roseckyj/terratinker_web:latest
@@ -20,8 +34,6 @@ services:
         networks:
             default:
         restart: always
-        links:
-            - server
         labels: 
             - "traefik.http.routers.terratinker.rule=Host(`terratinker.xrosecky.cz`) || Host(`terratinker.fi.muni.cz`)"
             - "traefik.http.routers.terratinker.tls=true"

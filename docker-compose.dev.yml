@@ -28,7 +28,7 @@ services:
             dockerfile: Dockerfile
         ports:
             - 8080:8080
-        
+
         environment:
             - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
             - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
@@ -39,7 +39,7 @@ services:
             default:
         restart: always
         volumes:
-            - fileUpload:/app/plugins/TerraTinker
+            - fileUpload:/app/uploads
 
     web:
         build:
