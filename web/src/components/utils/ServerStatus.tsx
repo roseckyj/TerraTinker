@@ -7,7 +7,7 @@ import {
     MenuList,
     Portal,
     Text,
-    VStack
+    VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useApi } from "../../api/ApiProvider";
@@ -61,7 +61,10 @@ export function ServerStatus() {
         return () => clearInterval(interval);
     }, [api]);
 
-    const isBusy = serverStatus.servers?.every((server) => server.status === "busy" || !server.online) || serverStatus.queue > 0;
+    const isBusy =
+        serverStatus.servers?.every(
+            (server) => server.status === "busy" || !server.online
+        ) || serverStatus.queue > 0;
 
     return (
         <Menu>
@@ -88,7 +91,11 @@ export function ServerStatus() {
                 >
                     {serverStatus.connected
                         ? isBusy
-                            ? `Busy${serverStatus.queue > 0 ? `(${serverStatus.queue} tasks in queue)` : ""}`
+                            ? `Busy${
+                                  serverStatus.queue > 0
+                                      ? `(${serverStatus.queue} tasks in queue)`
+                                      : ""
+                              }`
                             : `Connected`
                         : `Disconnected`}
                 </Text>
@@ -102,10 +109,20 @@ export function ServerStatus() {
                     <Box>
                         <Text opacity={0.8}>Connected servers:</Text>
                         <VStack align="stretch" spacing={2}>
-                            {serverStatus.servers.map((server, i) => (
+                            {(serverStatus.servers || []).map((server, i) => (
                                 <HStack key={i} align="center">
-                                    <StatusSymbol status={server.status === "busy" ? "busy" : server.online ? "connected" : "disconnected"} />
-                                    <Text fontWeight="bold">Server {i + 1}</Text>
+                                    <StatusSymbol
+                                        status={
+                                            server.status === "busy"
+                                                ? "busy"
+                                                : server.online
+                                                ? "connected"
+                                                : "disconnected"
+                                        }
+                                    />
+                                    <Text fontWeight="bold">
+                                        Server {i + 1}
+                                    </Text>
                                     <Text>({server.version})</Text>
                                 </HStack>
                             ))}
