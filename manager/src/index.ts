@@ -30,7 +30,7 @@ app.use(
 
 (async () => {
     const tasks: Record<string, Task> = {};
-    const queue: Task[] = [];
+    let queue: Task[] = [];
 
     const [server_hostname, server_port] = (process.env.SERVER_URL || 'localhost:7070').split(':');
     let addresses: string[] = [];
@@ -367,13 +367,29 @@ app.use(
     setInterval(async () => {
         if (queue.length === 0) return;
 
+        const smallTasks = queue.filter((task) => task.weight < 20000);
+        const bigTasks = queue.filter((task) => task.weight >= 20000);
+
         servers
             .filter((server) => server.currentlyProcessingTask === null && server.isOnline)
             .forEach((server) => {
-                const task = queue.shift();
+                const task = smallTasks.shift();
                 if (task) {
                     task.run(server);
                 }
             });
+
+        servers
+            .filter(
+                (server, i) => i >= servers.length / 2 && server.currentlyProcessingTask === null && server.isOnline,
+            )
+            .forEach((server) => {
+                const task = bigTasks.shift();
+                if (task) {
+                    task.run(server);
+                }
+            });
+
+        queue = [...smallTasks, ...bigTasks];
     }, 100);
 })();

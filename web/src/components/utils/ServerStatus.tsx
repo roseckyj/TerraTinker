@@ -73,7 +73,11 @@ export function ServerStatus() {
                 variant="ghost"
                 rightIcon={
                     serverStatus.connected ? (
-                        isBusy ? (
+                        serverStatus.servers.every(
+                            (server) => !server.online
+                        ) ? (
+                            <StatusSymbol status="disconnected" />
+                        ) : isBusy ? (
                             <StatusSymbol status="busy" />
                         ) : (
                             <StatusSymbol status="connected" />
@@ -90,7 +94,9 @@ export function ServerStatus() {
                     }}
                 >
                     {serverStatus.connected
-                        ? isBusy
+                        ? serverStatus.servers.every((server) => !server.online)
+                            ? `No server online`
+                            : isBusy
                             ? `Busy${
                                   serverStatus.queue > 0
                                       ? `(${serverStatus.queue} tasks in queue)`
@@ -123,7 +129,9 @@ export function ServerStatus() {
                                     <Text fontWeight="bold">
                                         Server {i + 1}
                                     </Text>
-                                    <Text>({server.version})</Text>
+                                    {server.version.length > 0 && (
+                                        <Text>({server.version})</Text>
+                                    )}
                                 </HStack>
                             ))}
                         </VStack>
