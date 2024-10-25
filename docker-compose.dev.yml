@@ -20,7 +20,7 @@ services:
             - fileUpload:/app/server/plugins/TerraTinker
         deploy:
             mode: replicated
-            replicas: 3
+            replicas: 4
 
     manager:
         build:
