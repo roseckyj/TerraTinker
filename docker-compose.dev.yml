@@ -17,7 +17,7 @@ services:
         environment:
             - EULA=${EULA:-false}
         volumes:
-            - fileUpload:/app/plugins/TerraTinker
+            - fileUpload:/app/server/plugins/TerraTinker
         deploy:
             mode: replicated
             replicas: 3
