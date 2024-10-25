@@ -28,6 +28,9 @@ services:
             - SERVER_URL=server:7070
         volumes:
             - fileUpload:/app/uploads
+        depends_on:
+            server:
+                condition: service_started
 
     web:
         image: ghcr.io/roseckyj/terratinker_web:latest
@@ -36,6 +39,9 @@ services:
         networks:
             default:
         restart: always
+        depends_on:
+            manager:
+                condition: service_started
         labels:
             - "traefik.http.routers.terratinker.rule=Host(`terratinker.xrosecky.cz`) || Host(`terratinker.fi.muni.cz`)"
             - "traefik.http.routers.terratinker.tls=true"

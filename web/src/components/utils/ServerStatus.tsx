@@ -32,8 +32,6 @@ export function ServerStatus() {
         servers: [],
     });
 
-    console.log(serverStatus);
-
     const api = useApi();
 
     useEffect(() => {

@@ -40,6 +40,9 @@ services:
         restart: always
         volumes:
             - fileUpload:/app/uploads
+        depends_on:
+            server:
+                condition: service_started
 
     web:
         build:
@@ -54,8 +57,9 @@ services:
         networks:
             default:
         restart: always
-        links:
-            - manager
+        depends_on:
+            manager:
+                condition: service_started
 
 volumes:
     fileUpload:
