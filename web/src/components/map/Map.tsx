@@ -14,6 +14,7 @@ import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
 import { GeneratorData } from "../../types/generatorTypes";
 import { Position } from "../../types/genericTypes";
 import { insertMiddlePoints } from "../../utils/insertMidPoints";
+import { estimateMinAltitude } from "./estimateMinAltitude";
 import { MapControls } from "./MapControls";
 
 export interface IMapProps {
@@ -125,7 +126,10 @@ export function Map(props: IMapProps) {
                 style={{ width: "100%", height: "100%" }}
                 zoomControl={false}
             >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'/>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+                />
                 <MapControls {...props} />
                 <Marker
                     position={data.mapCenter}
@@ -136,7 +140,10 @@ export function Map(props: IMapProps) {
                             const markerPos = (
                                 e.target as LeafletMarker
                             ).getLatLng();
+                            markerPos.lng = markerPos.lng % 360;
+                            if (markerPos.lng > 180) markerPos.lng -= 360;
                             data.mapCenter = [markerPos.lat, markerPos.lng];
+                            estimateMinAltitude(data, props.onChange);
                             props.onChange(data);
                         },
                     }}
@@ -159,7 +166,10 @@ function MapEventsHandler(props: IMapProps) {
     const map = useMapEvents({
         click(e) {
             if (!isSelecting) return;
+            e.latlng.lng = e.latlng.lng % 360;
+            if (e.latlng.lng > 180) e.latlng.lng -= 360;
             data.mapCenter = [e.latlng.lat, e.latlng.lng];
+            estimateMinAltitude(data, onChange);
             onChange(data);
             onSelectionToggle();
             map.flyTo(e.latlng, map.getZoom(), {

@@ -1,14 +1,11 @@
 import { Box, HStack, Input, Text } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 import { BiCloudDownload, BiLink, BiMap } from "react-icons/bi";
-import { CoordsTranslator } from "../../minecraft/CoordsTranslator";
-import { Position } from "../../types/genericTypes";
-import { insertMiddlePoints } from "../../utils/insertMidPoints";
 import { WithHelp } from "../help/WithHelp";
 import { IAbstractMenuItemProps, MenuItem } from "../menu/MenuItem";
 import { IconButtonTooltip } from "../utils/IconButtonTooltip";
 import { LogSlider } from "../utils/LogSlider";
+import { estimateMinAltitude } from "./estimateMinAltitude";
 
 export interface IMapMenuProps extends IAbstractMenuItemProps {
     onSelectionToggle: () => void;
@@ -24,6 +21,8 @@ export function MapMenuItem({
     onSelectionToggle,
 }: IMapMenuProps) {
     const [isSizeLocked, setIsSizeLocked] = useState(true);
+
+    const MAP_SIZE_LIMIT = 1000;
 
     return (
         <WithHelp path={`/map`}>
@@ -73,53 +72,7 @@ export function MapMenuItem({
                         <IconButtonTooltip
                             aria-label="Estimate minimum altitude"
                             icon={<BiCloudDownload />}
-                            onClick={async () => {
-                                let points: Position[] = [
-                                    [
-                                        -data.mapSize.width / 2,
-                                        -data.mapSize.height / 2,
-                                    ],
-                                    [
-                                        data.mapSize.width / 2,
-                                        -data.mapSize.height / 2,
-                                    ],
-                                    [
-                                        data.mapSize.width / 2,
-                                        data.mapSize.height / 2,
-                                    ],
-                                    [
-                                        -data.mapSize.width / 2,
-                                        data.mapSize.height / 2,
-                                    ],
-                                ];
-
-                                points = insertMiddlePoints(points);
-                                points.push([0, 0]);
-
-                                const translator = new CoordsTranslator(
-                                    data.mapCenter,
-                                    [0, 0],
-                                    0,
-                                    data.scale.horizontal,
-                                    data.scale.vertical,
-                                    0
-                                );
-
-                                const latLons = points.map((point) =>
-                                    translator.XZToLatLon(point[0], point[1])
-                                );
-                                const response = await axios.get(
-                                    `https://api.open-meteo.com/v1/elevation?latitude=${latLons
-                                        .map((p) => p[0])
-                                        .join(",")}&longitude=${latLons
-                                        .map((p) => p[1])
-                                        .join(",")}`
-                                );
-                                const alts = response.data.elevation;
-                                const minAlt = Math.min(...alts);
-                                data.minAltitude = minAlt - 20;
-                                onChange(data);
-                            }}
+                            onClick={() => estimateMinAltitude(data, onChange)}
                         />
                     </HStack>
                 </Box>
@@ -142,8 +95,8 @@ export function MapMenuItem({
                                     data.mapSize.width < 1
                                 )
                                     data.mapSize.width = 1;
-                                if (data.mapSize.width > 1000000)
-                                    data.mapSize.width = 1000000;
+                                if (data.mapSize.width > MAP_SIZE_LIMIT)
+                                    data.mapSize.width = MAP_SIZE_LIMIT;
                                 if (isSizeLocked) {
                                     data.mapSize.height =
                                         data.mapSize.width * aspect;
@@ -171,8 +124,8 @@ export function MapMenuItem({
                                     data.mapSize.height < 1
                                 )
                                     data.mapSize.height = 1;
-                                if (data.mapSize.height > 1000000)
-                                    data.mapSize.height = 1000000;
+                                if (data.mapSize.height > MAP_SIZE_LIMIT)
+                                    data.mapSize.height = MAP_SIZE_LIMIT;
                                 if (isSizeLocked) {
                                     data.mapSize.width =
                                         data.mapSize.height * aspect;
