@@ -13,13 +13,15 @@ export class Task {
     onServerId: string | null = null;
     status: 'queued' | 'running' | 'finished' | 'error' | 'canceled' = 'queued';
 
-    public constructor(input: string, isPreview: boolean) {
+    public constructor(input: any, isPreview: boolean) {
         this.id = uuidv4();
 
-        this.input = input;
+        input.timeout = isPreview ? /* 1 minute */ 60 * 1000 : /* 2 hours */ 2 * 60 * 60 * 1000;
+
+        this.input = JSON.stringify(input);
         this.isPreview = isPreview;
 
-        const parsed = JSON.parse(input);
+        const parsed = input;
         this.weight = parsed.mapSize.width * parsed.mapSize.height * parsed.layers.length;
         if (isPreview) {
             this.weight = 64 * 64 * parsed.layers.length;

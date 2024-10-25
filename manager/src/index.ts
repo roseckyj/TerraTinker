@@ -23,7 +23,7 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(fileUpload());
 app.use(
-    bodyParser.text({
+    bodyParser.json({
         type: 'application/json',
     }),
 );
@@ -49,7 +49,6 @@ app.use(
             );
         } catch (e) {
             console.error(`[manager]: Failed to resolve ${server_hostname}, retrying in 1s`);
-            console.error(e);
         }
 
         await forTime(1000);
@@ -381,7 +380,8 @@ app.use(
 
         servers
             .filter(
-                (server, i) => i >= servers.length / 2 && server.currentlyProcessingTask === null && server.isOnline,
+                (server, i) =>
+                    i >= (servers.length - 1) / 2 && server.currentlyProcessingTask === null && server.isOnline,
             )
             .forEach((server) => {
                 const task = bigTasks.shift();
