@@ -31,8 +31,8 @@ services:
 
     web:
         image: ghcr.io/roseckyj/terratinker_web:latest
-        expose:
-            - ${PORT:-80}
+        ports:
+            - ${PORT:-80}:${PORT:-80}
         networks:
             default:
         restart: always

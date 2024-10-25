@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+            args:
+                - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+                - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+                - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+        expose:
+            - 7070
+        networks:
+            default:
+        restart: always
+        environment:
+            - EULA=${EULA:-false}
+        volumes:
+            - fileUpload:/app/server/plugins/TerraTinker
+        deploy:
+            mode: replicated
+            replicas: 3
+
+    manager:
+        build:
+            context: ./manager
+            dockerfile: Dockerfile
+        expose:
+            - 8080
+        environment:
+            - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+            - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+            - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+            - PORT=8080
+            - SERVER_URL=server:7070
+        networks:
+            default:
+        restart: always
+        volumes:
+            - fileUpload:/app/uploads
+
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile
+            args:
+                - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+                - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+                - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+        ports:
+            - ${PORT:-80}:80
+        networks:
+            default:
+        restart: always
+
+volumes:
+    fileUpload:
+        driver: local
