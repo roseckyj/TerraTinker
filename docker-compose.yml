@@ -11,17 +11,31 @@ services:
         environment:
             - EULA=${EULA:-false}
         volumes:
-            - fileUpload:/app/plugins/TerraTinker
+            - fileUpload:/app/server/plugins/TerraTinker
+        deploy:
+            mode: replicated
+            replicas: 4
 
-    web:
-        image: ghcr.io/roseckyj/terratinker_web:latest
-        ports:
-            - ${PORT:-80}:80
+    manager:
+        image: ghcr.io/roseckyj/terratinker_manager:latest
+        expose:
+            - 8080
         networks:
             default:
         restart: always
-        links:
-            - server
+        environment:
+            - PORT=8080
+            - SERVER_URL=server:7070
+        volumes:
+            - fileUpload:/app/uploads
+
+    web:
+        image: ghcr.io/roseckyj/terratinker_web:latest
+        expose:
+            - ${PORT:-80}
+        networks:
+            default:
+        restart: always
 
 volumes:
     fileUpload:

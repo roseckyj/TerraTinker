@@ -24,6 +24,9 @@ jobs:
                     - dockerfile: ./web/Dockerfile
                       image: ghcr.io/roseckyj/terratinker_web
                       context: ./web
+                    - dockerfile: ./manager/Dockerfile
+                      image: ghcr.io/roseckyj/terratinker_manager
+                      context: ./manager
         permissions:
             contents: read
             packages: write

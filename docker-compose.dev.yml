@@ -17,12 +17,34 @@ services:
         environment:
             - EULA=${EULA:-false}
         volumes:
-            - fileUpload:/app/plugins/TerraTinker
+            - fileUpload:/app/server/plugins/TerraTinker
+        deploy:
+            mode: replicated
+            replicas: 3
+
+    manager:
+        build:
+            context: ./manager
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+
+        environment:
+            - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
+            - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
+            - MINECRAFT_PATCH=${MINECRAFT_PATCH:-0}
+            - PORT=8080
+            - SERVER_URL=server:7070
+        networks:
+            default:
+        restart: always
+        volumes:
+            - fileUpload:/app/uploads
 
     web:
         build:
             context: ./web
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile.dev
             args:
                 - MINECRAFT_MAJOR=${MINECRAFT_MAJOR:-1}
                 - MINECRAFT_MINOR=${MINECRAFT_MINOR:-20}
@@ -33,7 +55,7 @@ services:
             default:
         restart: always
         links:
-            - server
+            - manager
 
 volumes:
     fileUpload:
