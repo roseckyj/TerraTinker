@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.xrosecky"
-version = "1.1.1"
+version = "1.1.2"
 description = "TerraTinker"
 
 var minecraftMajor = System.getenv().getOrDefault("MINECRAFT_MAJOR", "1").toInt()
