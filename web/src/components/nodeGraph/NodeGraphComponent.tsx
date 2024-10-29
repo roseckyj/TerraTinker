@@ -6,6 +6,7 @@ import {
     IconButton,
     Input,
     Text,
+    useToast,
 } from "@chakra-ui/react";
 import { RefObject, useEffect, useMemo } from "react";
 import {
@@ -24,14 +25,16 @@ import ReactFlow, {
     useReactFlow,
 } from "reactflow";
 import { v4 } from "uuid";
+import { GraphState } from "../../graphState/graphState";
 import { useGraphState } from "../../graphState/useGraphState";
 import { nodes as nodeDefs } from "../../nodes/_nodes";
-import { Layer } from "../../types/layerTypes";
+import { Layer, Node } from "../../types/layerTypes";
 import { useUpdateConnections } from "../../useUpdateConnections";
 import { deepCopy } from "../../utils/deepCopy";
 import { downloadFile } from "../../utils/downloadFile";
 import { useAppData } from "../DataProvider";
 import { IconButtonTooltip } from "../utils/IconButtonTooltip";
+import { AbstractNode, NodeData } from "./AbstractNode";
 import { FlowEdge } from "./FlowEdge";
 import { FlowStart } from "./FlowStartNode";
 import { TypedEdge } from "./TypedEdge";
@@ -62,6 +65,7 @@ export function NodeGraphComponent({
     } = useGraphState(data, !!readonly);
     const flow = useReactFlow();
     const updateConnections = useUpdateConnections();
+    const toast = useToast();
 
     const edgeTypes = useMemo<EdgeTypes>(
         () => ({
@@ -112,6 +116,8 @@ export function NodeGraphComponent({
                         as={ReactFlow}
                         nodes={nodes}
                         edges={edges}
+                        tabIndex={0}
+                        onMouseDown={(e) => e.preventDefault()}
                         onNodesChange={readonly ? noop : onNodesChange}
                         onEdgesChange={readonly ? noop : onEdgesChange}
                         onConnect={readonly ? noop : onConnect}
@@ -150,7 +156,10 @@ export function NodeGraphComponent({
                         fitView
                         minZoom={minZoom}
                         maxZoom={maxZoom}
-                        onKeyDown={(e) => {
+                        onKeyDown={async (e) => {
+                            const CLIPBOARD_PREFIX = "$TERRATINKER:";
+
+                            // Delete
                             if (e.key === "Delete") {
                                 flow.deleteElements({
                                     nodes: flow
@@ -161,6 +170,144 @@ export function NodeGraphComponent({
                                         .filter((edge) => edge.selected),
                                 });
                                 forceUpdate();
+                            }
+
+                            // Copy
+                            if (e.key === "c" && e.ctrlKey) {
+                                const selectedNodes = flow
+                                    .getNodes()
+                                    .filter((node) => node.selected)
+                                    .reduce(
+                                        (acc, node) =>
+                                            (node.data as NodeData).node
+                                                ? {
+                                                      ...acc,
+                                                      [node.id]: (
+                                                          node.data as NodeData
+                                                      ).node.serialize(),
+                                                  }
+                                                : acc,
+                                        {} as Record<string, Node>
+                                    );
+
+                                const toBeCopied =
+                                    CLIPBOARD_PREFIX +
+                                    JSON.stringify(selectedNodes);
+                                navigator.clipboard.writeText(toBeCopied);
+
+                                toast({
+                                    title: "Copied to clipboard",
+                                    description: `${
+                                        Object.keys(selectedNodes).length
+                                    } nodes copied to clipboard`,
+                                    status: "success",
+                                });
+                            }
+
+                            // Paste
+                            if (e.key === "v" && e.ctrlKey) {
+                                const text =
+                                    await navigator.clipboard.readText();
+
+                                if (!text.startsWith(CLIPBOARD_PREFIX)) return;
+
+                                const copiedNodes = JSON.parse(
+                                    text.slice(CLIPBOARD_PREFIX.length)
+                                ) as Record<string, Node>;
+
+                                const idMapping: Record<string, string> = {};
+
+                                // Copy the nodes
+                                const newNodes = Object.entries(copiedNodes)
+                                    .map(([id, node]) => {
+                                        const newNode = deepCopy<Node>(node);
+                                        const newId = v4();
+                                        idMapping[id] = newId;
+                                        return GraphState.deserializeNode(
+                                            newNode,
+                                            newId
+                                        );
+                                    })
+                                    .filter(
+                                        (node) => node !== null
+                                    ) as Array<AbstractNode>;
+
+                                // Map input ids to new ids
+                                newNodes.forEach((node) => {
+                                    Object.entries(node.inputState).forEach(
+                                        ([key, input]) => {
+                                            if (input.nodeId) {
+                                                if (idMapping[input.nodeId]) {
+                                                    input.nodeId =
+                                                        idMapping[input.nodeId];
+                                                }
+                                            }
+                                        }
+                                    );
+                                });
+
+                                // Shift the nodes to the center of the screen
+                                const bbox =
+                                    ref!.current!.getBoundingClientRect();
+
+                                const viewport = flow.project({
+                                    x: bbox.width / 2,
+                                    y: bbox.height / 2,
+                                });
+                                const [minX, minY, maxX, maxY] =
+                                    newNodes.reduce(
+                                        ([minX, minY, maxX, maxY], node) => {
+                                            const x = node.position.x;
+                                            const y = node.position.y;
+                                            return [
+                                                Math.min(minX, x),
+                                                Math.min(minY, y),
+                                                Math.max(maxX, x),
+                                                Math.max(maxY, y),
+                                            ];
+                                        },
+                                        [
+                                            Infinity,
+                                            Infinity,
+                                            -Infinity,
+                                            -Infinity,
+                                        ]
+                                    );
+
+                                const meanX = (maxX + minX) / 2;
+                                const meanY = (maxY + minY) / 2;
+
+                                // Shift so that the mean is at the center of the screen
+                                const shiftX = viewport.x - meanX;
+                                const shiftY = viewport.y - meanY;
+
+                                newNodes.forEach((node) => {
+                                    node.position.x += shiftX;
+                                    node.position.y += shiftY;
+                                });
+
+                                // Add new nodes to the graph
+                                graphState.nodes.push(...newNodes);
+
+                                toast({
+                                    title: "Pasted nodes",
+                                    description: `${newNodes.length} nodes pasted from the clipboard`,
+                                    status: "success",
+                                });
+
+                                // Force update
+                                forceUpdate();
+
+                                // Select only the new nodes
+                                // TODO: This would have to wait for the nodes to be inserted into the "nodes" array
+                                const newNodeIds = newNodes.map(
+                                    (node) => node.id
+                                );
+                                nodes.forEach((node) => {
+                                    node.selected = newNodeIds.includes(
+                                        node.id
+                                    );
+                                });
                             }
                         }}
                     >
