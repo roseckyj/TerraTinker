@@ -117,7 +117,7 @@ export function NodeGraphComponent({
                         nodes={nodes}
                         edges={edges}
                         tabIndex={0}
-                        onMouseDown={(e) => e.preventDefault()}
+                        userSelect="none"
                         onNodesChange={readonly ? noop : onNodesChange}
                         onEdgesChange={readonly ? noop : onEdgesChange}
                         onConnect={readonly ? noop : onConnect}

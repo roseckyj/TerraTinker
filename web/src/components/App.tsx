@@ -64,6 +64,7 @@ export function App() {
                 alignItems="stretch"
                 bg="gray.900"
                 color="white"
+                userSelect="none"
             >
                 <HStack
                     h={20}
