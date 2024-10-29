@@ -4,6 +4,7 @@ import {
     Flex,
     HStack,
     Icon,
+    Image,
     Portal,
     Spacer,
     Text,
@@ -17,7 +18,6 @@ import {
     BiFolderOpen,
     BiQuestionMark,
     BiSave,
-    BiSolidCube,
 } from "react-icons/bi";
 import { downloadFile } from "../utils/downloadFile";
 import { openFile } from "../utils/openFile";
@@ -74,9 +74,9 @@ export function App() {
                     px={6}
                     flexShrink={0}
                 >
-                    <Icon as={BiSolidCube} mr={4} fontSize="3xl" />
+                    <Icon as={Image} src="/logo.png" mr={4} fontSize="3xl" />
                     <Text
-                        fontSize="2xl"
+                        fontSize="3xl"
                         fontWeight="bold"
                         display={{
                             base: "none",
