@@ -3,7 +3,8 @@
     "version": "1.0.19",
     "packageManager": "pnpm@9.12.3",
     "scripts": {
-        "version": "ts-node --transpile-only ./scripts/version.ts"
+        "version": "ts-node --transpile-only ./scripts/version.ts",
+        "postversion": "git push --follow-tags"
     },
     "devDependencies": {
         "@types/node": "^22.8.2",

@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import fs from "fs";
 
 const version = JSON.parse(fs.readFileSync("./package.json", "utf8")).version;
@@ -26,5 +27,9 @@ java.forEach((project) => {
     );
     fs.writeFileSync(`./${project}/build.gradle.kts`, buildGradle);
 });
+
+// Add all the changes to git
+console.log("Adding changes to git...");
+execSync("git add .");
 
 console.log("Done!");
