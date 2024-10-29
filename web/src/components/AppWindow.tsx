@@ -4,6 +4,7 @@ import {
     DrawerCloseButton,
     DrawerContent,
     DrawerOverlay,
+    Spacer,
     VStack,
     useDisclosure,
     useToken,
@@ -11,6 +12,7 @@ import {
 import { useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { GeneratorData } from "../types/generatorTypes";
+import { AppInfo } from "./AppInfo";
 import { Step } from "./Step";
 import { IconButtonTooltip } from "./utils/IconButtonTooltip";
 
@@ -52,8 +54,10 @@ export function AppWindow({ steps, data, onDataChange }: IAppWindowProps) {
                 borderRightWidth={2}
                 borderRightColor="gray.800"
             >
-                <VStack w="full" alignItems="stretch" spacing={0}>
+                <VStack w="full" h="full" alignItems="stretch" spacing={0}>
                     {applied.map((step, key) => step.menuItem(key))}
+                    <Spacer />
+                    <AppInfo />
                 </VStack>
             </Box>
 
@@ -61,8 +65,15 @@ export function AppWindow({ steps, data, onDataChange }: IAppWindowProps) {
                 <DrawerOverlay />
                 <DrawerContent color="gray.100" bg="gray.800">
                     <DrawerCloseButton />
-                    <VStack w="full" alignItems="stretch" spacing={0}>
+                    <VStack
+                        w="full"
+                        overflowY="auto"
+                        alignItems="stretch"
+                        spacing={0}
+                    >
                         {applied.map((step, key) => step.menuItem(key))}
+                        <Spacer />
+                        <AppInfo />
                     </VStack>
                 </DrawerContent>
             </Drawer>

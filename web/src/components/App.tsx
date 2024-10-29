@@ -5,6 +5,7 @@ import {
     HStack,
     Icon,
     Image,
+    Link,
     Portal,
     Spacer,
     Text,
@@ -13,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import moment from "moment";
+import { useEffect } from "react";
 import {
     BiBookOpen,
     BiFolderOpen,
@@ -42,6 +44,64 @@ export function App() {
 
     const help = useHelp();
     const toast = useToast();
+
+    // Show each popup until the user has manually closed it
+    const LOCAL_STORAGE_KEY = "terratinker_popups";
+    const popups: Record<string, { title: string; description: JSX.Element }> =
+        {
+            userstudy: {
+                title: "User study",
+                description: (
+                    <Text>
+                        We are conducting a user study to analyze the usage of
+                        TerraTinker and we would love you to participate. If you
+                        are interested, please contact us on{" "}
+                        <Link
+                            color="blue.500"
+                            isExternal
+                            href="https://discord.com/users/xrosecky"
+                        >
+                            Discord (user xrosecky)
+                        </Link>{" "}
+                        or via email at{" "}
+                        <Link
+                            color="blue.500"
+                            isExternal
+                            href="mailto:rosecky.jonas@gmail.com"
+                        >
+                            rosecky.jonas@gmail.com
+                        </Link>
+                        . Thank you for your help!
+                    </Text>
+                ),
+            },
+        };
+
+    useEffect(() => {
+        const popupsClosed =
+            localStorage.getItem(LOCAL_STORAGE_KEY) || ([] as string[]);
+
+        for (const popup in popups) {
+            if (!popupsClosed.includes(popup)) {
+                toast({
+                    title: popups[popup].title,
+                    description: popups[popup].description,
+                    status: "warning",
+                    isClosable: true,
+                    duration: null,
+                    position: "top",
+                    onCloseComplete: () => {
+                        localStorage.setItem(
+                            LOCAL_STORAGE_KEY,
+                            JSON.stringify([...popupsClosed, popup])
+                        );
+                    },
+                });
+                break;
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <ErrorBoundary
