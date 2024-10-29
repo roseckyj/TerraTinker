@@ -32,10 +32,14 @@ public class RandomNumberNode extends AbstractNode {
                 return;
             }
 
+            long seedLong;
             if (seed == null || randomSeed) {
-                seed = (float) Math.random();
+                seedLong = System.currentTimeMillis();
+            } else {
+                seedLong = (long) seed.hashCode();
             }
-            Random random = new Random((int) (seed * 100000));
+
+            Random random = new Random(seedLong);
 
             float value = from + random.nextFloat() * (to - from);
             if (!decimal) {
