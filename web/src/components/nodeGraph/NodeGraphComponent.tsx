@@ -204,6 +204,46 @@ export function NodeGraphComponent({
                                 });
                             }
 
+                            // Cut
+                            if (e.key === "x" && e.ctrlKey) {
+                                const selectedNodes = flow
+                                    .getNodes()
+                                    .filter((node) => node.selected)
+                                    .reduce(
+                                        (acc, node) =>
+                                            (node.data as NodeData).node
+                                                ? {
+                                                      ...acc,
+                                                      [node.id]: (
+                                                          node.data as NodeData
+                                                      ).node.serialize(),
+                                                  }
+                                                : acc,
+                                        {} as Record<string, Node>
+                                    );
+
+                                const toBeCopied =
+                                    CLIPBOARD_PREFIX +
+                                    JSON.stringify(selectedNodes);
+                                navigator.clipboard.writeText(toBeCopied);
+
+                                flow.deleteElements({
+                                    nodes: flow
+                                        .getNodes()
+                                        .filter((node) => node.selected),
+                                });
+
+                                toast({
+                                    title: "Cut to clipboard",
+                                    description: `${
+                                        Object.keys(selectedNodes).length
+                                    } nodes cut to clipboard`,
+                                    status: "success",
+                                });
+
+                                forceUpdate();
+                            }
+
                             // Paste
                             if (e.key === "v" && e.ctrlKey) {
                                 const text =
