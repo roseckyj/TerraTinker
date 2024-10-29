@@ -19,6 +19,7 @@ import {
     BiQuestionMark,
     BiSave,
 } from "react-icons/bi";
+import pkg from "../../package.json";
 import { downloadFile } from "../utils/downloadFile";
 import { openFile } from "../utils/openFile";
 import { AppWindow } from "./AppWindow";
@@ -84,6 +85,19 @@ export function App() {
                         }}
                     >
                         TerraTinker
+                    </Text>
+                    <Text
+                        fontSize="sm"
+                        fontWeight="bold"
+                        display={{
+                            base: "none",
+                            md: "block",
+                        }}
+                        opacity={0.2}
+                        pt={4}
+                        pl={2}
+                    >
+                        v{pkg.version}
                     </Text>
                     <Spacer />
                     <ServerStatus />
