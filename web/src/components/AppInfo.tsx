@@ -70,23 +70,12 @@ export function AppInfo() {
                                     mr={4}
                                     fontSize="3xl"
                                 />
-                                <Text
-                                    fontSize="3xl"
-                                    fontWeight="bold"
-                                    display={{
-                                        base: "none",
-                                        md: "block",
-                                    }}
-                                >
+                                <Text fontSize="3xl" fontWeight="bold">
                                     TerraTinker
                                 </Text>
                                 <Text
                                     fontSize="sm"
                                     fontWeight="bold"
-                                    display={{
-                                        base: "none",
-                                        md: "block",
-                                    }}
                                     opacity={0.2}
                                     pt={4}
                                     pl={2}
