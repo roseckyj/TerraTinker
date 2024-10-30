@@ -1,6 +1,6 @@
 {
     "name": "terratinker",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "packageManager": "pnpm@9.12.3",
     "scripts": {
         "version": "ts-node --transpile-only ./scripts/version.ts",
