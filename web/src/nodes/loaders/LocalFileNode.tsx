@@ -137,7 +137,7 @@ export class LocalFileNode extends AbstractNode {
             >
                 <Box
                     mb={2}
-                    py={2}
+                    py={1}
                     px={2}
                     whiteSpace="nowrap"
                     overflow="hidden"
@@ -193,21 +193,21 @@ export class LocalFileNode extends AbstractNode {
                         <Text color="red.500">No file selected</Text>
                     )}
                 </Box>
-                <HStack px={2} mb={4}>
+                <HStack px={0} mb={4}>
                     {status > 0 && status < 1 ? (
                         <Button
-                            size="lg"
+                            size="sm"
+                            borderRadius="sm"
                             leftIcon={<Spinner />}
-                            px={4}
                             flexGrow={1}
                         >
                             {Math.floor(status * 100)}%
                         </Button>
                     ) : (
                         <UploadButton
-                            size="lg"
+                            size="sm"
+                            borderRadius="sm"
                             leftIcon={<BiUpload />}
-                            px={4}
                             onFile={onFile}
                             flexGrow={1}
                         >
@@ -222,7 +222,8 @@ export class LocalFileNode extends AbstractNode {
                                 as={IconButton}
                                 icon={<BiFolderOpen />}
                                 aria-label="Browse"
-                                size="lg"
+                                size="sm"
+                                borderRadius="sm"
                             >
                                 Actions
                             </MenuButton>
