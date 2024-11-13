@@ -2,6 +2,8 @@
 
 Rasterize node is a [fork node](/layers/node_types/fork) that converts a region into individual pixels. It can be used pro filling blocks corresponding to a given geometry.
 
+![Rasterize](/docs/img/rasterize.png)
+
 The node outputs a list of pairs of `X` and `Z` coordinates of each pixel in the rasterized image transformed to the world coordinates.
 
 <Node>
