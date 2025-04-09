@@ -40,7 +40,7 @@ COPY ./scripts ${APP_HOME}
 
 # Download PaperMC shell script
 WORKDIR ${SERVER_HOME}
-RUN curl -s -o papermc.sh https://raw.githubusercontent.com/TigerdieKatze/PaperMC.sh/master/papermc.sh
+RUN curl -s -o papermc.sh https://raw.githubusercontent.com/roseckyj/PaperMC.sh/master/papermc.sh
 RUN chmod +x papermc.sh
 
 # Run the startup script
