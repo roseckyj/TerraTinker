@@ -5,7 +5,6 @@ import {
     HStack,
     Icon,
     Image,
-    Link,
     Portal,
     Spacer,
     Text,
@@ -49,7 +48,7 @@ export function App() {
     const LOCAL_STORAGE_KEY = "terratinker_popups";
     const popups: Record<string, { title: string; description: JSX.Element }> =
         {
-            userstudy: {
+            /* userstudy: {
                 title: "User study",
                 description: (
                     <Text>
@@ -74,7 +73,7 @@ export function App() {
                         . Thank you for your help!
                     </Text>
                 ),
-            },
+            }, */
         };
 
     useEffect(() => {
