@@ -197,11 +197,19 @@ app.use(
             return;
         }
 
-        (
-            await task.assignedServer.axios.get(`/session/${task.onServerId}/zip`, {
-                responseType: 'stream',
-            })
-        ).data.pipe(res);
+        try {
+            (
+                await task.assignedServer.axios.get(`/session/${task.onServerId}/zip`, {
+                    responseType: 'stream',
+                })
+            ).data.pipe(res);
+        } catch (e) {
+            res.status(404).json({
+                status: 'error',
+                message: 'Zip file not found',
+            });
+            return;
+        }
     });
 
     app.get('/api/session/:id/region/:x/:z', async (req: Request, res: Response) => {
@@ -242,11 +250,22 @@ app.use(
             return;
         }
 
-        (
-            await task.assignedServer.axios.get(`/session/${task.onServerId}/region/${req.params.x}/${req.params.z}`, {
-                responseType: 'stream',
-            })
-        ).data.pipe(res);
+        try {
+            (
+                await task.assignedServer.axios.get(
+                    `/session/${task.onServerId}/region/${req.params.x}/${req.params.z}`,
+                    {
+                        responseType: 'stream',
+                    },
+                )
+            ).data.pipe(res);
+        } catch (e) {
+            res.status(404).json({
+                status: 'error',
+                message: 'Region not found',
+            });
+            return;
+        }
     });
 
     const writeFile = promisify(fs.writeFile);
