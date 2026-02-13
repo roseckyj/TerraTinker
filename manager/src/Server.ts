@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { Task } from "./Task";
+import { Task } from './Task';
 
 export class Server {
     id: string;
 
     url: string;
-    version: string = "";
+    version: string = '';
 
     isOnline: boolean = false;
     currentlyProcessingTask: Task | null = null;
@@ -18,8 +18,8 @@ export class Server {
 
         this.url = url;
         this.axiosClient = axios.create({
-            baseURL: this.url + "/api",
-            timeout: 500,
+            baseURL: this.url + '/api',
+            timeout: 5000,
         });
 
         this.checkStatus();
@@ -27,14 +27,14 @@ export class Server {
 
     public async checkStatus() {
         try {
-            const response = await this.axiosClient.get("/status");
+            const response = await this.axiosClient.get('/status');
             if (response.status === 200) {
                 this.isOnline = true;
                 this.version = response.data.version;
 
                 if (response.data.queued === 0 && this.currentlyProcessingTask) {
                     await this.currentlyProcessingTask.checkStatus();
-                    if (this.currentlyProcessingTask.status !== "running") {
+                    if (this.currentlyProcessingTask.status !== 'running') {
                         this.currentlyProcessingTask = null;
                     }
                 }
@@ -48,7 +48,7 @@ export class Server {
 
     public get axios() {
         if (!this.isOnline) {
-            throw new Error("Server is offline");
+            throw new Error('Server is offline');
         }
         return this.axiosClient;
     }
