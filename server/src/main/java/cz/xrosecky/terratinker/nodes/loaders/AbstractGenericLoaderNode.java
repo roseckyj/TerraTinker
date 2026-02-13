@@ -65,7 +65,12 @@ public abstract class AbstractGenericLoaderNode extends AbstractForkNode {
 
             for (String attribute : attributes) {
                 if (feature.tags.containsKey(attribute)) {
-                    output.addValue(attribute, new StringType(feature.tags.get(attribute)));
+                    try {
+                        float parsed = Float.parseFloat(feature.tags.get(attribute));
+                        output.addValue(attribute, new FloatType(parsed));
+                    } catch (NumberFormatException e) {
+                        output.addValue(attribute, new StringType(feature.tags.get(attribute)));
+                    }
                 } else {
                     output.addValue(attribute, new NullType());
                 }

@@ -57,6 +57,18 @@ public class Geometry {
     public static Geometry fromGdal(Feature feature, CoordsTranslator translator) {
         List<Ring> rings = new ArrayList<>();
         org.gdal.ogr.Geometry geom = feature.GetGeometryRef();
+        if (geom.GetGeometryCount() < 1 && geom.GetPointCount() > 0) {
+            List<Vector2D> points = new ArrayList<>();
+
+            for (int j = 0; j < geom.GetPointCount(); j++) {
+                double[] point = geom.GetPoint(j);
+                points.add(translator.latLonToXZ(new Vector2D(point[1], point[0])));
+            }
+
+            rings.add(new Ring(points, Ring.RingType.OUTER));
+            return new Geometry(rings);
+        }
+
         for (int i = 0; i < geom.GetGeometryCount(); i++) {
             org.gdal.ogr.Geometry subGeom = geom.GetGeometryRef(i);
             Ring.RingType type = Ring.RingType.OUTER;
