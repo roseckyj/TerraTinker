@@ -1,6 +1,6 @@
 {
     "name": "react-app",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "private": true,
     "dependencies": {
         "@asciidoctor/core": "^3.0.3",
