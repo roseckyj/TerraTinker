@@ -22,7 +22,8 @@ export function MapMenuItem({
 }: IMapMenuProps) {
     const [isSizeLocked, setIsSizeLocked] = useState(true);
 
-    const MAP_SIZE_LIMIT = 1000;
+    // const MAP_SIZE_LIMIT = 1000;
+    const MAP_SIZE_LIMIT = 1000 * 6378;
 
     return (
         <WithHelp path={`/map`}>
@@ -42,7 +43,7 @@ export function MapMenuItem({
                             variant="filled"
                             type="text"
                             value={`${data.mapCenter[0].toFixed(
-                                5
+                                5,
                             )} ${data.mapCenter[1].toFixed(5)}`}
                             isDisabled
                         />
